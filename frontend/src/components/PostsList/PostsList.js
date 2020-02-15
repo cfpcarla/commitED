@@ -1,10 +1,9 @@
 // Posts-list displays the posts
 // Issues to solve:
-// - button logic
+// - apply/cancel button logic
+// - available/waiting banner logic
 //
 //
-//
-
 
 import React from "react";
 import Posts from "/Posts";
