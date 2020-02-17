@@ -1,12 +1,5 @@
-// Posts-list displays the posts
-// Issues to solve:
-// - apply/cancel button logic
-// - available/waiting banner logic
-//
-//
-
 import React from "react";
-import Posts from "/Posts";
+import Posts from "./Posts";
 
 export default function PostsList(props) {
   const postlist = props.posts.map(post => {
@@ -26,3 +19,9 @@ export default function PostsList(props) {
     </ul>
   )
 }
+// Posts-list displays the posts
+// Issues to solve:
+// - apply/cancel button logic
+// - available/waiting banner logic
+//
+//

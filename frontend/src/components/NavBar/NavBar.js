@@ -4,17 +4,17 @@ import { Button } from '@material-ui/core';
 import PopupLogin from '../PopupLogin/PopupLogin'
 
 export default function NavBar() {
-  // state = {
-  //   open: false
-  // }
-  // let pop = <PopupLogin/>;
+  let state = {
+    open: false
+  }
+  let pop = <PopupLogin/>;
 
-  //  handleClick = () =>{
-  //   this.setState({open: true, pop })
-  //   }
+   let handleClick = () =>{
+    this.state({open: true, pop })
+    }
 
   const rightLinks = [
-    <Button brand="white" /* onClick={() => this.handleClick()}*/
+    <Button brand="white"  onClick={() => this.handleClick()}
     >Login/Register</Button>
   ];
 
