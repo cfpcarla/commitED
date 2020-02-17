@@ -71,7 +71,7 @@ export default function PopUpLogin(props) {
             className={classes.modalBody}
           >
             <p>
-             {/* <LoginForm/> */}
+             <LoginForm/>
             </p>
           </DialogContent>
           <DialogActions className={classes.modalFooter}>

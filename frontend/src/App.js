@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import './App.scss';
-import { Container, Paper, Grid } from '@material-ui/core'
+import { Container, Box, Grid } from '@material-ui/core'
+import { sizing } from '@material-ui/core'
 import NavBar from './components/NavBar/NavBar.js'
 import PostsLIst from './components/PostsList/PostsList'
 import Map from './components/Map/Map'
 import PopupLogin from "./components/PopupLogin/PopupLogin"
+import PopupHistory from "./components/PopupHistory/PopupHistory"
 
 export default function App() {
   //on placeholder 1 insert <PostsList/>
@@ -22,18 +24,31 @@ export default function App() {
           container
           direction="row"
           justify="center" //try justify
-          alignItems="stretch"
-        >
+          alignItems="stretch">
+
         <div>
           <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} show={show} />
         </div>
 
-          <Paper>
+        <div>
+          <PopupHistory classicModal={classicModal} setClassicModal={setClassicModal} show={show} />
+        </div>
+
+          <Box style={{
+        // keep this as it is
+        width: "40%",
+        height: "70%"
+      }}>
             1
-          </Paper>
-          <Paper><Map /></Paper>
-          <Paper>
-          </Paper>
+          </Box>
+          <Box style={{
+        // keep this as it is
+        width: "40%",
+        height: "70%"
+      }}>
+            <Map />
+          </Box>
+
         </Grid>
       </Container>
 

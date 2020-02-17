@@ -9,13 +9,21 @@ export default function NavBar(props) {
   //defines the State of the button
 
   const rightLinks = [
-
+    <div>
     <Button
+    key='1'
     color="primary"
     block
     onClick={() => props.setClassicModal(true)}
     >Login/Register</Button>
 
+    <Button
+    key='2'
+    color="primary"
+    block
+    onClick={() => props.setClassicModal(true)}
+    >History</Button>
+    </div>
   ];
 
   return (
