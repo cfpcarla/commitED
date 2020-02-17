@@ -4,11 +4,10 @@ import "components/Button.scss";
 
 export default function Button(props) {
   let buttonClass = classnames("button", {
-
     "button--confirm": props.confirm,
     "button--danger": props.danger
   });
-
+// customize to Posts
   return (
     <button
       className={buttonClass}

@@ -14,8 +14,8 @@ export default function NavBar() {
   //   }
 
   const rightLinks = [
-    <Button brand="white">Login/Register</Button>
-// onClick={() => this.handleClick()}
+    <Button brand="white" /* onClick={() => this.handleClick()}*/
+    >Login/Register</Button>
   ];
 
   return (

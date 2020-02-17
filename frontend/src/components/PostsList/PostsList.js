@@ -8,14 +8,14 @@
 import React from "react";
 import Posts from "/Posts";
 
-export default function DayList(props) {
+export default function PostsList(props) {
   const postlist = props.posts.map(post => {
     return (
       <Posts
         key={post.id}
         name={post.name}
         description={post.description}
-        //buttons logic goes in here
+        //buttons logic goes in here?
          />
     );
   });

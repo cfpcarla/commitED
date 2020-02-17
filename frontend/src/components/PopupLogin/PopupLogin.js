@@ -73,7 +73,7 @@ export default function PopUpLogin() {
             >
               <Close className={classes.modalClose} />
             </IconButton>
-            <h4 className={classes.modalTitle}>Modal title</h4>
+            <h4 className={classes.modalTitle}>Login/Register</h4>
           </DialogTitle>
           <DialogContent
             id="classic-modal-slide-description"
