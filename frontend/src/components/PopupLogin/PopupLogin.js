@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Slide from "@material-ui/core/Slide";
@@ -30,32 +30,23 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 Transition.displayName = "Transition";
 
-export default function PopUpLogin() {
+export default function PopUpLogin(props) {
   const classes = useStyles();
-  const [classicModal, setClassicModal] = React.useState(false);
 
   return(
     // className={classNames(classes.main, classes.mainRaised)}
     <div >
     <GridContainer>
       <GridItem xs={12} sm={12} md={6} lg={4}>
-        <Button
-          color="primary"
-          block
-          onClick={() => setClassicModal(true)}
-        >
-          <LibraryBooks className={classes.icon} />
-          Classic
-                </Button>
         <Dialog
           classes={{
             root: classes.center,
             paper: classes.modal
           }}
-          open={classicModal}
+          open={props.classicModal}
           TransitionComponent={Transition}
           keepMounted
-          onClose={() => setClassicModal(false)}
+          onClose={() => props.setClassicModal(false)}
           aria-labelledby="classic-modal-slide-title"
           aria-describedby="classic-modal-slide-description"
         >
@@ -69,7 +60,7 @@ export default function PopUpLogin() {
               key="close"
               aria-label="Close"
               color="inherit"
-              onClick={() => setClassicModal(false)}
+              onClick={() => props.setClassicModal(false)}
             >
               <Close className={classes.modalClose} />
             </IconButton>
@@ -80,7 +71,7 @@ export default function PopUpLogin() {
             className={classes.modalBody}
           >
             <p>
-             <LoginForm/>
+             {/* <LoginForm/> */}
             </p>
           </DialogContent>
           <DialogActions className={classes.modalFooter}>
@@ -88,7 +79,7 @@ export default function PopUpLogin() {
               Nice Button
             </Button>
             <Button
-              onClick={() => setClassicModal(false)}
+              onClick={() => props.setClassicModal(false)}
               color="danger"
               simple>
               Close
