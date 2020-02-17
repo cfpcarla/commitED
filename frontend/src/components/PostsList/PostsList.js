@@ -6,7 +6,7 @@
 //
 
 import React from "react";
-import Posts from "/Posts";
+import Posts from "./Posts";
 
 export default function PostsList(props) {
   const postlist = props.posts.map(post => {
