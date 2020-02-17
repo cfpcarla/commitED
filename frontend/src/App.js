@@ -20,7 +20,7 @@ export default function App() {
           alignItems="stretch"
         >
           <Paper>1</Paper>
-          <Paper>2</Paper>
+          <Paper><Map/></Paper>
         </Grid>
       </Container>
 
