@@ -9,8 +9,8 @@ AND user.email LIKE '%{}'--email address
 SELECT * FROM  Opportunity
 JOIN user ON Opportunity.user_id == user.id
 JOIN requests ON Opportunity.user_id == requests.user_id
-WHERE type  LIKE '%${}' -- service provider
-AND user.email LIKE '%{}'--email address
+WHERE type  LIKE '${}' -- service provider
+AND user.email LIKE '${}'--email address
 --------------------------------------------------------
 --Get all volunteer user requests by a status
 --------------------------------------------------------
