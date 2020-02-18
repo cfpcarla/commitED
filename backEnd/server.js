@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const cookieSession = require('cookie-session');
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
+
 console.log(dbParams)
 const db = new Pool(dbParams);
 db.connect();
@@ -28,6 +29,7 @@ const axios = require('axios');
 // const corsOptions = {
 //   origin: 'http://localhost:3002/'
 // }
+
 app.use(cors())
 
 app.use(cookieSession({
@@ -125,3 +127,37 @@ app.post('/register', (request, response) => {
     });
 });
 
+
+//why???
+//get to  all posts opp
+app.get('/posts', (request, response) => {
+  db.query(
+          `SELECT * FROM  opportunities;
+
+          `).then(({ rows: posts }) => {
+            response.json(posts);
+          }).catch(error=> console.log(error));
+        })
+
+
+// //get to  all posts opp
+// app.get('/posts', (request, response) => {
+//   db.query(
+//           `SELECT * FROM  opportunities;
+
+//           `).then(({ rows: posts }) => {
+//             response.json(posts);
+//           }).catch(error=> console.log(error));
+//         })
+
+
+
+// server.post('/login', passport.authenticate('local'), (req, res, next) => {
+//   if (req.user) {
+//       let redir = { redirect: "/" };
+//       return res.json(redir);
+// } else {
+//       let redir = { redirect: '/login'};
+//       return res.json(redir);
+// }
+// })

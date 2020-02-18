@@ -1,26 +1,36 @@
-import React from 'react';
+import React, {setState} from 'react';
 import Header from "../Header/Header";
-import { Button } from '@material-ui/core';
 import PopupLogin from '../PopupLogin/PopupLogin'
+import Button from "../CustomButtons/Button";
 
-export default function NavBar() {
-  // state = {
-  //   open: false
-  // }
-  // let pop = <PopupLogin/>;
 
-  //  handleClick = () =>{
-  //   this.setState({open: true, pop })
-  //   }
+
+export default function NavBar(props) {
+  //defines the State of the button
 
   const rightLinks = [
-    <Button brand="white" /* onClick={() => this.handleClick()}*/
+    <div>
+    <Button
+    key='1'
+    color="primary"
+    block
+    onClick={() => props.setClassicModal(true)}
     >Login/Register</Button>
+
+    <Button
+    key='2'
+    color="primary"
+    block
+    onClick={() => props.setHistoryModal(true)}
+    >History</Button>
+    </div>
   ];
 
   return (
     <div>
-      <Header brand='CommittED' color="primary" rightLinks={rightLinks} />
+      <div>
+        <Header brand='CommittED' color="primary" rightLinks={rightLinks} />
+      </div>
     </div>
   );
 }
