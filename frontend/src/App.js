@@ -1,17 +1,29 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from "react";
 import './App.scss';
-import { Container, Box, Grid } from '@material-ui/core'
+import { Container, Box, Grid,  Paper} from '@material-ui/core'
+
 import { sizing } from '@material-ui/core'
 import NavBar from './components/NavBar/NavBar.js'
-import PostsLIst from './components/PostsList/PostsList'
+import PostsList from "./components/PostsList/PostsList";
 import Map from './components/Map/Map'
 import PopupLogin from "./components/PopupLogin/PopupLogin"
 import PopupHistory from "./components/PopupHistory/PopupHistory"
 import RegisterForm from "./components/RegisterForm/RegisterForm"
+import axios from "axios";
+
+
 
 export default function App() {
   //on placeholder 1 insert <PostsList/>
   //on placeholder 2 insert <Map/>
+  const [posts, setPosts] = useState([]);
+
+  useEffect(async () => {
+    axios.get(`http://localhost:8080/posts`).then(res => {
+      setPosts(res.data);
+    });
+  }, []);
+
 
   const [show, popupState] = useState(false)
   const [classicModal, setClassicModal] = useState(false);
@@ -39,6 +51,12 @@ export default function App() {
             {/* <RegisterForm/> */}
           </Box>
           <Box>
+          <Paper>
+            {" "}
+            <PostsList posts={posts} />{" "}
+          </Paper>          </Box>
+
+          <Box>
             <Map />
           </Box>
 
@@ -50,3 +68,7 @@ export default function App() {
 };
 
 App;
+
+//import Map from './components/Map/Map'
+
+
