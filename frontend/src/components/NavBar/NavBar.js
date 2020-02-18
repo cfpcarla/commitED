@@ -19,8 +19,8 @@ export default function NavBar() {
   ];
 
   return (
-    <div key={1}>
-      <Header key={1} brand='CommittED' color="primary" rightLinks={rightLinks} />
+    <div>
+      <Header brand='CommittED' color="primary" rightLinks={rightLinks} />
     </div>
   );
 }

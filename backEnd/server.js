@@ -10,7 +10,6 @@ const bcrypt = require('bcrypt');
 const cookieSession = require('cookie-session');
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
-
 console.log(dbParams)
 const db = new Pool(dbParams);
 db.connect();
@@ -19,7 +18,12 @@ app.use(morgan('dev'));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+// Configure CORS to accepts requests from any client
+// In the future I should use the corsOptions to accept requests only from my client, but it is not working.
+// CORS: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+// const corsOptions = {
+//   origin: 'http://localhost:3002/'
+// }
 app.use(cors())
 
 app.use(cookieSession({
@@ -103,26 +107,10 @@ app.post('/register', (request, response) => {
     });
 });
 
-//get to  all posts opp
-app.get('/posts', (request, response) => {
-  db.query(
-          `SELECT * FROM  opportunities;
-
-          `).then(({ rows: posts }) => {
-            response.json(posts);
-          }).catch(error=> console.log(error));
-        })
 
 
-// //get to  all posts opp
-// app.get('/posts', (request, response) => {
-//   db.query(
-//           `SELECT * FROM  opportunities;
 
-//           `).then(({ rows: posts }) => {
-//             response.json(posts);
-//           }).catch(error=> console.log(error));
-//         })
+
 
 
 
