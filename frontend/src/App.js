@@ -7,6 +7,7 @@ import PostsLIst from './components/PostsList/PostsList'
 import Map from './components/Map/Map'
 import PopupLogin from "./components/PopupLogin/PopupLogin"
 import PopupHistory from "./components/PopupHistory/PopupHistory"
+import RegisterForm from "./components/RegisterForm/RegisterForm"
 
 export default function App() {
   //on placeholder 1 insert <PostsList/>
@@ -14,12 +15,12 @@ export default function App() {
 
   const [show, popupState] = useState(false)
   const [classicModal, setClassicModal] = useState(false);
-
+  const [historyModal, setHistoryModal] = useState(false);
 
   return (
     <div>
       <Container>
-        <NavBar setClassicModal={setClassicModal} popupState={popupState} />
+        <NavBar setClassicModal={setClassicModal} popupState={popupState} setHistoryModal={setHistoryModal}/>
         <Grid
           container
           direction="row"
@@ -31,21 +32,13 @@ export default function App() {
         </div>
 
         <div>
-          <PopupHistory classicModal={classicModal} setClassicModal={setClassicModal} show={show} />
+          <PopupHistory historyModal={historyModal} setHistoryModal={setHistoryModal} show={show} />
         </div>
 
-          <Box style={{
-        // keep this as it is
-        width: "40%",
-        height: "70%"
-      }}>
-            1
+          <Box>
+            {/* <RegisterForm/> */}
           </Box>
-          <Box style={{
-        // keep this as it is
-        width: "40%",
-        height: "70%"
-      }}>
+          <Box>
             <Map />
           </Box>
 

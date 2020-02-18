@@ -21,7 +21,7 @@ export default function NavBar(props) {
     key='2'
     color="primary"
     block
-    onClick={() => props.setClassicModal(true)}
+    onClick={() => props.setHistoryModal(true)}
     >History</Button>
     </div>
   ];

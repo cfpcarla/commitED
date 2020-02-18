@@ -34,61 +34,62 @@ export default function PopUpHistory(props) {
   const classes = useStyles();
 
   return(
-    <div>123</div>
     // className={classNames(classes.main, classes.mainRaised)}
-    // <div >
-    // <GridContainer>
-    //   <GridItem xs={12} sm={12} md={6} lg={4}>
-    //     <Dialog
-    //       classes={{
-    //         root: classes.center,
-    //         paper: classes.modal
-    //       }}
-    //       open={props.classicModal}
-    //       TransitionComponent={Transition}
-    //       keepMounted
-    //       onClose={() => props.setClassicModal(false)}
-    //       aria-labelledby="classic-modal-slide-title"
-    //       aria-describedby="classic-modal-slide-description"
-    //     >
-    //       <DialogTitle
-    //         id="classic-modal-slide-title"
-    //         disableTypography
-    //         className={classes.modalHeader}
-    //       >
-    //         <IconButton
-    //           className={classes.modalCloseButton}
-    //           key="close"
-    //           aria-label="Close"
-    //           color="inherit"
-    //           onClick={() => props.setClassicModal(false)}
-    //         >
-    //           <Close className={classes.modalClose} />
-    //         </IconButton>
-    //         <h4 className={classes.modalTitle}>Login/Register</h4>
-    //       </DialogTitle>
-    //       <DialogContent
-    //         id="classic-modal-slide-description"
-    //         className={classes.modalBody}
-    //       >
-    //         <p>
-    //          <LoginForm/>
-    //         </p>
-    //       </DialogContent>
-    //       <DialogActions className={classes.modalFooter}>
-    //         <Button color="transparent" simple>
-    //           Nice Button
-    //         </Button>
-    //         <Button
-    //           onClick={() => props.setClassicModal(false)}
-    //           color="danger"
-    //           simple>
-    //           Close
-    //         </Button>
-    //       </DialogActions>
-    //     </Dialog>
-    //   </GridItem>
-    // </GridContainer>
-    // </div>
+    <div >
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={6} lg={4}>
+        <Dialog
+          classes={{
+            root: classes.center,
+            paper: classes.modal
+          }}
+          open={props.historyModal}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={() => props.setHistoryModal(false)}
+          aria-labelledby="classic-modal-slide-title"
+          aria-describedby="classic-modal-slide-description"
+        >
+          <DialogTitle
+            id="classic-modal-slide-title"
+            disableTypography
+            className={classes.modalHeader}
+          >
+            <IconButton
+              className={classes.modalCloseButton}
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={() => props.setHistoryModal(false)}
+            >
+              <Close className={classes.modalClose} />
+            </IconButton>
+            <h4 className={classes.modalTitle}>Login/Register</h4>
+          </DialogTitle>
+          <DialogContent
+            id="classic-modal-slide-description"
+            className={classes.modalBody}
+          >
+            <p>
+
+              History
+
+            </p>
+          </DialogContent>
+          <DialogActions className={classes.modalFooter}>
+            <Button color="transparent" simple>
+              Nice Button
+            </Button>
+            <Button
+              onClick={() => props.setHistoryModal(false)}
+              color="danger"
+              simple>
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </GridItem>
+    </GridContainer>
+    </div>
   )
 }
