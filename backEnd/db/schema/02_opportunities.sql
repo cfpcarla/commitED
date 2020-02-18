@@ -7,5 +7,6 @@ CREATE TABLE opportunities (
   description VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
   date_posted DATE NOT NULL,
-  user_id INT NOT NULL
+  type VARCHAR(255) NOT NULL
+  service_provider_id INT NOT NULL
 );

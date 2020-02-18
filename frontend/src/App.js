@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "./App.scss";
-import { Container, Paper, Grid } from "@material-ui/core";
-import NavBar from "./components/NavBar/NavBar.js";
-import PostsList from "./components/PostsList/PostsList";
-//import Map from './components/Map/Map'
-import axios from "axios";
+import React from 'react';
+import './App.scss';
+import { Container, Paper, Grid } from '@material-ui/core'
+import NavBar from './components/NavBar/NavBar.js'
+import PostsLIst from './components/PostsList/PostsList'
+import Map from './components/Map/Map'
 
 export default function App() {
-
-  const [posts, setPosts] = useState([]);
-
-  useEffect(async () => {
-    axios.get(`http://localhost:8080/posts`).then(res => {
-      setPosts(res.data);
-    });
-  }, []);
+//on placeholder 1 insert <PostsList/>
+//on placeholder 2 insert <Map/>
 
   return (
     <div>
@@ -26,15 +19,13 @@ export default function App() {
           justify="center" //try justify
           alignItems="stretch"
         >
-          <Paper>
-            {" "}
-            <PostsList posts={posts} />{" "}
-          </Paper>
-          <Paper></Paper>
+          <Paper>1</Paper>
+          <Paper><Map/></Paper>
         </Grid>
       </Container>
+
     </div>
   );
-}
+};
 
 App;
