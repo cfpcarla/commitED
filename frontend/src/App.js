@@ -36,7 +36,6 @@ export default function App() {
           container
           direction="row"
           justify="center" //try justify
-
           alignItems="stretch">
 
         <div>
