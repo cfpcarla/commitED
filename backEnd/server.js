@@ -19,6 +19,16 @@ app.use(morgan('dev'));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//Axios Api take the latitude and longitude
+const axios = require('axios');
+
+
+// Configure CORS to accepts requests from any client
+// In the future I should use the corsOptions to accept requests only from my client, but it is not working.
+// CORS: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+// const corsOptions = {
+//   origin: 'http://localhost:3002/'
+// }
 
 app.use(cors())
 
@@ -29,7 +39,7 @@ app.use(cookieSession({
 
 //home
 app.get('/', (request, response) => {
-  response.send("xunda");
+  response.send("I'm alive");
 });
 
 app.listen(PORT, () => {
@@ -40,8 +50,8 @@ app.listen(PORT, () => {
 app.post('/login', (request, response) => {
   console.log(request.body)
   db.query(`SELECT id, email, password
-            FROM users
-            WHERE email = $1;`, [request.body.email])
+  FROM users
+  WHERE email = $1;`, [request.body.email])
     .then(data => {
       const user = data.rows[0];
       if (!user) {
@@ -56,11 +66,11 @@ app.post('/login', (request, response) => {
       }
       response.json({ user });
     })
-    .catch (err => {
+    .catch(err => {
       response
         .status(500)
         .json({ error: err.message });
-  });
+    });
 });
 
 //POST LOGOUT
@@ -90,18 +100,33 @@ app.post('/register', (request, response) => {
         response.statusCode = 400;
         response.end('400 Bad request. Email already registered');
       } else {
-        db.query(`INSERT INTO users(name, address, phone, email, password) VALUES($1,$2,$3,$4,$5) RETURNING *;`,
-          [request.body.name,request.body.address, request.body.phone, request.body.email, hashedPassword])
-          .then(data => {
-            const newUser = data.rows[0];
-            // eslint-disable-next-line camelcase
-            request.session.user_id = newUser.id;
-            response.statusCode = 200;
-            response.end(`success. user: ${user}`);
-          });
+        const apiKey = "AIzaSyACFwxULqY968mB9R8JtWb0e1Pgex3s6Vw"
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`
+
+        axios.get(url, {
+
+        })
+          .then(function (locationResponse) {
+            console.log(locationResponse.data.results[0])
+            const { lat, lng } = locationResponse.data.results[0].geometry.location;
+            db.query(`INSERT INTO users(name, address, phone, email, password, latitude, longitude) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *;`,
+              [request.body.name, request.body.address, request.body.phone, request.body.email, hashedPassword, lat, lng])
+              .then(data => {
+                const newUser = data.rows[0];
+                // eslint-disable-next-line camelcase
+                request.session.user_id = newUser.id;
+                response.statusCode = 200;
+                response.end(`success. user: ${user}`);
+              });
+          })
+          .catch(function (error) {
+            response.end("error")
+          })
       }
+
     });
 });
+
 
 //why???
 //get to  all posts opp
