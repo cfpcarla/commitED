@@ -7,5 +7,10 @@ CREATE TABLE users (
   address VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   phone_number INT NOT NULL,
-  type VARCHAR(255) NOT NULL
+  type VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  longitude VARCHAR(255),
+  latitude VARCHAR(255)
+
+
 );
