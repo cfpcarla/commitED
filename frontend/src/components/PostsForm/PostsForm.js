@@ -18,7 +18,7 @@ import styles from "../../assets/jss/material-kit-react/views/loginPage";
 
 const useStyles = makeStyles(styles);
 
-export default function RegisterPage(props) {
+export default function CreatePostPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function () {
     setCardAnimation("");
@@ -30,7 +30,7 @@ export default function RegisterPage(props) {
       <form>
         <CardBody>
           <CustomInput
-            labelText="First Name..."
+            labelText="Position Name"
             id="first"
             formControlProps={{
               fullWidth: true
@@ -45,18 +45,13 @@ export default function RegisterPage(props) {
             }}
           />
           <CustomInput
-            labelText="Email..."
-            id="email"
+            labelText="Description"
+            id="description"
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
-              type: "email",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Email className={classes.inputIconsColor} />
-                </InputAdornment>
-              )
+              type: "text"
             }}
           />
           <CustomInput
@@ -76,65 +71,32 @@ export default function RegisterPage(props) {
               autoComplete: "off"
             }}
           />
-            <CustomInput
-            labelText="Age"
-            id="age"
+           <CustomInput
+            labelText="Hours"
+            id="hours"
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
-              type: "age",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Icon className={classes.inputIconsColor}>
-                    lock_outline
-                            </Icon>
-                </InputAdornment>
-              ),
-              autoComplete: "off"
+              type: "text",
             }}
           />
            <CustomInput
-            labelText="Password"
-            id="pass"
+            labelText="Number of opportunities"
+            id="vacancies"
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
-              type: "password",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Icon className={classes.inputIconsColor}>
-                    lock_outline
-                            </Icon>
-                </InputAdornment>
-              ),
-              autoComplete: "off"
-            }}
-          />
-           <CustomInput
-            labelText="Confirmation"
-            id="confirmation"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "confirmation",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Icon className={classes.inputIconsColor}>
-                    lock_outline
-                            </Icon>
-                </InputAdornment>
-              ),
+              type: "text",
               autoComplete: "off"
             }}
           />
         </CardBody>
         <CardFooter className={classes.cardFooter}>
           <Button simple color="primary" size="lg">
-            Get started
-                    </Button>
+            Submit
+          </Button>
         </CardFooter>
       </form>
     </Card>

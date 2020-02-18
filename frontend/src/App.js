@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './App.scss';
 import { Container, Box, Grid,  Paper} from '@material-ui/core'
-
 import { sizing } from '@material-ui/core'
 import NavBar from './components/NavBar/NavBar.js'
 import PostsList from "./components/PostsList/PostsList";
