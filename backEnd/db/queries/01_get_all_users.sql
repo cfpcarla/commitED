@@ -1,2 +1,2 @@
 SELECT * FROM  Users
-WHERE type  LIKE '%${}'
+WHERE type  LIKE '%${}' --user type
