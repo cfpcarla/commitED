@@ -71,16 +71,14 @@ export default function PopUpLogin(props) {
               id="classic-modal-slide-description"
               className={classes.modalBody}
             >
-              <p>
+              <div>
                 <div>
                   <Button
-                    key='1'
                     color="info"
                     block
                   // onClick={() => props.setClassicModal(true)}
                   >Login/Register</Button>
                   <Button
-                    key='1'
                     color="success"
                     block
                   // onClick={() => props.setClassicModal(true)}
@@ -88,7 +86,7 @@ export default function PopUpLogin(props) {
                 </div>
                 <LoginForm />
                 <RegisterForm />
-              </p>
+              </div>
             </DialogContent>
             <DialogActions className={classes.modalFooter}>
               <Button color="transparent" simple>

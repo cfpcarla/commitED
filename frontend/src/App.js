@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './App.scss';
-import { Container, Box, Grid,  Paper} from '@material-ui/core'
+import { Container, Box, Grid, Paper } from '@material-ui/core'
 import { sizing } from '@material-ui/core'
 import NavBar from './components/NavBar/NavBar.js'
 import PostsList from "./components/PostsList/PostsList";
@@ -17,7 +17,7 @@ export default function App() {
   //on placeholder 2 insert <Map/>
   const [posts, setPosts] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
     axios.get(`http://localhost:8080/posts`).then(res => {
       setPosts(res.data);
     });
@@ -31,12 +31,7 @@ export default function App() {
   return (
     <div>
       <Container>
-        <NavBar setClassicModal={setClassicModal} popupState={popupState} setHistoryModal={setHistoryModal}/>
-        <Grid
-          container
-          direction="row"
-          justify="center" //try justify
-          alignItems="stretch">
+        <NavBar setClassicModal={setClassicModal} popupState={popupState} setHistoryModal={setHistoryModal} />
 
         <div>
           <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} show={show} />
@@ -46,16 +41,26 @@ export default function App() {
           <PopupHistory historyModal={historyModal} setHistoryModal={setHistoryModal} show={show} />
         </div>
 
+        <Box>
+          {/* <RegisterForm/> */}
+        </Box>
+
+
+        <Grid
+          container
+          direction="row"
+          justify="center" //try justify
+          alignItems="stretch">
           <Box>
-            {/* <RegisterForm/> */}
-          </Box>
-          <Box>
-          <Paper>
             {" "}
             <PostsList posts={posts} />{" "}
-          </Paper>          </Box>
+          </Box>
 
-          <Box>
+
+          <Box
+          width= '45%'
+          heigth= '10%'
+          >
             <Map />
           </Box>
 
