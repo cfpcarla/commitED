@@ -11,4 +11,6 @@ CREATE TABLE users (
   email VARCHAR(255) NOT NULL,
   longitude VARCHAR(255),
   latitude VARCHAR(255)
+
+
 );

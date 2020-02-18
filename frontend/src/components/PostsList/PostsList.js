@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import Posts from "./Posts";
 
 export default function PostsList(props) {
-  let posts = props.posts;
-  const postlist = posts.map(post => {
+  const postlist = props.posts.map(post => {
     return (
       <Posts
         key={post.id}
-        title={post.title}
+        name={post.name}
         description={post.description}
-        date={post.date_posted}
         //buttons logic goes in here?
-      />
+         />
     );
   });
 
-  return <ul>{postlist}</ul>;
+  return (
+    <ul>
+      {postlist}
+    </ul>
+  )
 }
 // Posts-list displays the posts
 // Issues to solve:

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Slide from "@material-ui/core/Slide";
@@ -14,11 +14,12 @@ import Popover from "@material-ui/core/Popover";
 // @material-ui/icons
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import Close from "@material-ui/icons/Close";
-
+import RegisterForm from "../RegisterForm/RegisterForm"
+import Button from "../CustomButtons/Button";
 // core components
 import GridContainer from "../Grid/GridContainer.js";
 import GridItem from "../Grid/GridItem.js";
-import Button from "../CustomButtons/Button";
+// import Button from "../CustomButtons/Button";
 import LoginForm from '../LoginForm/LoginForm'
 import styles from "../../assets/jss/material-kit-react/views/componentsSections/javascriptStyles"
 
@@ -30,73 +31,79 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 Transition.displayName = "Transition";
 
-export default function PopUpLogin() {
+export default function PopUpLogin(props) {
   const classes = useStyles();
-  const [classicModal, setClassicModal] = React.useState(false);
 
-  return(
+  return (
     // className={classNames(classes.main, classes.mainRaised)}
     <div >
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={6} lg={4}>
-        <Button
-          color="primary"
-          block
-          onClick={() => setClassicModal(true)}
-        >
-          <LibraryBooks className={classes.icon} />
-          Classic
-                </Button>
-        <Dialog
-          classes={{
-            root: classes.center,
-            paper: classes.modal
-          }}
-          open={classicModal}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={() => setClassicModal(false)}
-          aria-labelledby="classic-modal-slide-title"
-          aria-describedby="classic-modal-slide-description"
-        >
-          <DialogTitle
-            id="classic-modal-slide-title"
-            disableTypography
-            className={classes.modalHeader}
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={6} lg={4}>
+          <Dialog
+            classes={{
+              root: classes.center,
+              paper: classes.modal
+            }}
+            open={props.classicModal}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={() => props.setClassicModal(false)}
+            aria-labelledby="classic-modal-slide-title"
+            aria-describedby="classic-modal-slide-description"
           >
-            <IconButton
-              className={classes.modalCloseButton}
-              key="close"
-              aria-label="Close"
-              color="inherit"
-              onClick={() => setClassicModal(false)}
+            <DialogTitle
+              id="classic-modal-slide-title"
+              disableTypography
+              className={classes.modalHeader}
             >
-              <Close className={classes.modalClose} />
-            </IconButton>
-            <h4 className={classes.modalTitle}>Login/Register</h4>
-          </DialogTitle>
-          <DialogContent
-            id="classic-modal-slide-description"
-            className={classes.modalBody}
-          >
-            <p>
-             <LoginForm/>
-            </p>
-          </DialogContent>
-          <DialogActions className={classes.modalFooter}>
-            <Button color="transparent" simple>
-              Nice Button
+              <IconButton
+                className={classes.modalCloseButton}
+                key="close"
+                aria-label="Close"
+                color="inherit"
+                onClick={() => props.setClassicModal(false)}
+              >
+                <Close className={classes.modalClose} />
+              </IconButton>
+              <h4 className={classes.modalTitle}>Login/Register</h4>
+            </DialogTitle>
+            <DialogContent
+              id="classic-modal-slide-description"
+              className={classes.modalBody}
+            >
+              <p>
+                <div>
+                  <Button
+                    key='1'
+                    color="info"
+                    block
+                  // onClick={() => props.setClassicModal(true)}
+                  >Login/Register</Button>
+                  <Button
+                    key='1'
+                    color="success"
+                    block
+                  // onClick={() => props.setClassicModal(true)}
+                  >Login/Register</Button>
+                </div>
+                <LoginForm />
+                <RegisterForm />
+              </p>
+            </DialogContent>
+            <DialogActions className={classes.modalFooter}>
+              <Button color="transparent" simple>
+                Nice Button
             </Button>
-            <Button
-              onClick={() => setClassicModal(false)}
-              color="danger"
-              simple>
-              Close
+              <Button
+                onClick={() => props.setClassicModal(false)}
+                color="danger"
+                simple>
+                Close
             </Button>
-          </DialogActions>
-        </Dialog>
-      </GridItem>
-    </GridContainer>
+            </DialogActions>
+          </Dialog>
+        </GridItem>
+      </GridContainer>
     </div>
   )
 }

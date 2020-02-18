@@ -60,6 +60,41 @@ export default function LoginPage(props) {
             }}
           />
           <CustomInput
+            labelText="Address"
+            id="address"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "address",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Icon className={classes.inputIconsColor}>
+                  </Icon>
+                </InputAdornment>
+              ),
+              autoComplete: "off"
+            }}
+          />
+            <CustomInput
+            labelText="Age"
+            id="age"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "age",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Icon className={classes.inputIconsColor}>
+                    lock_outline
+                            </Icon>
+                </InputAdornment>
+              ),
+              autoComplete: "off"
+            }}
+          />
+           <CustomInput
             labelText="Password"
             id="pass"
             formControlProps={{
@@ -67,6 +102,24 @@ export default function LoginPage(props) {
             }}
             inputProps={{
               type: "password",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Icon className={classes.inputIconsColor}>
+                    lock_outline
+                            </Icon>
+                </InputAdornment>
+              ),
+              autoComplete: "off"
+            }}
+          />
+           <CustomInput
+            labelText="Confirmation"
+            id="confirmation"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "confirmation",
               endAdornment: (
                 <InputAdornment position="end">
                   <Icon className={classes.inputIconsColor}>

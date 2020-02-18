@@ -10,4 +10,5 @@ CREATE TABLE opportunities (
   user_id INT NOT NULL,
   longitude VARCHAR(255),
   latitude VARCHAR(255)
+
 );
