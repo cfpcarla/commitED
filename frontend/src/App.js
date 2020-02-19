@@ -6,6 +6,7 @@ import NavBar from './components/NavBar/NavBar.js'
 import PostsList from "./components/PostsList/PostsList";
 import Map from './components/Map/Map'
 import PopupLogin from "./components/PopupLogin/PopupLogin"
+import CreatePosts from "./components/PostsForm/PostsForm"
 import PopupHistory from "./components/PopupHistory/PopupHistory"
 import RegisterForm from "./components/RegisterForm/RegisterForm"
 import axios from "axios";
@@ -16,12 +17,11 @@ export default function App() {
   //on placeholder 1 insert <PostsList/>
   //on placeholder 2 insert <Map/>
   const [posts, setPosts] = useState([]);
-
   useEffect(async () => {
     axios.get(`http://localhost:8080/posts`).then(res => {
       setPosts(res.data);
     });
-  }, []);
+  }, []); //make a function to get called after a new post
 
 
   const [show, popupState] = useState(false)
@@ -45,7 +45,9 @@ export default function App() {
         <div>
           <PopupHistory historyModal={historyModal} setHistoryModal={setHistoryModal} show={show} />
         </div>
-
+        <Box>
+          <CreatePosts/>
+          </Box>
           <Box>
             {/* <RegisterForm/> */}
           </Box>
@@ -54,7 +56,7 @@ export default function App() {
             {" "}
             <PostsList posts={posts} />{" "}
           </Paper>          </Box>
-
+<br/>
           <Box>
             <Map />
           </Box>
