@@ -18,6 +18,7 @@ app.use(morgan('dev'));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 
 app.use(cors())
@@ -113,6 +114,19 @@ app.get('/posts', (request, response) => {
             response.json(posts);
           }).catch(error=> console.log(error));
         })
+
+
+
+    app.post('/posts/new',(request, response)=>{
+      console.log('-->bodyç',request.body)
+    db.query(`INSERT INTO opportunities(type, description, title, date_posted, user_id, address,longitude, latitude) VALUES($1,$2,$3,to_timestamp($4),$5,$6,$7,$8) RETURNING *;`,
+    [request.body.type,request.body.description, request.body.title, request.body.date_posted, request.body.user_id, request.body.address, request.body.longitude, request.body.latitude]
+    ).then(({ rows: newPosts }) => {
+      response.json(newPosts);
+    }).catch(error=> console.log(error));
+  })
+
+
 
 
 // //get to  all posts opp

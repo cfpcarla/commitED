@@ -7,6 +7,7 @@ import NavBar from './components/NavBar/NavBar.js'
 import PostsList from "./components/PostsList/PostsList";
 import Map from './components/Map/Map'
 import PopupLogin from "./components/PopupLogin/PopupLogin"
+import CreatePosts from "./components/PostsForm/PostsForm"
 import PopupHistory from "./components/PopupHistory/PopupHistory"
 import RegisterForm from "./components/RegisterForm/RegisterForm"
 import axios from "axios";
@@ -26,11 +27,12 @@ const useStyles = makeStyles(theme => ({
 export default function App() {
   const [posts, setPosts] = useState([]);
 
+
   useEffect( () => {
     axios.get(`http://localhost:8080/posts`).then(res => {
       setPosts(res.data);
     });
-  }, []);
+  }, []); //make a function to get called after a new post
 
   const [show, popupState] = useState(false)
   const [classicModal, setClassicModal] = useState(false);
@@ -48,6 +50,18 @@ export default function App() {
         <div>
           <PopupHistory historyModal={historyModal} setHistoryModal={setHistoryModal} show={show} />
         </div>
+        <Box>
+          <CreatePosts/>
+          </Box>
+          <Box>
+            {/* <RegisterForm/> */}
+          </Box>
+          <Box>
+          <Paper>
+            {" "}
+            <PostsList posts={posts} />{" "}
+          </Paper>          </Box>
+<br/>
 
 
       <Container className={classes.root}>
@@ -60,6 +74,7 @@ export default function App() {
             {" "}
             <PostsList posts={posts} />{" "}
           </Box>
+
 
           <Box>
             <Map />
