@@ -10,8 +10,11 @@ import People from "@material-ui/icons/People";
 import Button from "../CustomButtons/Button";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
+import FormControl from '@material-ui/core/FormControl';
 import CardFooter from "../Card/CardFooter";
 import CustomInput from "../CustomInput/CustomInput";
+import axios from 'axios';
+import qs from 'qs';
 
 import styles from "../../assets/jss/material-kit-react/views/loginPage";
 
@@ -25,76 +28,103 @@ export default function RegisterPage(props) {
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    //Register
+    axios.post('http://localhost:8080/register', qs.stringify({
+    name: e.target.first.value,
+    address: e.target.address.value,
+    phone: e.target.phone.value,
+    email: e.target.email.value,
+    password: e.target.pass.value
+  })
+  )
+  .then(function (response) {
+    console.log(response);
+    if (response.status === 200) {
+      window.location = "/index"
+    } else {
+      window.location = "/register"
+    }
+  })
+  .catch(function (error) {
+    console.log(error);
+    window.location = "/register"
+  });
+  }
+
+  //RETURN
   return (
     <Card>
-      <form>
-        <CardBody>
-          <CustomInput
-            labelText="First Name..."
-            id="first"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <People className={classes.inputIconsColor} />
-                </InputAdornment>
-              )
-            }}
+    <form onSubmit={handleSubmit}>
+    <CardBody>
+    <CustomInput
+    labelText="First Name..."
+    id="first"
+    formControlProps={{
+      fullWidth: true
+    }}
+    inputProps={{
+      type: "text",
+      endAdornment: (
+        <InputAdornment position="end">
+        <People className={classes.inputIconsColor} />
+        </InputAdornment>
+        )
+      }}
+      />
+      <CustomInput
+      labelText="Email..."
+      id="email"
+      formControlProps={{
+        fullWidth: true
+      }}
+      inputProps={{
+        type: "email",
+        endAdornment: (
+          <InputAdornment position="end">
+          <Email className={classes.inputIconsColor} />
+          </InputAdornment>
+          )
+        }}
+        />
+        <CustomInput
+        labelText="Address"
+        id="address"
+        formControlProps={{
+          fullWidth: true
+        }}
+        inputProps={{
+          type: "address",
+          endAdornment: (
+            <InputAdornment position="end">
+            <Icon className={classes.inputIconsColor}>
+            </Icon>
+            </InputAdornment>
+            ),
+            autoComplete: "off"
+          }}
           />
           <CustomInput
-            labelText="Email..."
-            id="email"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "email",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Email className={classes.inputIconsColor} />
-                </InputAdornment>
-              )
-            }}
-          />
-          <CustomInput
-            labelText="Address"
-            id="address"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "address",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Icon className={classes.inputIconsColor}>
-                  </Icon>
-                </InputAdornment>
+          labelText="Phone"
+          id="phone"
+          formControlProps={{
+            fullWidth: true
+          }}
+          inputProps={{
+            type: "phone",
+            endAdornment: (
+              <InputAdornment position="end">
+              <Icon className={classes.inputIconsColor}>
+              lock_outline
+              </Icon>
+              </InputAdornment>
               ),
               autoComplete: "off"
             }}
-          />
+            />
             <CustomInput
-            labelText="Age"
-            id="age"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "age",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Icon className={classes.inputIconsColor}>
-                    lock_outline
-                            </Icon>
-                </InputAdornment>
-              ),
-              autoComplete: "off"
-            }}
-          />
-           <CustomInput
             labelText="Password"
             id="pass"
             formControlProps={{
@@ -104,39 +134,39 @@ export default function RegisterPage(props) {
               type: "password",
               endAdornment: (
                 <InputAdornment position="end">
-                  <Icon className={classes.inputIconsColor}>
-                    lock_outline
-                            </Icon>
+                <Icon className={classes.inputIconsColor}>
+                lock_outline
+                </Icon>
                 </InputAdornment>
-              ),
-              autoComplete: "off"
-            }}
-          />
-           <CustomInput
-            labelText="Confirmation"
-            id="confirmation"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "confirmation",
-              endAdornment: (
-                <InputAdornment position="end">
+                ),
+                autoComplete: "off"
+              }}
+              />
+              <CustomInput
+              labelText="Confirmation"
+              id="confirmation"
+              formControlProps={{
+                fullWidth: true
+              }}
+              inputProps={{
+                type: "confirmation",
+                endAdornment: (
+                  <InputAdornment position="end">
                   <Icon className={classes.inputIconsColor}>
-                    lock_outline
-                            </Icon>
-                </InputAdornment>
-              ),
-              autoComplete: "off"
-            }}
-          />
-        </CardBody>
-        <CardFooter className={classes.cardFooter}>
-          <Button simple color="primary" size="lg">
-            Get started
-                    </Button>
-        </CardFooter>
-      </form>
-    </Card>
-  );
-}
+                  lock_outline
+                  </Icon>
+                  </InputAdornment>
+                  ),
+                  autoComplete: "off"
+                }}
+                />
+                </CardBody>
+                <CardFooter className={classes.cardFooter}>
+                <Button type="submit" simple color="primary" size="lg">
+                Get started
+                </Button>
+                </CardFooter>
+                </form>
+                </Card>
+                );
+              }
