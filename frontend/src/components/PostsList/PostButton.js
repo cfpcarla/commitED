@@ -1,20 +1,17 @@
 import React from "react";
 import classnames from "classnames";
-import "components/Button.scss";
+import Button from "../CustomButtons"
 
-export default function Button(props) {
+export default function PostButton(props) {
   let buttonClass = classnames("button", {
     "button--confirm": props.confirm,
     "button--danger": props.danger
   });
 // customize to Posts
   return (
-    <button
-      className={buttonClass}
-      onClick={props.onClick}
-      disabled={props.disabled}
-    >
+    <Button
+    simple color="info" size="lg">
       {props.children}
-    </button>
+  </Button>
   );
 }
