@@ -58,21 +58,6 @@ export default function LoginPage(props) {
     <Card>
     <form onSubmit={handleSubmit}>
     <CardBody>
-    <CustomInput
-    labelText="First Name..."
-    id="first"
-    formControlProps={{
-      fullWidth: true
-    }}
-    inputProps={{
-      type: "text",
-      endAdornment: (
-        <InputAdornment position="end">
-        <People className={classes.inputIconsColor} />
-        </InputAdornment>
-        )
-    }}
-      />
       <CustomInput
       labelText="Email..."
       id="email"
@@ -99,7 +84,7 @@ export default function LoginPage(props) {
           endAdornment: (
             <InputAdornment position="end">
             <Icon className={classes.inputIconsColor}>
-            lock_outline
+            {/* lock_outline */}
             </Icon>
             </InputAdornment>
             ),
