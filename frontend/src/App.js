@@ -17,7 +17,7 @@ export default function App() {
   //on placeholder 2 insert <Map/>
   const [posts, setPosts] = useState([]);
 
-  useEffect(async () => {
+  useEffect( () => {
     axios.get(`http://localhost:8080/posts`).then(res => {
       setPosts(res.data);
     });
@@ -47,8 +47,8 @@ export default function App() {
         </div>
 
           <Box>
-            {/* <RegisterForm/> */}
-          </Box>
+            <RegisterForm/>
+           </Box>
           <Box>
           <Paper>
             {" "}
@@ -65,9 +65,5 @@ export default function App() {
     </div>
   );
 };
-
-App;
-
-//import Map from './components/Map/Map'
 
 
