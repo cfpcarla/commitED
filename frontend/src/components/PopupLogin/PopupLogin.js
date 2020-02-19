@@ -35,8 +35,7 @@ export default function PopUpLogin(props) {
   const classes = useStyles();
 
   return (
-    // className={classNames(classes.main, classes.mainRaised)}
-    <div >
+    <div width="25%" height='50%'>
       <GridContainer>
         <GridItem xs={12} sm={12} md={6} lg={4}>
           <Dialog
@@ -71,16 +70,14 @@ export default function PopUpLogin(props) {
               id="classic-modal-slide-description"
               className={classes.modalBody}
             >
-              <p>
+              <div>
                 <div>
                   <Button
-                    key='1'
                     color="info"
                     block
                   // onClick={() => props.setClassicModal(true)}
                   >Login/Register</Button>
                   <Button
-                    key='1'
                     color="success"
                     block
                   // onClick={() => props.setClassicModal(true)}
@@ -88,7 +85,7 @@ export default function PopUpLogin(props) {
                 </div>
                 <LoginForm />
                 <RegisterForm />
-              </p>
+              </div>
             </DialogContent>
             <DialogActions className={classes.modalFooter}>
               <Button color="transparent" simple>
