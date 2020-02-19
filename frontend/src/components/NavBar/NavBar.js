@@ -11,14 +11,12 @@ export default function NavBar(props) {
   const rightLinks = [
     <div>
     <Button
-    key='1'
     color="primary"
     block
     onClick={() => props.setClassicModal(true)}
     >Login/Register</Button>
 
     <Button
-    key='2'
     color="primary"
     block
     onClick={() => props.setHistoryModal(true)}

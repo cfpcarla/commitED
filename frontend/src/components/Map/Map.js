@@ -30,6 +30,7 @@ export class MapContainer extends Component {
   render() {
     return (
       <CurrentLocation
+        style={{height: '50%', width:'25%'}}
         centerAroundCurrentLocation
         google={this.props.google}
       >
