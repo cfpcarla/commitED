@@ -1,3 +1,5 @@
+const { Pool } = require('pg');
+
 let dbParams = {};
 if (process.env.DATABASE_URL) {
   dbParams.connectionString = process.env.DATABASE_URL;
@@ -34,9 +36,23 @@ const createPost = (type,description, title, date_posted, user_id, address, long
 }
 
 const showPosts = () =>{
-  db.query(
+  return db.query(
     `SELECT * FROM  opportunities;
 
     `)
 }
-module.exports = { dbParams, createRequest, showRequests, createPost, showPosts };
+const login = (email) => {
+ return db.query(`SELECT id, email, password
+      FROM users
+      WHERE email = $1;`, [email])
+}
+const getEmail = (email) =>{
+  return db.query(`SELECT email
+  FROM users
+  WHERE email = $1;`, [email])
+}
+const createUser = (name, address, phone,email, hashedPassword, type, lat, lng) => {
+ return  db.query(`INSERT INTO users(name, address, phone_number, email, password, type,latitude, longitude) VALUES($1,$2,$3,$4,$5,$6,$7, $8) RETURNING *;`,
+        [name, address, phone,email, hashedPassword, type, lat, lng])
+}
+module.exports = { dbParams, createRequest, showRequests, createPost, showPosts,login, getEmail, createUser };
