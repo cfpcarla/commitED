@@ -43,7 +43,12 @@ export default function App() {
 
     <div>
       <NavBar setClassicModal={setClassicModal} popupState={popupState} setHistoryModal={setHistoryModal}/>
-      <div>
+
+        <div>
+
+        </div>
+
+        <div>
           <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} show={show} />
         </div>
 

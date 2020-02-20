@@ -76,12 +76,12 @@ export default function PopUpLogin(props) {
                     color="info"
                     block
                   // onClick={() => props.setClassicModal(true)}
-                  >Login/Register</Button>
+                  >Login</Button>
                   <Button
                     color="success"
                     block
                   // onClick={() => props.setClassicModal(true)}
-                  >Login/Register</Button>
+                  >Register</Button>
                 </div>
                 <LoginForm />
                 <RegisterForm />
