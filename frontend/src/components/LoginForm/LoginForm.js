@@ -42,6 +42,7 @@ export default function LoginPage(props) {
     //   .catch(err => { /* not hit since no 401 */ })
 
       //Integration axios post with server
+
       // POST LOGIN
       axios.post('http://localhost:8080/login', qs.stringify({
         email: e.target.email.value,
