@@ -32,14 +32,14 @@ export default function LoginPage(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const transport = axios.create({
-      withCredentials: true
-    })
+    // const transport = axios.create({
+    //   withCredentials: true
+    // })
 
-    transport
-      .get('/cookie-auth-protected-route')
-      .then(res => res.data)
-      .catch(err => { /* not hit since no 401 */ })
+    // transport
+    //   .get('/cookie-auth-protected-route')
+    //   .then(res => res.data)
+    //   .catch(err => { /* not hit since no 401 */ })
 
       //Integration axios post with server
       // POST LOGIN
