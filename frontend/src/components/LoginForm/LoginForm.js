@@ -32,13 +32,23 @@ export default function LoginPage(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    //Integration axios post with server
-    // POST LOGIN
-    axios.post('http://localhost:8080/login', qs.stringify({
+    // const transport = axios.create({
+    //   withCredentials: true
+    // })
+
+    // transport
+    //   .get('/cookie-auth-protected-route')
+    //   .then(res => res.data)
+    //   .catch(err => { /* not hit since no 401 */ })
+
+      //Integration axios post with server
+
+      // POST LOGIN
+      axios.post('http://localhost:8080/login', qs.stringify({
         email: e.target.email.value,
         password: e.target.pass.value
       })
-    )
+        )
     .then(function (response) {
       console.log(response);
       if (response.status === 200) {

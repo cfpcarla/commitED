@@ -30,7 +30,7 @@ app.use(cookieSession({
 
 //home
 app.get('/', (request, response) => {
-  response.send("xunda");
+  response.send("HEllO");
 });
 
 app.listen(PORT, () => {
@@ -39,10 +39,10 @@ app.listen(PORT, () => {
 
 //POST login
 app.post('/login', (request, response) => {
-  console.log(request.body)
+  // check if user exists in database
   db.query(`SELECT id, email, password
-            FROM users
-            WHERE email = $1;`, [request.body.email])
+      FROM users
+      WHERE email = $1;`, [request.body.email])
     .then(data => {
       const user = data.rows[0];
       if (!user) {
@@ -52,16 +52,18 @@ app.post('/login', (request, response) => {
         response.statusCode = 403;
         response.end('403 Forbidden. Wrong password');
       } else {
-        response.statusCode = 200;
-        response.end(`success. user: ${user}`);
+        // eslint-disable-next-line camelcase
+        request.session.user_id = user.id;
+        response.status('ok');
       }
       response.json({ user });
     })
-    .catch (err => {
+    .catch(err => {
+      // render login with error
       response
         .status(500)
         .json({ error: err.message });
-  });
+    });
 });
 
 //POST LOGOUT
@@ -85,40 +87,54 @@ app.post('/register', (request, response) => {
   db.query(`SELECT email
   FROM users
   WHERE email = $1;`, [request.body.email])
-    .then(data => {
-      const user = data.rows[0];
-      if (user) {
-        response.statusCode = 400;
-        response.end('400 Bad request. Email already registered');
-      } else {
-        db.query(`INSERT INTO users(name, address, phone, email, password) VALUES($1,$2,$3,$4,$5) RETURNING *;`,
-          [request.body.name,request.body.address, request.body.phone, request.body.email, hashedPassword])
-          .then(data => {
-            const newUser = data.rows[0];
-            // eslint-disable-next-line camelcase
-            request.session.user_id = newUser.id;
-            response.statusCode = 200;
-            response.end(`success. user: ${user}`);
-          });
-      }
-    });
+  .then(data => {
+    const user = data.rows[0];
+    if (user) {
+      response.statusCode = 400;
+      response.end('400 Bad request. Email already registered');
+    } else {
+      const apiKey = GOOGLEAPIKEY;
+      return axios({
+        method: 'get',
+        url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
+        responseType: 'json'
+
+      })
+      .then(function (locationResponse) {
+        console.log("gmap response", locationResponse.data);
+        const { lat, lng } = locationResponse.data.results[0].geometry.location;
+        return db.query(`INSERT INTO users(name, address, phone, email, password, type,latitude, longitude) VALUES($1,$2,$3,$4,$5,$6,$7, $8) RETURNING *;`,
+        [request.body.name, request.body.address, request.body.phone, request.body.email, hashedPassword, request.body.type, lat, lng])
+        .then(data => {
+          const newUser = data.rows[0];
+          // eslint-disable-next-line camelcase
+          request.session.user_id = newUser.id;
+          response.statusCode = 200;
+          response.end(`success. user: ${user}`);
+        });
+      })
+      .catch(function (error) {
+        response.statusCode = 500;
+        response.end("error")
+      })
+    }
+  });
 });
 
 //why???
 //get to  all posts opp
 app.get('/posts', (request, response) => {
   db.query(
-          `SELECT * FROM  opportunities;
+    `SELECT * FROM  opportunities;
 
-          `).then(({ rows: posts }) => {
-            response.json(posts);
-          }).catch(error=> console.log(error));
-        })
+    `).then(({ rows: posts }) => {
+      response.json(posts);
+    }).catch(error=> console.log(error));
+  })
 
 
 
-    app.post('/posts/new',(request, response)=>{
-      console.log('-->bodyç',request.body)
+  app.post('/posts/new',(request, response)=>{
     db.query(`INSERT INTO opportunities(type, description, title, date_posted, user_id, address,longitude, latitude) VALUES($1,$2,$3,to_timestamp($4),$5,$6,$7,$8) RETURNING *;`,
     [request.body.type,request.body.description, request.body.title, request.body.date_posted, request.body.user_id, request.body.address, request.body.longitude, request.body.latitude]
     ).then(({ rows: newPosts }) => {
@@ -151,19 +167,19 @@ app.get('/requests', (request, response) => {
 //   db.query(
 //           `SELECT * FROM  opportunities;
 
-//           `).then(({ rows: posts }) => {
-//             response.json(posts);
-//           }).catch(error=> console.log(error));
-//         })
+  //           `).then(({ rows: posts }) => {
+  //             response.json(posts);
+  //           }).catch(error=> console.log(error));
+  //         })
 
 
 
-// server.post('/login', passport.authenticate('local'), (req, res, next) => {
-//   if (req.user) {
-//       let redir = { redirect: "/" };
-//       return res.json(redir);
-// } else {
-//       let redir = { redirect: '/login'};
-//       return res.json(redir);
-// }
-// })
+  // server.post('/login', passport.authenticate('local'), (req, res, next) => {
+  //   if (req.user) {
+  //       let redir = { redirect: "/" };
+  //       return res.json(redir);
+  // } else {
+  //       let redir = { redirect: '/login'};
+  //       return res.json(redir);
+  // }
+  // })
