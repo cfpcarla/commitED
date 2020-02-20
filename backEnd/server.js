@@ -124,7 +124,6 @@ app.post('/register', (request, response) => {
   });
 });
 
-
 //get to  all posts app
 app.get('/posts', (request, response) => {
   db.query(
@@ -169,17 +168,18 @@ app.get('/posts', (request, response) => {
     //           }).catch(error=> console.log(error));
     //         })
 
-
-    //Axios GET for take latitude and longitude from the database and display in the map
-    // app.get('/index',(request, response)=>{
-    //   db.query(`SELECT latitude, longitude
-    //   FROM users
-    //   WHERE latitude = $1 AND
-    //   WHERE longitude = $2;`,[lat, lng])
-    //   .then(data => {
-    //     const newUser = data.rows[0];
-    //     // eslint-disable-next-line camelcase
-    //     request.session.user_id = newUser.id;
-    //     response.statusCode = 200;
-    //     response.json({ user: user });
-    //   });
+  //get latitude and longitude from the database
+    Axios GET for take latitude and longitude from the database and display in the map
+    app.get('/map',(request, response)=>{
+      db.query(`SELECT id, latitude, longitude
+      FROM users
+      WHERE latitude = $1 AND
+      WHERE longitude = $2;`,[lat, lng])
+      .then(data => {
+        const newUser = data.rows[0];
+        // eslint-disable-next-line camelcase
+        request.session.user_id = newUser.id;
+        response.statusCode = 200;
+        response.json({ user: user });
+      });
+    }
