@@ -25,11 +25,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function App() {
-  const [posts, setPosts] = useState([]);
-
+  const [ posts, setPosts ] = useState([]);
 
   useEffect( () => {
     axios.get(`http://localhost:8080/posts`).then(res => {
+      console.log(res.data);
       setPosts(res.data);
     });
   }, []); //make a function to get called after a new post
@@ -57,18 +57,8 @@ export default function App() {
         </div>
         <Box>
           <CreatePosts/>
-          </Box>
+        </Box>
           <Box>
-            {/* <RegisterForm/> */}
-          </Box>
-          <Box>
-          <Paper>
-            {" "}
-            <PostsList posts={posts} />{" "}
-          </Paper>          </Box>
-<br/>
-
-
       <Container className={classes.root}>
         <Grid
           container
@@ -77,16 +67,15 @@ export default function App() {
           alignItems="stretch">
           <Box className={classes.paper} >
             {" "}
-            <PostsList posts={posts} />{" "}
+            <PostsList posts={posts} />
+            {" "}
           </Box>
-
-
           <Box>
             <Map />
           </Box>
         </Grid>
       </Container>
-
+      </Box>
     </div>
   );
 };

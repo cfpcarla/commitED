@@ -19,90 +19,140 @@ import styles from "../../assets/jss/material-kit-react/views/loginPage";
 
 const useStyles = makeStyles(styles);
 
-// export default function CreatePostPage(props) {
-//   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-//   setTimeout(function () {
-//     setCardAnimation("");
-//   }, 700);
-//   const classes = useStyles();
-//   const { ...rest } = props;
-//   return (
-//     <Card>
-//       <form>
-//         <CardBody>
-//           <CustomInput
-//             labelText="Position Name"
-//             id="first"
-//             formControlProps={{
-//               fullWidth: true
-//             }}
-//             inputProps={{
-//               type: "text",
-//               endAdornment: (
-//                 <InputAdornment position="end">
-//                   <People className={classes.inputIconsColor} />
-//                 </InputAdornment>
-//               )
-//             }}
-//           />
-//           <CustomInput
-//             labelText="Description"
-//             id="description"
-//             formControlProps={{
-//               fullWidth: true
-//             }}
-//             inputProps={{
-//               type: "text"
-//             }}
-//           />
-//           <CustomInput
-//             labelText="Address"
-//             id="address"
-//             formControlProps={{
-//               fullWidth: true
-//             }}
-//             inputProps={{
-//               type: "address",
-//               endAdornment: (
-//                 <InputAdornment position="end">
-//                   <Icon className={classes.inputIconsColor}>
-//                   </Icon>
-//                 </InputAdornment>
-//               ),
-//               autoComplete: "off"
-//             }}
-//           />
-//            <CustomInput
-//             labelText="Hours"
-//             id="hours"
-//             formControlProps={{
-//               fullWidth: true
-//             }}
-//             inputProps={{
-//               type: "text",
-//             }}
-//           />
-//            <CustomInput
-//             labelText="Number of opportunities"
-//             id="vacancies"
-//             formControlProps={{
-//               fullWidth: true
-//             }}
-//             inputProps={{
-//               type: "text",
-//               autoComplete: "off"
-//             }}
-//           />
-//         </CardBody>
-//         <CardFooter className={classes.cardFooter}>
-//           <Button simple color="primary" size="lg">
-//             Submit
-//           </Button>
-//         </CardFooter>
-//       </form>
-//     </Card>
-//   );
-// }
+export default function CreatePosts(props) {
+  const [state, setState] = useState( {
+    type:'',
+    description:"",
+    title:'',
+    date_posted:Date.now(),
+    user_id: 1, //organization_id goes in here
+    address:''
+  })
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+
+  //     type:'',
+  //     description:"",
+  //     title:'',
+  //     date_posted:Date.now(),
+  //     user_id: 1, //organization_id goes in here
+  //     address:''
+
+  //   };
+  //   this.newPost = this.newPost.bind(this)//refers to component not function itself
+  //   this.handleInputChange = this.handleInputChange.bind(this);
+  // }
+  function newPost (event)  {
+     event.preventDefault()
+    axios.post(`http://localhost:8080/posts/new`, state).then(res => {
+      setState(res.data);
+    });
+  }
+
+  function handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const id = target.id;
+
+    setState({
+      [id]: value
+    });
+  }
+
+  const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  setTimeout(function () {
+    setCardAnimation("");
+  }, 700);
+  const classes = useStyles();
+  const { ...rest } = props;
+
+  return (
+    <Card>
+      <form>
+        <CardBody>
+          <CustomInput
+            labelText="Category"
+            id="type"
+            value={state.type}
+            onChange={handleInputChange}
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text"
+            }}
+          />
+          <CustomInput
+            labelText="Position Name"
+            id="title"
+            value={state.title}
+            onChange={handleInputChange}
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text"
+
+            }}
+          />
+          <CustomInput
+            labelText="Description"
+            id="description"
+            value={state.description}
+            onChange={handleInputChange}
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text"
+            }}
+          />
+          <CustomInput
+            labelText="Address"
+            id="address"
+              value={state.address}
+              onChange={handleInputChange}
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "address",
+              autoComplete: "off"
+            }}
+          />
+           <CustomInput
+            labelText="Hours"
+            id="hours"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+            }}
+          />
+           <CustomInput
+            labelText="Number of opportunities"
+            id="vacancies"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              autoComplete: "off"
+            }}
+          />
+        </CardBody>
+        <CardFooter className={classes.cardFooter}>
+          <Button onClick={newPost} type="submit" simple color="primary" size="lg">
+            Submit
+          </Button>
+        </CardFooter>
+      </form>
+    </Card>
+  );
+}
+
 //async not needed - rodrigo
 // const [newPosts, setNewPosts] =  useState([]);
 // const newPost =  () => {
@@ -114,87 +164,87 @@ const useStyles = makeStyles(styles);
 
 //console.log("new posts in app.jds",newPosts)
 
-export default class CreatePosts extends React.Component {
+// export default class CreatePosts extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
 
-      type:'',
-      description:"",
-      title:'',
-      date_posted:Date.now(),
-      user_id: 1,
-      address:''
+//       type:'',
+//       description:"",
+//       title:'',
+//       date_posted:Date.now(),
+//       user_id: 1,
+//       address:''
 
-    };
-    this.newPost = this.newPost.bind(this)//refers to component not function itself
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-   newPost (event)  {
-     event.preventDefault()
-    axios.post(`http://localhost:8080/posts/new`, this.state).then(res => {
-      this.setState(res.data);
-    });
-  }
+//     };
+//     this.newPost = this.newPost.bind(this)//refers to component not function itself
+//     this.handleInputChange = this.handleInputChange.bind(this);
+//   }
+//    newPost (event)  {
+//      event.preventDefault()
+//     axios.post(`http://localhost:8080/posts/new`, this.state).then(res => {
+//       this.setState(res.data);
+//     });
+//   }
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+//   handleInputChange(event) {
+//     const target = event.target;
+//     const value = target.type === 'checkbox' ? target.checked : target.value;
+//     const name = target.name;
 
-    this.setState({
-      [name]: value
-    });
-  }
+//     this.setState({
+//       [name]: value
+//     });
+//   }
 
-  render() {
-    console.log(this.state)
+//   render() {
+//     console.log(this.state)
 
-    return (
-      <form>
+//     return (
+//       <form>
 
-        <br />
-        <label>
-          Category:
-          <input
-            name="type"
-            type="text"
-            value={this.state.type}
-            onChange={this.handleInputChange} />
-        </label>
+//         {/* <br />
+//         <label>
+//           Category:
+//           <input
+//             name="type"
+//             type="text"
+//             value={this.state.type}
+//             onChange={this.handleInputChange} />
+//         </label>
 
-        <br />
-        <label>
-          Title:
-          <input
-            name="title"
-            type="text"
-            value={this.state.title}
-            onChange={this.handleInputChange} />
-        </label>
-        <br />
-        <label>
-          Description:
-          <input
-            name="description"
-            type="text"
-            value={this.state.description}
-            onChange={this.handleInputChange} />
-        </label>
-        <br />
-        <label>
-          Address:
-          <input
-            name="address"
-            type="text"
-            value={this.state.address}
-            onChange={this.handleInputChange} />
-        </label>
+//         <br /> */}
+//         {/* <label>
+//           Title:
+//           <input
+//             name="title"
+//             type="text"
+//             value={this.state.title}
+//             onChange={this.handleInputChange} />
+//         </label>
+//         <br /> */}
+//         {/* <label>
+//           Description:
+//           <input
+//             name="description"
+//             type="text"
+//             value={this.state.description}
+//             onChange={this.handleInputChange} />
+//         </label>
+//         <br /> */}
+//         <label>
+//           Address:
+//           <input
+//             name="address"
+//             type="text"
+//             value={this.state.address}
+//             onChange={this.handleInputChange} />
+//         </label>
 
 
-        <div><button onClick={this.newPost} type="submit" >Submit</button></div>
-      </form>
-    );
-  }
-}
+//         <div><button onClick={this.newPost} type="submit" >Submit</button></div>
+//       </form>
+//     );
+//   }
+// }

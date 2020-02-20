@@ -5,7 +5,9 @@ export default function Posts(props) {
   return (
     <Button
     color="info"
-    block >
+    block
+    onClick={() => props.setPostsModal(true)}
+    >
     <div>
       <ul>{props.title}</ul>
       <ul> {props.description} </ul>
