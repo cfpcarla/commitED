@@ -32,16 +32,6 @@ export default function LoginPage(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // const transport = axios.create({
-    //   withCredentials: true
-    // })
-
-    // transport
-    //   .get('/cookie-auth-protected-route')
-    //   .then(res => res.data)
-    //   .catch(err => { /* not hit since no 401 */ })
-
-      //Integration axios post with server
 
       // POST LOGIN
       axios.post('http://localhost:8080/login', qs.stringify({
@@ -50,6 +40,8 @@ export default function LoginPage(props) {
       })
         )
     .then(function (response) {
+      let userid = 1 //response.data.user.id cosoe.log respose data
+      localStorage.setItem({'user_id': userid})
       console.log(response);
       if (response.status === 200) {
         window.location = "/index"
