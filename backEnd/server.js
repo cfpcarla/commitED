@@ -41,7 +41,7 @@ app.listen(PORT, () => {
 //POST login
 app.post('/login', (request, response) => {
   // check if user exists in database
-  db.query(`SELECT id, email, password
+  db.query(`SELECT id, email, password, latitude, longitude
       FROM users
       WHERE email = $1;`, [request.body.email])
     .then(data => {
@@ -55,12 +55,13 @@ app.post('/login', (request, response) => {
       } else {
         // eslint-disable-next-line camelcase
         request.session.user_id = user.id;
-        response.status('ok');
+        response.statusCode = 200;
+        response.json({ user: user });
       }
-      response.json({ user });
     })
     .catch(err => {
       // render login with error
+      console.log(err)
       response
         .status(500)
         .json({ error: err.message });
@@ -112,7 +113,7 @@ app.post('/register', (request, response) => {
           // eslint-disable-next-line camelcase
           request.session.user_id = newUser.id;
           response.statusCode = 200;
-          response.end(`success. user: ${user}`);
+          response.json({ user: user });
         });
       })
       .catch(function (error) {
@@ -124,8 +125,8 @@ app.post('/register', (request, response) => {
   });
 });
 
-//why???
-//get to  all posts opp
+
+//get to  all posts app
 app.get('/posts', (request, response) => {
   db.query(
     `SELECT * FROM  opportunities;
@@ -136,7 +137,7 @@ app.get('/posts', (request, response) => {
   })
 
 
-
+//Post/new
   app.post('/posts/new',(request, response)=>{
     db.query(`INSERT INTO opportunities(type, description, title, date_posted, user_id, address,longitude, latitude) VALUES($1,$2,$3,to_timestamp($4),$5,$6,$7,$8) RETURNING *;`,
     [request.body.type,request.body.description, request.body.title, request.body.date_posted, request.body.user_id, request.body.address, request.body.longitude, request.body.latitude]
@@ -149,12 +150,6 @@ console.log('newposts in 2 db q',newPosts[0].id)
     response.json(newRequests);
   }).catch(error=> console.log(error));
   })
-
-
-
-
-
-
 
 app.get('/requests', (request, response) => {
   db.query(
