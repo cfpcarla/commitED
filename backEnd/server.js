@@ -4,12 +4,15 @@ const ENV = process.env.ENV || "development";
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const morgan = require("morgan");
-const cors = require("cors");
-const bcrypt = require("bcrypt");
-const cookieSession = require("cookie-session");
-const db = require("./lib/db.js");
+const morgan = require('morgan');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+const cookieSession = require('cookie-session');
+const { Pool } = require('pg');
+const dbParams = require('./lib/db.js');
 const axios = require('axios');
+const db = require('./lib/db.js');
+const cookieSession = require("cookie-session");
 
 const dbParams = db.dbParams;
 console.log(dbParams);
@@ -41,6 +44,7 @@ app.listen(PORT, () => {
 //POST login
 app.post("/api/login", (request, response) => {
   // check if user exists in database
+
   db.login(request.body.email)
     .then(data => {
       const user = data.rows[0];
@@ -81,6 +85,34 @@ app.post("/api/register", (request, response) => {
     response.status(400).json({ message: "Missing email or password" });
     return;
   }
+
+
+
+    // //get to  all posts opp
+    // app.get('/posts', (request, response) => {
+    //   db.query(
+    //           `SELECT * FROM  opportunities;
+
+    //           `).then(({ rows: posts }) => {
+    //             response.json(posts);
+    //           }).catch(error=> console.log(error));
+    //         })
+
+  //get latitude and longitude from the database
+   // Axios GET for take latitude and longitude from the database and display in the map
+    app.get('/map',(request, response)=>{
+      db.query(`SELECT id, latitude, longitude
+      FROM users
+      WHERE latitude = $1 AND
+      WHERE longitude = $2;`,[lat, lng])
+      .then(data => {
+        const newUser = data.rows[0];
+        // eslint-disable-next-line camelcase
+        request.session.user_id = newUser.id;
+        response.statusCode = 200;
+        response.json({ user: user });
+      });
+    }
   console.log({ body: request.body })
   db.getEmail(request.body.email)
     .then(data => {
