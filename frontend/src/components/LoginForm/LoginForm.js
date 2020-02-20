@@ -33,12 +33,12 @@ export default function LoginPage(props) {
   function handleSubmit(e) {
     e.preventDefault();
 
+      //Integration axios post with server
       // POST LOGIN
-      axios.post('http://localhost:8080/login', qs.stringify({
-        email: e.target.email.value,
-        password: e.target.pass.value
-      })
-        )
+    axios.post('http://localhost:8080/login', qs.stringify({
+      email: e.target.email.value,
+      password: e.target.pass.value
+    }))
     .then(function (response) {
       let userid = 1 //response.data.user.id cosoe.log respose data
       localStorage.setItem({'user_id': userid})
@@ -46,7 +46,7 @@ export default function LoginPage(props) {
       if (response.status === 200) {
         window.location = "/index"
       } else {
-          window.location = "/login"
+        window.location = "/login"
       }
     })
     .catch(function (error) {
@@ -56,7 +56,6 @@ export default function LoginPage(props) {
   }
 
   //Return
-
   return (
     <Card>
     <form onSubmit={handleSubmit}>
