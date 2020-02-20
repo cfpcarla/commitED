@@ -15,12 +15,15 @@ import axios from "axios";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+
   },
   paper: {
+    flex: 0,
     height: '50%',
     width:'50%',
-    padding: theme.spacing(2),
+    padding: '5%',
     textAlign: 'left',
+    justifyContent: "left"
   },
 }));
 
@@ -45,21 +48,21 @@ export default function App() {
       <NavBar setClassicModal={setClassicModal} popupState={popupState} setHistoryModal={setHistoryModal}/>
 
         <div>
-
-        </div>
-
-        <div>
           <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} show={show} />
         </div>
 
         <div>
           <PopupHistory historyModal={historyModal} setHistoryModal={setHistoryModal} show={show} />
         </div>
+
+
         <Box>
-          <CreatePosts/>
+
         </Box>
-          <Box>
-      <Container className={classes.root}>
+        <div>
+{/*if ORGANIZATION
+    <Box>
+        <Container className={classes.root}>
         <Grid
           container
           direction="row"
@@ -71,11 +74,32 @@ export default function App() {
             {" "}
           </Box>
           <Box>
+          <CreatePosts/>
+          </Box>
+        </Grid>
+      </Container>
+      </Box>
+
+if USER */}
+        <Box>
+        <Container className={classes.root}>
+        <Grid
+          container
+          direction="row"
+          justify-content="left" //try justify
+          alignItems="stretch">
+          <Box className={classes.paper} >
+            {" "}
+            <PostsList posts={posts} />
+            {" "}
+          </Box>
+          <Box className={classes.paper}>
             <Map />
           </Box>
         </Grid>
       </Container>
       </Box>
+      </div>
     </div>
   );
 };
