@@ -29,7 +29,7 @@ export default function App() {
 
 
   useEffect( () => {
-    axios.get(`http://localhost:8080/posts`).then(res => {
+    axios.get(`/api/posts`).then(res => {
       setPosts(res.data);
     });
   }, []); //make a function to get called after a new post

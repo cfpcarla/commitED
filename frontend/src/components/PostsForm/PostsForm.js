@@ -106,7 +106,7 @@ const useStyles = makeStyles(styles);
 //async not needed - rodrigo
 // const [newPosts, setNewPosts] =  useState([]);
 // const newPost =  () => {
-//   axios.post(`http://localhost:8080/posts/new`, this.state).then(res => {
+//   axios.post(`/api/posts/new`, this.state).then(res => {
 //     setNewPosts(res.data);
 //   });
 // };
@@ -133,7 +133,7 @@ export default class CreatePosts extends React.Component {
   }
    newPost (event)  {
      event.preventDefault()
-    axios.post(`http://localhost:8080/posts/new`, this.state).then(res => {
+    axios.post(`/api/posts/new`, this.state).then(res => {
       this.setState(res.data);
     });
   }
