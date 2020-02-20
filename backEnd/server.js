@@ -42,30 +42,30 @@ app.listen(PORT, () => {
 app.post('/login', (request, response) => {
   // check if user exists in database
   db.query(`SELECT id, email, password, latitude, longitude
-      FROM users
-      WHERE email = $1;`, [request.body.email])
-    .then(data => {
-      const user = data.rows[0];
-      if (!user) {
-        response.statusCode = 403;
-        response.end('403 Forbidden. E-mail cannot be found');
-      } else if (!bcrypt.compareSync(request.body.password, user.password)) {
-        response.statusCode = 403;
-        response.end('403 Forbidden. Wrong password');
-      } else {
-        // eslint-disable-next-line camelcase
-        request.session.user_id = user.id;
-        response.statusCode = 200;
-        response.json({ user: user });
-      }
-    })
-    .catch(err => {
-      // render login with error
-      console.log(err)
-      response
-        .status(500)
-        .json({ error: err.message });
-    });
+  FROM users
+  WHERE email = $1;`, [request.body.email])
+  .then(data => {
+    const user = data.rows[0];
+    if (!user) {
+      response.statusCode = 403;
+      response.end('403 Forbidden. E-mail cannot be found');
+    } else if (!bcrypt.compareSync(request.body.password, user.password)) {
+      response.statusCode = 403;
+      response.end('403 Forbidden. Wrong password');
+    } else {
+      // eslint-disable-next-line camelcase
+      request.session.user_id = user.id;
+      response.statusCode = 200;
+      response.json({ user: user });
+    }
+  })
+  .catch(err => {
+    // render login with error
+    console.log(err)
+    response
+    .status(500)
+    .json({ error: err.message });
+  });
 });
 
 //POST LOGOUT
@@ -100,7 +100,6 @@ app.post('/register', (request, response) => {
         method: 'get',
         url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
         responseType: 'json'
-
       })
       .then(function (locationResponse) {
         console.log("gmap response", locationResponse.data);
@@ -137,47 +136,50 @@ app.get('/posts', (request, response) => {
   })
 
 
-//Post/new
+  //Post/new
   app.post('/posts/new',(request, response)=>{
     db.query(`INSERT INTO opportunities(type, description, title, date_posted, user_id, address,longitude, latitude) VALUES($1,$2,$3,to_timestamp($4),$5,$6,$7,$8) RETURNING *;`,
     [request.body.type,request.body.description, request.body.title, request.body.date_posted, request.body.user_id, request.body.address, request.body.longitude, request.body.latitude]
     ).then(({ rows: newPosts }) => {
-console.log('newposts in 2 db q',newPosts[0].id)
-  return db.query(`INSERT INTO requests(opportunity_id, user_id) VALUES($1,$2) RETURNING *;`,
-  [newPosts[0].id,request.body.user_id]
-  )
-  }).then(({ rows: newRequests }) => {
-    response.json(newRequests);
-  }).catch(error=> console.log(error));
+      console.log('newposts in 2 db q',newPosts[0].id)
+      return db.query(`INSERT INTO requests(opportunity_id, user_id) VALUES($1,$2) RETURNING *;`,
+      [newPosts[0].id,request.body.user_id]
+      )
+    }).then(({ rows: newRequests }) => {
+      response.json(newRequests);
+    }).catch(error=> console.log(error));
   })
 
-app.get('/requests', (request, response) => {
-  db.query(
-          `SELECT * FROM  requests;
+  app.get('/requests', (request, response) => {
+    db.query(
+      `SELECT * FROM  requests;
 
-          `).then(({ rows: requests }) => {
-            response.json(requests);
-          }).catch(error=> console.log(error));
-        })
+      `).then(({ rows: requests }) => {
+        response.json(requests);
+      }).catch(error=> console.log(error));
+    })
 
-// //get to  all posts opp
-// app.get('/posts', (request, response) => {
-//   db.query(
-//           `SELECT * FROM  opportunities;
+    // //get to  all posts opp
+    // app.get('/posts', (request, response) => {
+    //   db.query(
+    //           `SELECT * FROM  opportunities;
 
-  //           `).then(({ rows: posts }) => {
-  //             response.json(posts);
-  //           }).catch(error=> console.log(error));
-  //         })
+    //           `).then(({ rows: posts }) => {
+    //             response.json(posts);
+    //           }).catch(error=> console.log(error));
+    //         })
 
 
-
-  // server.post('/login', passport.authenticate('local'), (req, res, next) => {
-  //   if (req.user) {
-  //       let redir = { redirect: "/" };
-  //       return res.json(redir);
-  // } else {
-  //       let redir = { redirect: '/login'};
-  //       return res.json(redir);
-  // }
-  // })
+    //Axios GET for take latitude and longitude from the database and display in the map
+    // app.get('/index',(request, response)=>{
+    //   db.query(`SELECT latitude, longitude
+    //   FROM users
+    //   WHERE latitude = $1 AND
+    //   WHERE longitude = $2;`,[lat, lng])
+    //   .then(data => {
+    //     const newUser = data.rows[0];
+    //     // eslint-disable-next-line camelcase
+    //     request.session.user_id = newUser.id;
+    //     response.statusCode = 200;
+    //     response.json({ user: user });
+    //   });
