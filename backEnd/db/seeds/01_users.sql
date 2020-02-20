@@ -11,9 +11,9 @@ INSERT INTO users (id, name, address, password,type, phone_number,email ) VALUES
 
 
 
-INSERT INTO opportunities (id, type, description, title, date_posted,user_id, address) VALUES
-(1, 'science', 'volunteer1', 'title1', 'Mar, 01 2020',5,'fake address 1'),
-(2, 'science', 'volunteer2', 'title1', 'Mar, 01 2020',4,'fake address 2'),
-(3, 'science', 'volunteer3', 'title1', 'Mar, 01 2020',3,'fake address 3'),
-(4, 'science', 'volunteer4', 'title1', 'Mar, 01 2020',2,'fake address 4'),
-(5, 'science', 'volunteer5', 'title1', 'Mar, 01 2020',1,'fake address 5');
+INSERT INTO opportunities (type, description, title, date_posted,user_id, address) VALUES
+( 'science', 'volunteer1', 'title1', 'Mar, 01 2020',5,'fake address 1'),
+( 'science', 'volunteer2', 'title1', 'Mar, 01 2020',4,'fake address 2'),
+('science', 'volunteer3', 'title1', 'Mar, 01 2020',3,'fake address 3'),
+('science', 'volunteer4', 'title1', 'Mar, 01 2020',2,'fake address 4'),
+( 'science', 'volunteer5', 'title1', 'Mar, 01 2020',1,'fake address 5');

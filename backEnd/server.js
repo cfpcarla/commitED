@@ -138,17 +138,34 @@ app.get('/posts', (request, response) => {
     db.query(`INSERT INTO opportunities(type, description, title, date_posted, user_id, address,longitude, latitude) VALUES($1,$2,$3,to_timestamp($4),$5,$6,$7,$8) RETURNING *;`,
     [request.body.type,request.body.description, request.body.title, request.body.date_posted, request.body.user_id, request.body.address, request.body.longitude, request.body.latitude]
     ).then(({ rows: newPosts }) => {
-      response.json(newPosts);
-    }).catch(error=> console.log(error));
+console.log('newposts in 2 db q',newPosts[0].id)
+  return db.query(`INSERT INTO requests(opportunity_id, user_id) VALUES($1,$2) RETURNING *;`,
+  [newPosts[0].id,request.body.user_id]
+  )
+  }).then(({ rows: newRequests }) => {
+    response.json(newRequests);
+  }).catch(error=> console.log(error));
   })
 
 
 
 
-  // //get to  all posts opp
-  // app.get('/posts', (request, response) => {
-  //   db.query(
-  //           `SELECT * FROM  opportunities;
+
+
+
+app.get('/requests', (request, response) => {
+  db.query(
+          `SELECT * FROM  requests;
+
+          `).then(({ rows: requests }) => {
+            response.json(requests);
+          }).catch(error=> console.log(error));
+        })
+
+// //get to  all posts opp
+// app.get('/posts', (request, response) => {
+//   db.query(
+//           `SELECT * FROM  opportunities;
 
   //           `).then(({ rows: posts }) => {
   //             response.json(posts);
