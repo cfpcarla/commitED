@@ -6,6 +6,10 @@ import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Email from "@material-ui/icons/Email";
 import People from "@material-ui/icons/People";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Check from "@material-ui/icons/Check";
+
 // core components
 import Button from "../CustomButtons/Button";
 import Card from "../Card/Card";
@@ -28,6 +32,7 @@ export default function RegisterPage(props) {
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
+  const [checked, setChecked] = React.useState([24, 22]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -37,7 +42,8 @@ export default function RegisterPage(props) {
     address: e.target.address.value,
     phone: e.target.phone.value,
     email: e.target.email.value,
-    password: e.target.pass.value
+    password: e.target.pass.value,
+    type: checked.indexOf(21) === -1 ? 'volunteer' : 'service_provider'
   })
   )
   .then(function (response) {
@@ -53,6 +59,18 @@ export default function RegisterPage(props) {
     window.location = "/register"
   });
   }
+
+  const handleToggle = value => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+    setChecked(newChecked);
+  };
 
   //RETURN
   return (
@@ -160,6 +178,30 @@ export default function RegisterPage(props) {
                   autoComplete: "off"
                 }}
                 />
+                <div
+                className={
+                  classes.checkboxAndRadio +
+                  " " +
+                  classes.checkboxAndRadioHorizontal
+                }
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      tabIndex={-1}
+                      onClick={() => handleToggle(21)}
+                      checkedIcon={<Check className={classes.checkedIcon} />}
+                      icon={<Check className={classes.uncheckedIcon} />}
+                      classes={{
+                        checked: classes.checked,
+                        root: classes.checkRoot
+                      }}
+                    />
+                  }
+                  classes={{ label: classes.label, root: classes.labelRoot }}
+                  label="Are you an Organization looking for volunteers?"
+                />
+              </div>
                 </CardBody>
                 <CardFooter className={classes.cardFooter}>
                 <Button type="submit" simple color="primary" size="lg">
