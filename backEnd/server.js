@@ -9,9 +9,11 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const cookieSession = require('cookie-session');
 const { Pool } = require('pg');
-const dbParams = require('./lib/db.js');
+const db = require('./lib/db.js');
 
+const dbParams = db.dbParams;
 console.log(dbParams)
+// REMOVE THIS WHEN EVERYTHING IS IN db.js
 const db = new Pool(dbParams);
 db.connect();
 app.use(morgan('dev'));
@@ -121,13 +123,8 @@ app.post('/register', (request, response) => {
   });
 });
 
-//why???
-//get to  all posts opp
 app.get('/posts', (request, response) => {
-  db.query(
-    `SELECT * FROM  opportunities;
-
-    `).then(({ rows: posts }) => {
+db.showPosts.then(({ rows: posts }) => {
       response.json(posts);
     }).catch(error=> console.log(error));
   })
@@ -135,51 +132,23 @@ app.get('/posts', (request, response) => {
 
 
   app.post('/posts/new',(request, response)=>{
-    db.query(`INSERT INTO opportunities(type, description, title, date_posted, user_id, address,longitude, latitude) VALUES($1,$2,$3,to_timestamp($4),$5,$6,$7,$8) RETURNING *;`,
-    [request.body.type,request.body.description, request.body.title, request.body.date_posted, request.body.user_id, request.body.address, request.body.longitude, request.body.latitude]
-    ).then(({ rows: newPosts }) => {
-console.log('newposts in 2 db q',newPosts[0].id)
-  return db.query(`INSERT INTO requests(opportunity_id, user_id) VALUES($1,$2) RETURNING *;`,
-  [newPosts[0].id,request.body.user_id]
-  )
-  }).then(({ rows: newRequests }) => {
-    response.json(newRequests);
+   db.createPost(request.body.type,request.body.description, request.body.title, request.body.date_posted, request.body.user_id, request.body.address, request.body.longitude, request.body.latitude)
+    .then(({ rows: newPosts }) => {
   }).catch(error=> console.log(error));
   })
 
 
 
-
+  app.post('/requests/new',(request, response)=>{
+  db.createRequest(request.body.opportunity_id,request.body.user_id, request.body.status).then(({ rows: newRequests }) => {
+    response.json(newRequests);
+  }).catch(error=> console.log(error)); })
 
 
 
 app.get('/requests', (request, response) => {
-  db.query(
-          `SELECT * FROM  requests;
-
-          `).then(({ rows: requests }) => {
+  db.showRequests(request.body.user.id, request.body.opportunity.id).then(({ rows: requests }) => {
             response.json(requests);
           }).catch(error=> console.log(error));
         })
 
-// //get to  all posts opp
-// app.get('/posts', (request, response) => {
-//   db.query(
-//           `SELECT * FROM  opportunities;
-
-  //           `).then(({ rows: posts }) => {
-  //             response.json(posts);
-  //           }).catch(error=> console.log(error));
-  //         })
-
-
-
-  // server.post('/login', passport.authenticate('local'), (req, res, next) => {
-  //   if (req.user) {
-  //       let redir = { redirect: "/" };
-  //       return res.json(redir);
-  // } else {
-  //       let redir = { redirect: '/login'};
-  //       return res.json(redir);
-  // }
-  // })
