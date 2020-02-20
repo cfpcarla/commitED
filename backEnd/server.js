@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const cookieSession = require('cookie-session');
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
+const axios = require('axios');
 
 console.log(dbParams)
 const db = new Pool(dbParams);
@@ -93,7 +94,7 @@ app.post('/register', (request, response) => {
       response.statusCode = 400;
       response.end('400 Bad request. Email already registered');
     } else {
-      const apiKey = GOOGLEAPIKEY;
+      const apiKey = process.env.GOOGLEAPIKEY;
       return axios({
         method: 'get',
         url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
@@ -103,8 +104,9 @@ app.post('/register', (request, response) => {
       .then(function (locationResponse) {
         console.log("gmap response", locationResponse.data);
         const { lat, lng } = locationResponse.data.results[0].geometry.location;
-        return db.query(`INSERT INTO users(name, address, phone, email, password, type,latitude, longitude) VALUES($1,$2,$3,$4,$5,$6,$7, $8) RETURNING *;`,
-        [request.body.name, request.body.address, request.body.phone, request.body.email, hashedPassword, request.body.type, lat, lng])
+        const temporaryType = "volunteer" // Kill this and use request.body.type when implemented in the frontend
+        return db.query(`INSERT INTO users(name, address, phone_number, email, password, type,latitude, longitude) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *;`,
+        [request.body.name, request.body.address, request.body.phone, request.body.email, hashedPassword, temporaryType, lat, lng])
         .then(data => {
           const newUser = data.rows[0];
           // eslint-disable-next-line camelcase
@@ -115,6 +117,7 @@ app.post('/register', (request, response) => {
       })
       .catch(function (error) {
         response.statusCode = 500;
+        console.log(error)
         response.end("error")
       })
     }
