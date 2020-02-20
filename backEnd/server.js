@@ -12,10 +12,7 @@ const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 const axios = require('axios');
 const db = require('./lib/db.js');
-const cookieSession = require("cookie-session");
 
-const dbParams = db.dbParams;
-console.log(dbParams);
 
 app.use(morgan("dev"));
 
@@ -112,7 +109,7 @@ app.post("/api/register", (request, response) => {
         response.statusCode = 200;
         response.json({ user: user });
       });
-    }
+    })
   console.log({ body: request.body })
   db.getEmail(request.body.email)
     .then(data => {
