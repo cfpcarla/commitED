@@ -2,7 +2,7 @@ DELETE FROM opportunities;
 
 DELETE FROM users;
 
-INSERT INTO users (id, name, address, password,type, phone_number,email ) VALUES
+INSERT INTO users (name, address, password,type, phone_number,email ) VALUES
 ( 'Kira1','fake address one', 'password1','volunteer', 416232332,'a@a.com'),
 ( 'Kira2','fake address 2' ,'password5', 'service provider', 32332332,'b@a.com'),
 ( 'Kira3', 'fake address 3','password3','volunteer',75567700,'c@a.com'),
