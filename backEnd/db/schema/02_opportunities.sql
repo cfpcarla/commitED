@@ -7,7 +7,7 @@ CREATE TABLE opportunities (
   description VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
   date_posted DATE NOT NULL,
-  user_id INT NOT NULL,
+  user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   address VARCHAR(255) NOT NULL,
   longitude VARCHAR(255),
   latitude VARCHAR(255)
