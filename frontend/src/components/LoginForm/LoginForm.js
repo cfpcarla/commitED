@@ -34,7 +34,7 @@ export default function LoginPage(props) {
     e.preventDefault();
 
       // POST LOGIN
-      axios.post('http://localhost:8080/login', qs.stringify({
+      axios.post('/api/login', qs.stringify({
         email: e.target.email.value,
         password: e.target.pass.value
       })
@@ -42,7 +42,7 @@ export default function LoginPage(props) {
     .then(function (response) {
       let userid = 1 //response.data.user.id cosoe.log respose data
       localStorage.setItem({'user_id': userid})
-      console.log(response);
+      console.log("this is the response -->",response);
       if (response.status === 200) {
         window.location = "/index"
       } else {
