@@ -55,15 +55,18 @@ const createUser = (name, address, phone,email, hashedPassword, type, lat, lng) 
  return  db.query(`INSERT INTO users(name, address, phone_number, email, password, type,latitude, longitude) VALUES($1,$2,$3,$4,$5,$6,$7, $8) RETURNING *;`,
         [name, address, phone,email, hashedPassword, type, lat, lng])
 }
+//vol/user
 const getUserLatAndLng = (userId) => {
   return db.query(`SELECT latitude, longitude
                     FROM users
                     WHERE id = $1;`, [userId])
 }
-const getOpportunityLatAndLng = (opportunityId) => {
+
+//service provider
+const getOpportunityLatAndLng = (userId) => {
   return db.query(`SELECT latitude, longitude
-                    FROM opportunities
-                    WHERE id = $1;`, [opportunityId])
+                    FROM opportunities`)
+
 }
 
 module.exports = { dbParams, createRequest, showRequests, createPost, showPosts,login, getEmail, createUser, getUserLatAndLng, getOpportunityLatAndLng };
