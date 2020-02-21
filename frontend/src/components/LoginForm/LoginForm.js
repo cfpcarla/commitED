@@ -35,7 +35,7 @@ export default function LoginPage(props) {
 
       //Integration axios post with server
       // POST LOGIN
-    axios.post('http://localhost:8080/login', qs.stringify({
+    axios.post('/api/login', qs.stringify({
       email: e.target.email.value,
       password: e.target.pass.value
     }))
