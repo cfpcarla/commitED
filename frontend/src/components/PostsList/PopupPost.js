@@ -22,7 +22,7 @@ import GridItem from "../Grid/GridItem.js";
 // import Button from "../CustomButtons/Button";
 import LoginForm from '../LoginForm/LoginForm'
 import styles from "../../assets/jss/material-kit-react/views/componentsSections/javascriptStyles"
-
+import axios from 'axios'
 const useStyles = makeStyles(styles);
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -33,6 +33,21 @@ Transition.displayName = "Transition";
 
 export default function PopUpLogin(props) {
   const classes = useStyles();
+  const [state, setState] = useState( {
+    type:'',
+    description:"",
+    title:'',
+    date_posted:Date.now(),
+    user_id: 1, //organization_id goes in here
+    address:''
+  })
+
+  function applyPost (event)  {
+  event.preventDefault()
+   axios.post(`http://localhost:8080/`, state).then(res => { //new route goes in here
+     setState(res.data);
+   });
+ }
 
   return (
     <div width="25%" height='50%'>
@@ -43,10 +58,10 @@ export default function PopUpLogin(props) {
               root: classes.center,
               paper: classes.modal
             }}
-            open={props.classicModal}
+            open={props.postsModal}
             TransitionComponent={Transition}
             keepMounted
-            onClose={() => props.setClassicModal(false)}
+            onClose={() => props.setPostsModal(false)}
             aria-labelledby="classic-modal-slide-title"
             aria-describedby="classic-modal-slide-description"
           >
@@ -60,11 +75,11 @@ export default function PopUpLogin(props) {
                 key="close"
                 aria-label="Close"
                 color="inherit"
-                onClick={() => props.setClassicModal(false)}
+                onClick={() => props.setPostsModal(false)}
               >
                 <Close className={classes.modalClose} />
               </IconButton>
-              <h4 className={classes.modalTitle}>Login/Register</h4>
+              <h4 className={classes.modalTitle}>Post</h4>
             </DialogTitle>
             <DialogContent
               id="classic-modal-slide-description"
@@ -72,27 +87,24 @@ export default function PopUpLogin(props) {
             >
               <div>
                 <div>
-                  <Button
-                    color="info"
-                    block
-                  // onClick={() => props.setClassicModal(true)}
-                  >Login</Button>
-                  <Button
-                    color="success"
-                    block
-                  // onClick={() => props.setClassicModal(true)}
-                  >Register</Button>
+                  <div>
+                    <ul>Title: {props.title}</ul>
+                    <ul> Description: {props.description} </ul>
+                    <ul> Date:{props.date}</ul>
+                  </div>
                 </div>
-                <LoginForm  error={props.error} setError={props.setError}  />
-                <RegisterForm />
+                <div>
+                  <Button
+                    color="sucess"
+                    block
+                    onClick={applyPost} type="submit"
+                  >Apply</Button>
+                </div>
               </div>
             </DialogContent>
             <DialogActions className={classes.modalFooter}>
-              <Button color="transparent" simple>
-                Nice Button
-            </Button>
               <Button
-                onClick={() => props.setClassicModal(false)}
+                onClick={() => props.setPostsModal(false)}
                 color="danger"
                 simple>
                 Close

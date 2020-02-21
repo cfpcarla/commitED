@@ -44,6 +44,7 @@ app.post("/api/login", (request, response) => {
     .then(data => {
       const user = data.rows[0];
       if (!user) {
+        //error component
         return response.status(403).json({ message: "Email cannot be found"});
       }
 
@@ -121,8 +122,11 @@ db.showPosts()
 
 //APP POST
 app.post("/api/posts/new", (request, response) => {
+  // TODO: NOT WORKING - For opportunities
+  console.log("HELLO WORLD")
   const apiKey = process.env.GOOGLEAPIKEY;
-
+  console.log(apiKey);
+  console.log(request.body.address)
   axios({
       method: 'get',
       url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
