@@ -3,13 +3,14 @@ import Button from "../../components/CustomButtons/Button"
 
 export default function Posts(props) {
   return (
-    <Button
+    <Button justify-content='left'
     color="info"
-    block >
-    <div>
+    block
+    onClick={() => props.setPostsModal(true)}
+    >
+    <div >
       <ul>{props.title}</ul>
       <ul> {props.description} </ul>
-      <ul> {props.date}</ul>
     </div>
     </Button>
   );

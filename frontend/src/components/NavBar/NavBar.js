@@ -9,6 +9,21 @@ export default function NavBar(props) {
   //defines the State of the button
 
   const rightLinks = [
+//     // if cookie is present{
+// //<div>
+// {/* <Button
+// color="primary"
+// block
+// onClick={() => insert badass logic here}
+// >Logout</Button> */}
+// {/* <Button
+// color="primary"
+// block
+// onClick={() => props.setHistoryModal(true)}
+// >History</Button>
+// </div> */}
+// //} else {}
+// //
 //if cookie is present {
 //   <Button
 //     color="primary"
@@ -23,13 +38,8 @@ export default function NavBar(props) {
     block
     onClick={() => props.setClassicModal(true)}
     >Login/Register</Button>
-
-    <Button
-    color="primary"
-    block
-    onClick={() => props.setHistoryModal(true)}
-    >History</Button>
     </div>
+
   ];
 
   return (
