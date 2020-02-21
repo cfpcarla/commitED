@@ -15,7 +15,7 @@ export default function PostsList(props) {
   });
   const volunteerPosts = posts;
   let postList;
-  if (props.userStatus && props.user.id) {
+  if (props.userStatus && props.user.id && (props.user.type === "service_provider")) {
     postList = serviceProviderPosts;
   } else {
     postList = volunteerPosts;
