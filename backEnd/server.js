@@ -197,11 +197,10 @@ app.get("/api/user/:userId/get-lat-and-lng", (request, response) => {
 
 // get latitude and longitude of an opportunity from the database
 // Still not using this endpoint, but it works. Check: http://localhost:8080/api/opportunity/8/get-lat-and-lng in the browser
-app.get("/api/opportunity/:opportunityId/get-lat-and-lng", (request, response) => {
-  db.getOpportunityLatAndLng(request.params.opportunityId)
-    .then(({ rows: getLatAndLng }) => {
-      console.log(getLatAndLng)
-      response.json(getLatAndLng);
+app.get("/api/opportunity/:userId/get-lat-and-lng", (request, response) => {
+  db.getOpportunityLatAndLng(request.params.userId)
+    .then(({ rows }) => {
+      response.json({rows: rows});
     })
     .catch(error => {
       console.log(error)
