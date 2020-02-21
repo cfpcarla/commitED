@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from "axios";
+import axios from 'axios';
 
 const mapStyles = {
   map: {
@@ -9,20 +9,18 @@ const mapStyles = {
     height: '50%'
   }
 };
-//make our component stateful,
+
 export class CurrentLocation extends React.Component {
   constructor(props) {
     super(props);
 
     const { lat, lng } = this.props.initialCenter;
-     //I dont know if is necessary/ how to pass this
     this.state = {
       currentLocation: {
         lat: lat,
         lng: lng
       }
     };
-    //Axios GET for take latitude and longitude from the database and display in the map
   }
 
   //ComponentDidUpdate
@@ -34,6 +32,7 @@ export class CurrentLocation extends React.Component {
       this.recenterMap();
     }
   }
+
   //Recenter map
   recenterMap() {
     const map = this.map;
@@ -47,49 +46,27 @@ export class CurrentLocation extends React.Component {
       map.panTo(center);
     }
   }
-//This will be handled by the componentDidMount() Lifecycle method which will set a call back to fetch the current location.
-//Coomponent DipMount
-
 
   //axioos get foor take lat and lng from database
-//feth lat and lng base in id
+  //fetch lat and lng base in id
   componentDidMount() {
-    console.log("YA");
-    // axios.get(`http://localhost:8080/map`).then(res => {
-    //   console.log('Hello', res);
+    const user_id = localStorage.getItem('user_id');
+    axios.get(`/api/user/${user_id}/get-lat-and-lng`)
+    .then(res => {
+      const { latitude, longitude } = res.data[0];
 
-    //   // pseude-code
+      this.setState({
+        currentLocation: {
+          lat: latitude,
+          lng: longitude
+        }
+      });
+    });
 
-    //   const data = res.data;
-
-    //   this.setState({
-    //     currentLocation: {
-    //       lat: data.coords.latitude,
-    //       lng: data.coords.longitude
-    //     }
-    //   });
-    // });
-
-
-//look after
-    if (this.props.centerAroundCurrentLocation) {
-      if (navigator && navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-          const coords = pos.coords;
-          this.setState({
-            currentLocation: {
-              lat: coords.latitude,
-              lng: coords.longitude
-            }
-          });
-        });
-      }
-    }
     this.loadMap();
   }
 
   //Load Map
-  //The loadMap() function is only called after the component has been rendered and grabs a reference to the DOM component to where we want our map to be placed
   loadMap() {
     if (this.props && this.props.google) {
       // checks if google is available

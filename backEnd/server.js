@@ -13,7 +13,6 @@ const dbParams = require('./lib/db.js');
 const axios = require('axios');
 const db = require('./lib/db.js');
 
-
 app.use(morgan("dev"));
 
 app.set("view engine", "ejs");
@@ -41,11 +40,9 @@ app.listen(PORT, () => {
 //POST login
 app.post("/api/login", (request, response) => {
   // check if user exists in database
-
   db.login(request.body.email)
     .then(data => {
       const user = data.rows[0];
-
       if (!user) {
         //error component
         return response.status(403).json({ message: "Email cannot be found"});
@@ -57,7 +54,6 @@ app.post("/api/login", (request, response) => {
       }
 
       // if everything is good
-      request.session.user_id = user.id;
       response.json({ user });
     })
     .catch(err => {
@@ -83,108 +79,131 @@ app.post("/api/register", (request, response) => {
     response.status(400).json({ message: "Missing email or password" });
     return;
   }
-
-
-
-    // //get to  all posts opp
-    // app.get('/posts', (request, response) => {
-    //   db.query(
-    //           `SELECT * FROM  opportunities;
-
-    //           `).then(({ rows: posts }) => {
-    //             response.json(posts);
-    //           }).catch(error=> console.log(error));
-    //         })
-
-  //get latitude and longitude from the database
-   // Axios GET for take latitude and longitude from the database and display in the map
-    app.get('/map',(request, response)=>{
-      db.query(`SELECT id, latitude, longitude
-      FROM users
-      WHERE latitude = $1 AND
-      WHERE longitude = $2;`,[lat, lng])
-      .then(data => {
-        const newUser = data.rows[0];
-        // eslint-disable-next-line camelcase
-        request.session.user_id = newUser.id;
-        response.statusCode = 200;
-        response.json({ user: user });
-      });
-    })
-  console.log({ body: request.body })
   db.getEmail(request.body.email)
-    .then(data => {
-      console.log({ data });
-      const user = data.rows[0];
-      if (user) {
-        return response.status(400).json({ message: "Email already registered" });
-      }
-
+  .then(data => {
+    console.log({ data });
+    const user = data.rows[0];
+    if (user) {
+      return response.status(400).json({ message: "Email already registered" });
+    } else {
       const apiKey = process.env.GOOGLEAPIKEY;
-      return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`);
-    })
-    .then(function(locationResponse) {
-      console.log("gmap response", locationResponse.data);
-      const { lat, lng } = locationResponse.data.results[0].geometry.location;
-      return db.createUser(request.body.name, request.body.address, request.body.phone,request.body.email, hashedPassword, request.body.type, lat, lng);
-    })
-    .then(data => {
-      const newUser = data.rows[0];
-      // eslint-disable-next-line camelcase
-      request.session.user_id = newUser.id;
-      response.statusCode = 200;
-      response.end(`success. user: ${newUser}`);
-      return true;
-    })
-    .catch(function(error) {
-      console.log({ error });
-
-      // if (error === "done") {
-      //   return;
-      // }
-      response.status(500).json({ error });
-    });
+      return axios({
+        method: 'get',
+        url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
+        responseType: 'json'
+      }).then(function(locationResponse) {
+        const { lat, lng } = locationResponse.data.results[0].geometry.location;
+        db.createUser(request.body.name, request.body.address, request.body.phone,request.body.email, hashedPassword, request.body.type, lat, lng)
+        .then(data => {
+          const newUser = data.rows[0];
+          // eslint-disable-next-line camelcase
+          request.session.user_id = newUser.id;
+          response.statusCode = 200;
+          response.json({ user: newUser });
+          return true;
+        });
+      })
+      .catch(function(error) {
+        console.log({ error });
+        response.status(500).json({ error });
+      });
+    }
+  });
 });
 
+//APP GET
 app.get("/api/posts", (request, response) => {
-  db.showPosts()
-    .then(({ rows: posts }) => {
-      response.json(posts);
-    })
-    .catch(error => console.log(error));
+db.showPosts()
+.then(({ rows: posts }) => {
+  response.json(posts);
+})
+.catch(error => console.log(error));
 });
 
+//APP POST
 app.post("/api/posts/new", (request, response) => {
-  db.createPost(
-    request.body.type,
-    request.body.description,
-    request.body.title,
-    request.body.date_posted,
-    request.body.user_id,
-    request.body.address,
-    request.body.longitude,
-    request.body.latitude
-  )
-    .then(({ rows: newPosts }) => {})
-    .catch(error => console.log(error));
+  // TODO: NOT WORKING - For opportunities
+  console.log("HELLO WORLD")
+  const apiKey = process.env.GOOGLEAPIKEY;
+  console.log(apiKey);
+  console.log(request.body.address)
+  axios({
+      method: 'get',
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
+      responseType: 'json'
+    }).then(function(locationResponse) {
+      console.log("gmap response", locationResponse.data);
+
+      const { lat, lng } = locationResponse.data.results[0].geometry.location;
+      db.createPost(
+        request.body.type,
+        request.body.description,
+        request.body.title,
+        request.body.date_posted,
+        request.body.user_id,
+        request.body.address,
+        lng,
+        lat
+        )
+        .then(({ rows: newPosts }) => { response.json("ok")})
+        .catch(error => console.log(error));
+    })
 });
 
+//APP POST
 app.post("/api/requests/new", (request, response) => {
   db.createRequest(
     request.body.opportunity_id,
     request.body.user_id,
     request.body.status
-  )
+    )
     .then(({ rows: newRequests }) => {
       response.json(newRequests);
     })
     .catch(error => console.log(error));
 });
 
+//APP GET
 app.get("/api/requests", (request, response) => {
   db.showRequests(request.body.user.id, request.body.opportunity.id)
-    .then(({ rows: requests }) => {
-      response.json(requests);
+  .then(({ rows: requests }) => {
+    response.json(requests);
+  })
+  .catch(error => console.log(error));
+});
+
+  // //get to  all posts opp
+  // app.get('/posts', (request, response) => {
+  //   db.query(
+  //           `SELECT * FROM  opportunities;
+
+  //           `).then(({ rows: posts }) => {
+  //             response.json(posts);
+  //           }).catch(error=> console.log(error));
+  //         })
+
+
+// get latitude and longitude of a user from the database
+app.get("/api/user/:userId/get-lat-and-lng", (request, response) => {
+  db.getUserLatAndLng(request.params.userId)
+    .then(({ rows: getLatAndLng }) => {
+      console.log(getLatAndLng)
+      response.json(getLatAndLng);
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      console.log(error)
+    });
+});
+
+// get latitude and longitude of an opportunity from the database
+// Still not using this endpoint, but it works. Check: http://localhost:8080/api/opportunity/8/get-lat-and-lng in the browser
+app.get("/api/opportunity/:opportunityId/get-lat-and-lng", (request, response) => {
+  db.getOpportunityLatAndLng(request.params.opportunityId)
+    .then(({ rows: getLatAndLng }) => {
+      console.log(getLatAndLng)
+      response.json(getLatAndLng);
+    })
+    .catch(error => {
+      console.log(error)
+    });
 });

@@ -28,29 +28,25 @@ export default function CreatePosts(props) {
     user_id: 1, //organization_id goes in here
     address:''
   })
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
 
+  //     type:'',
+  //     description:"",
+  //     title:'',
+  //     date_posted:Date.now(),
+  //     user_id: 1, //organization_id goes in here
+  //     address:''
 
-export default class CreatePosts extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-
-      type:'',
-      description:"",
-      title:'',
-      date_posted:Date.now(),
-      user_id: props.user,
-      address:''
-
-    };
-    this.newPost = this.newPost.bind(this)//refers to component not function itself
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-   newPost (event)  {
+  //   };
+  //   this.newPost = this.newPost.bind(this)//refers to component not function itself
+  //   this.handleInputChange = this.handleInputChange.bind(this);
+  // }
+  function newPost (event)  {
      event.preventDefault()
-    axios.post(`/api/posts/new`, this.state).then(res => {
-      this.setState(res.data);
+    axios.post(`/api/posts/new`, state).then(res => {
+      setState(res.data);
     });
   }
 
