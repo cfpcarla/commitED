@@ -49,6 +49,7 @@ export default function RegisterPage(props) {
   .then(function (response) {
     console.log(response);
     if (response.status === 200) {
+      localStorage.setItem('user_id', response.data.user.id)
       window.location = "/index"
     } else {
       window.location = "/register"

@@ -96,8 +96,6 @@ app.post("/api/register", (request, response) => {
         url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
         responseType: 'json'
       }).then(function(locationResponse) {
-        console.log("gmap response", locationResponse.data);
-
         const { lat, lng } = locationResponse.data.results[0].geometry.location;
         db.createUser(request.body.name, request.body.address, request.body.phone,request.body.email, hashedPassword, request.body.type, lat, lng)
         .then(data => {
@@ -105,7 +103,7 @@ app.post("/api/register", (request, response) => {
           // eslint-disable-next-line camelcase
           request.session.user_id = newUser.id;
           response.statusCode = 200;
-          response.end(`success. user: ${newUser}`);
+          response.json({ user: newUser });
           return true;
         });
       })
