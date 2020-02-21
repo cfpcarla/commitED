@@ -85,9 +85,6 @@ app.post("/api/register", (request, response) => {
     response.status(400).json({ message: "Missing email or password" });
     return;
   }
-  console.log({ body: request.body })
-  console.log(">>>>>>>")
-  console.log(request.body.email)
   db.getEmail(request.body.email)
   .then(data => {
     console.log({ data });
@@ -133,18 +130,29 @@ db.showPosts()
 
 //APP POST
 app.post("/api/posts/new", (request, response) => {
-db.createPost(
-  request.body.type,
-  request.body.description,
-  request.body.title,
-  request.body.date_posted,
-  request.body.user_id,
-  request.body.address,
-  request.body.longitude,
-  request.body.latitude
-  )
-  .then(({ rows: newPosts }) => {})
-  .catch(error => console.log(error));
+  const apiKey = process.env.GOOGLEAPIKEY;
+
+  axios({
+      method: 'get',
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
+      responseType: 'json'
+    }).then(function(locationResponse) {
+      console.log("gmap response", locationResponse.data);
+
+      const { lat, lng } = locationResponse.data.results[0].geometry.location;
+      db.createPost(
+        request.body.type,
+        request.body.description,
+        request.body.title,
+        request.body.date_posted,
+        request.body.user_id,
+        request.body.address,
+        lng,
+        lat
+        )
+        .then(({ rows: newPosts }) => { response.json("ok")})
+        .catch(error => console.log(error));
+    })
 });
 
 //APP POST
@@ -180,19 +188,27 @@ app.get("/api/requests", (request, response) => {
   //         })
 
 
-//get latitude and longitude from the database
-// Axios GET for get latitude and longitude from the database and display in the map
+// get latitude and longitude of a user from the database
 app.get("/api/user/:userId/get-lat-and-lng", (request, response) => {
-  console.log("OIEEE")
-  debugger;
-  db.getLatAndLng(request.params.userId)
+  db.getUserLatAndLng(request.params.userId)
     .then(({ rows: getLatAndLng }) => {
-      debugger;
       console.log(getLatAndLng)
       response.json(getLatAndLng);
     })
     .catch(error => {
-      debugger;
+      console.log(error)
+    });
+});
+
+// get latitude and longitude of an opportunity from the database
+// Still not using this endpoint, but it works. Check: http://localhost:8080/api/opportunity/8/get-lat-and-lng in the browser
+app.get("/api/opportunity/:opportunityId/get-lat-and-lng", (request, response) => {
+  db.getOpportunityLatAndLng(request.params.opportunityId)
+    .then(({ rows: getLatAndLng }) => {
+      console.log(getLatAndLng)
+      response.json(getLatAndLng);
+    })
+    .catch(error => {
       console.log(error)
     });
 });
