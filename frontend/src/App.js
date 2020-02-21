@@ -16,23 +16,21 @@ import axios from "axios";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-
   },
   paper: {
-    height: '50%',
+    height: '100%',
     width:'50%',
-    padding: '5%',
-    textAlign: 'left',
-    justifyContent: "left"
+    padding: theme.spacing(2),
+    textAlign: 'center',
   },
 }));
 
 export default function App() {
-  const [ posts, setPosts ] = useState([]);
+  const [posts, setPosts] = useState([]);
+
 
   useEffect( () => {
-    axios.get(`http://localhost:8080/posts`).then(res => {
-      console.log(res.data);
+    axios.get(`/api/posts`).then(res => {
       setPosts(res.data);
     });
   }, []); //make a function to get called after a new post
@@ -58,8 +56,6 @@ export default function App() {
         <div>
           <PopupHistory historyModal={historyModal} setHistoryModal={setHistoryModal} /*show={show} error = {error} setError= {setError}*//>
         </div>
-
-
         <Box>
         <CreatePosts /*error = {error} setError= {setError}*//>
         </Box>
@@ -78,19 +74,22 @@ export default function App() {
             {" "}
           </Box>
           <Box>
-          <CreatePosts/>
-          </Box>
-        </Grid>
-      </Container>
-      </Box>
+            {/* <RegisterForm/> */}
+          {/*</div></Box>*/}
+          </div>
+          <Box>
+          <Paper>
+            {" "}
+            <PostsList posts={posts} />{" "}
+          </Paper>          </Box>
+<br/>
 
-if USER */}
-        <Box>
-        <Container className={classes.root}>
+
+      <Container className={classes.root}>
         <Grid
           container
           direction="row"
-          justify-content="left" //try justify
+          justify="left" //try justify
           alignItems="stretch">
           <Box className={classes.paper} >
             {" "}
@@ -102,10 +101,8 @@ if USER */}
           </Box>
         </Grid>
       </Container>
-      </Box>
-      </div>
+
     </div>
   );
 };
-
 

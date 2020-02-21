@@ -37,7 +37,7 @@ export default function RegisterPage(props) {
   function handleSubmit(e) {
     e.preventDefault();
     //Register
-    axios.post('http://localhost:8080/register', qs.stringify({
+    axios.post('/api/register', qs.stringify({
     name: e.target.first.value,
     address: e.target.address.value,
     phone: e.target.phone.value,
@@ -49,6 +49,7 @@ export default function RegisterPage(props) {
   .then(function (response) {
     console.log(response);
     if (response.status === 200) {
+      localStorage.setItem('user_id', response.data.user.id)
       window.location = "/index"
     } else {
       window.location = "/register"

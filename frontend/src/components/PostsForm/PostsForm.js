@@ -45,7 +45,7 @@ export default function CreatePosts(props) {
   // }
   function newPost (event)  {
      event.preventDefault()
-    axios.post(`http://localhost:8080/posts/new`, state).then(res => {
+    axios.post(`/api/posts/new`, state).then(res => {
       setState(res.data);
     });
   }

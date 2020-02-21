@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 const ENV = process.env.ENV || "development";
 const express = require("express");
@@ -10,26 +10,27 @@ const bcrypt = require('bcrypt');
 const cookieSession = require('cookie-session');
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
+const axios = require('axios');
+const db = require('./lib/db.js');
+const nodemailer = require('nodemailer');
 
-console.log(dbParams)
-const db = new Pool(dbParams);
-db.connect();
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use(cors());
 
-app.use(cors())
-
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
-}));
+app.use(
+  cookieSession({
+    name: "session",
+    keys: ["key1", "key2"]
+  })
+);
 
 //home
-app.get('/', (request, response) => {
+app.get("/api", (request, response) => {
   response.send("HEllO");
 });
 
@@ -38,134 +39,144 @@ app.listen(PORT, () => {
 });
 
 //POST login
-app.post('/login', (request, response) => {
+app.post("/api/login", (request, response) => {
   // check if user exists in database
-  db.query(`SELECT id, email, password
-      FROM users
-      WHERE email = $1;`, [request.body.email])
+  db.login(request.body.email)
     .then(data => {
       const user = data.rows[0];
       if (!user) {
-        response.statusCode = 403;
-        response.end('403 Forbidden. E-mail cannot be found');
-      } else if (!bcrypt.compareSync(request.body.password, user.password)) {
-        response.statusCode = 403;
-        response.end('403 Forbidden. Wrong password');
-      } else {
-        // eslint-disable-next-line camelcase
-        request.session.user_id = user.id;
-        response.status('ok');
+        //error component
+        return response.status(403).json({ message: "Email cannot be found"});
       }
+
+      // if password doesn't match
+      if (!bcrypt.compareSync(request.body.password, user.password)) {
+        return response.status(403).json({ message: "Wrong password" });
+      }
+
+      // if everything is good
       response.json({ user });
     })
     .catch(err => {
       // render login with error
-      response
-        .status(500)
-        .json({ error: err.message });
+      response.status(500).json({ error: err.message });
     });
 });
 
 //POST LOGOUT
-app.post('/logout', (request, response) => {
+app.post("/api/logout", (request, response) => {
   request.session.user_id = null;
-  response.redirect('/');
+  response.redirect("/");
 });
 
 //POST Register
-app.post('/register', (request, response) => {
+app.post("/api/register", (request, response) => {
   const email = request.body.email;
   const password = request.body.password;
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
 
-  if (email === '' || password === '') {
-    response.statusCode = 400;
-    response.end('400 Bad request. Missing email or password');
+  if (email === "" || password === "") {
+    response.status(400).json({ message: "Missing email or password" });
     return;
   }
-  db.query(`SELECT email
-  FROM users
-  WHERE email = $1;`, [request.body.email])
+  db.getEmail(request.body.email)
   .then(data => {
+    console.log({ data });
     const user = data.rows[0];
     if (user) {
-      response.statusCode = 400;
-      response.end('400 Bad request. Email already registered');
+      return response.status(400).json({ message: "Email already registered" });
     } else {
-      const apiKey = GOOGLEAPIKEY;
+      const apiKey = process.env.REACT_APP_GOOGLEAPIKEY;
       return axios({
         method: 'get',
         url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
         responseType: 'json'
-
-      })
-      .then(function (locationResponse) {
-        console.log("gmap response", locationResponse.data);
+      }).then(function(locationResponse) {
         const { lat, lng } = locationResponse.data.results[0].geometry.location;
-        return db.query(`INSERT INTO users(name, address, phone, email, password, type,latitude, longitude) VALUES($1,$2,$3,$4,$5,$6,$7, $8) RETURNING *;`,
-        [request.body.name, request.body.address, request.body.phone, request.body.email, hashedPassword, request.body.type, lat, lng])
+        db.createUser(request.body.name, request.body.address, request.body.phone,request.body.email, hashedPassword, request.body.type, lat, lng)
         .then(data => {
           const newUser = data.rows[0];
           // eslint-disable-next-line camelcase
           request.session.user_id = newUser.id;
           response.statusCode = 200;
-          response.end(`success. user: ${user}`);
+          response.json({ user: newUser });
+          return true;
         });
       })
-      .catch(function (error) {
-        response.statusCode = 500;
-        response.end("error")
-      })
+      .catch(function(error) {
+        console.log({ error });
+        response.status(500).json({ error });
+      });
     }
   });
 });
 
-//why???
-//get to  all posts opp
-app.get('/posts', (request, response) => {
-  db.query(
-    `SELECT * FROM  opportunities;
+//APP GET
+app.get("/api/posts", (request, response) => {
+db.showPosts()
+.then(({ rows: posts }) => {
+  response.json(posts);
+})
+.catch(error => console.log(error));
+});
 
-    `).then(({ rows: posts }) => {
-      response.json(posts);
-    }).catch(error=> console.log(error));
+//APP POST
+app.post("/api/posts/new", (request, response) => {
+  // TODO: NOT WORKING - For opportunities
+  console.log("HELLO WORLD")
+  const apiKey = process.env.REACT_APP_GOOGLEAPIKEY;
+  console.log(apiKey);
+  console.log(request.body.address)
+  axios({
+      method: 'get',
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
+      responseType: 'json'
+    }).then(function(locationResponse) {
+      console.log("gmap response", locationResponse.data);
+
+      const { lat, lng } = locationResponse.data.results[0].geometry.location;
+      db.createPost(
+        request.body.type,
+        request.body.description,
+        request.body.title,
+        request.body.date_posted,
+        request.body.user_id,
+        request.body.address,
+        lng,
+        lat
+        )
+        .then(({ rows: newPosts }) => { response.json("ok")})
+        .catch(error => console.log(error));
+    })
+});
+
+//APP POST
+app.post("/api/requests/new", (request, response) => {
+  db.createRequest(
+    request.body.opportunity_id,
+    request.body.user_id,
+    request.body.status
+    )
+    .then(({ rows: newRequests }) => {
+      response.json(newRequests);
+    })
+    .catch(error => console.log(error));
+});
+
+//APP GET
+app.get("/api/requests", (request, response) => {
+  db.showRequests(request.body.user.id, request.body.opportunity.id)
+  .then(({ rows: requests }) => {
+    response.json(requests);
   })
+  .catch(error => console.log(error));
+});
 
-
-
-  app.post('/posts/new',(request, response)=>{
-    db.query(`INSERT INTO opportunities(type, description, title, date_posted, user_id, address,longitude, latitude) VALUES($1,$2,$3,to_timestamp($4),$5,$6,$7,$8) RETURNING *;`,
-    [request.body.type,request.body.description, request.body.title, request.body.date_posted, request.body.user_id, request.body.address, request.body.longitude, request.body.latitude]
-    ).then(({ rows: newPosts }) => {
-console.log('newposts in 2 db q',newPosts[0].id)
-  return db.query(`INSERT INTO requests(opportunity_id, user_id) VALUES($1,$2) RETURNING *;`,
-  [newPosts[0].id,request.body.user_id]
-  )
-  }).then(({ rows: newRequests }) => {
-    response.json(newRequests);
-  }).catch(error=> console.log(error));
-  })
-
-
-
-
-
-
-
-app.get('/requests', (request, response) => {
-  db.query(
-          `SELECT * FROM  requests;
-
-          `).then(({ rows: requests }) => {
-            response.json(requests);
-          }).catch(error=> console.log(error));
-        })
-
-// //get to  all posts opp
-// app.get('/posts', (request, response) => {
-//   db.query(
-//           `SELECT * FROM  opportunities;
+  // //get to  all posts opp
+  // app.get('/posts', (request, response) => {
+  //   db.query(
+  //           `SELECT * FROM  opportunities;
 
   //           `).then(({ rows: posts }) => {
   //             response.json(posts);
@@ -173,13 +184,70 @@ app.get('/requests', (request, response) => {
   //         })
 
 
+// get latitude and longitude of a user from the database
+app.get("/api/user/:userId/get-lat-and-lng", (request, response) => {
+  db.getUserLatAndLng(request.params.userId)
+    .then(({ rows: getLatAndLng }) => {
+      console.log(getLatAndLng)
+      response.json(getLatAndLng);
+    })
+    .catch(error => {
+      console.log(error)
+    });
+});
 
-  // server.post('/login', passport.authenticate('local'), (req, res, next) => {
-  //   if (req.user) {
-  //       let redir = { redirect: "/" };
-  //       return res.json(redir);
-  // } else {
-  //       let redir = { redirect: '/login'};
-  //       return res.json(redir);
-  // }
-  // })
+// get latitude and longitude of an opportunity from the database
+// Still not using this endpoint, but it works. Check: http://localhost:8080/api/opportunity/8/get-lat-and-lng in the browser
+app.get("/api/opportunity/:opportunityId/get-lat-and-lng", (request, response) => {
+  db.getOpportunityLatAndLng(request.params.opportunityId)
+    .then(({ rows: getLatAndLng }) => {
+      console.log(getLatAndLng)
+      response.json(getLatAndLng);
+    })
+    .catch(error => {
+      console.log(error)
+    });
+});
+
+//Mailer code
+// const transport = nodemailer.createTransport({
+//   host: 'smtp.mailtrap.io',
+//   port: 2525,
+//   auth: {
+//      user: 'MAILTRAPUSER',
+//      pass: 'MAILTRAPPASS'
+//   }
+//   });
+
+//   app.post("/messages", (req, res) => {
+//     // console.log(req.body)
+//   const message = {
+//       from: {props.email},
+//       to: {props.email},
+//       subject: {props.title},
+//       text: `{user.name} is applying for this position. Please contact {user.name} by {user.telephone} or by {user.email}`
+//       };
+//     transport.sendMail(message, function(err, info) {
+//       if (err) {
+//         console.log(err)
+//       } else {
+//         console.log(info);
+//       }
+//   })
+// });
+
+// app.post('/urls/:shortURL/delete', (request, response) => {
+//   const shortURL = request.params.shortURL;
+//   const URL = urlDatabase[shortURL];
+//   const user = users[request.session.user_id];
+//   if (!user) {
+//     response.statusCode = 403;
+//     response.end("403 Forbidden. Please Login");
+//   } else if (URL.userID !== user.id) {
+//     response.statusCode = 403;
+//     response.end("403 Forbidden. URL belongs to another user");
+//   } else {
+//     delete urlDatabase[shortURL];
+//     response.redirect('/urls');
+//   }
+// });

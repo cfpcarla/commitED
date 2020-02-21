@@ -24,6 +24,14 @@ export default function NavBar(props) {
 // </div> */}
 // //} else {}
 // //
+//if cookie is present {
+//   <Button
+//     color="primary"
+//     block
+//     onClick={() => ponha sua logica aqui}
+//     >Logout</Button>
+// }
+
     <div>
     <Button
     color="primary"

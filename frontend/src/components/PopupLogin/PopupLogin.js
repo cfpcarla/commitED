@@ -26,7 +26,7 @@ import styles from "../../assets/jss/material-kit-react/views/componentsSections
 const useStyles = makeStyles(styles);
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />;
+  return <Slide direction="down" ref={ref} {...props}/>;
 });
 
 Transition.displayName = "Transition";
@@ -83,7 +83,7 @@ export default function PopUpLogin(props) {
                   // onClick={() => props.setClassicModal(true)}
                   >Register</Button>
                 </div>
-                <LoginForm />
+                <LoginForm  error={props.error} setError={props.setError}  />
                 <RegisterForm />
               </div>
             </DialogContent>

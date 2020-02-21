@@ -42,7 +42,14 @@ export default function PopUpLogin(props) {
     address:''
   })
 
-  function applyPost (event)  {
+  function applyPost (event)  { //sends message by nodemailer
+  event.preventDefault()
+   axios.post(`http://localhost:8080/message`, state).then(res => { //new route goes in here
+     setState(res.data);
+   });
+ }
+
+ function deletePost (event)  { //deletes post from database
   event.preventDefault()
    axios.post(`http://localhost:8080/`, state).then(res => { //new route goes in here
      setState(res.data);
@@ -50,7 +57,7 @@ export default function PopUpLogin(props) {
  }
 
   return (
-    <div width="25%" height='50%'>
+    <div /*width="50%" height='50%'*/>
       <GridContainer>
         <GridItem xs={12} sm={12} md={6} lg={4}>
           <Dialog
@@ -99,6 +106,13 @@ export default function PopUpLogin(props) {
                     block
                     onClick={applyPost} type="submit"
                   >Apply</Button>
+                </div>
+                <div>
+                  <Button
+                    color="sucess"
+                    block
+                    onClick={deletePost} type="submit"
+                  >Delete</Button>
                 </div>
               </div>
             </DialogContent>
