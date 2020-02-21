@@ -12,10 +12,6 @@ const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 const axios = require('axios');
 const db = require('./lib/db.js');
-// const cookieSession = require("cookie-session");
-
-// const dbParams = db.dbParams;
-// console.log(dbParams);
 
 app.use(morgan("dev"));
 
@@ -45,25 +41,24 @@ app.listen(PORT, () => {
 app.post("/api/login", (request, response) => {
   // check if user exists in database
   db.login(request.body.email)
-  .then(data => {
-    const user = data.rows[0];
-    if (!user) {
-      return response.status(403).json({ message: "Email cannot be found"});
-    }
+    .then(data => {
+      const user = data.rows[0];
+      if (!user) {
+        return response.status(403).json({ message: "Email cannot be found"});
+      }
 
-    // if password doesn't match
-    if (!bcrypt.compareSync(request.body.password, user.password)) {
-      return response.status(403).json({ message: "Wrong password" });
-    }
+      // if password doesn't match
+      if (!bcrypt.compareSync(request.body.password, user.password)) {
+        return response.status(403).json({ message: "Wrong password" });
+      }
 
-    // if everything is good
-    request.session.user_id = user.id;
-    response.json({ user });
-  })
-  .catch(err => {
-    // render login with error
-    response.status(500).json({ error: err.message });
-  });
+      // if everything is good
+      response.json({ user });
+    })
+    .catch(err => {
+      // render login with error
+      response.status(500).json({ error: err.message });
+    });
 });
 
 //POST LOGOUT
