@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import axios from 'axios';
 
 const mapStyles = {
@@ -19,7 +20,8 @@ export class CurrentLocation extends React.Component {
       currentLocation: {
         lat: lat,
         lng: lng
-      }
+      },
+      opportunities: []
     };
   }
 
@@ -47,21 +49,8 @@ export class CurrentLocation extends React.Component {
     }
   }
 
-  //axioos get foor take lat and lng from database
-  //fetch lat and lng base in id
+  //axios get lat and lng from database
   componentDidMount() {
-    const user_id = localStorage.getItem('user_id');
-    axios.get(`/api/user/${user_id}/get-lat-and-lng`)
-    .then(res => {
-      const { latitude, longitude } = res.data[0];
-
-      this.setState({
-        currentLocation: {
-          lat: latitude,
-          lng: longitude
-        }
-      });
-    });
 
     this.loadMap();
   }
@@ -87,47 +76,47 @@ export class CurrentLocation extends React.Component {
           center: center,
           zoom: zoom
         }
-      );
-      // maps.Map() is constructor that instantiates the map
-      this.map = new maps.Map(node, mapConfig);
+        );
+        // maps.Map() is constructor that instantiates the map
+        this.map = new maps.Map(node, mapConfig);
+      }
     }
-  }
 
-  renderChildren() {
-    const { children } = this.props;
+    renderChildren() {
+      const { children } = this.props;
 
-    if (!children) return;
+      if (!children) return;
 
-    return React.Children.map(children, c => {
-      if (!c) return;
-      return React.cloneElement(c, {
-        map: this.map,
-        google: this.props.google,
-        mapCenter: this.state.currentLocation
+      return React.Children.map(children, c => {
+        if (!c) return;
+        return React.cloneElement(c, {
+          map: this.map,
+          google: this.props.google,
+          mapCenter: this.state.currentLocation
+        });
       });
-    });
-  }
-  //Render
-  render() {
-    const style = Object.assign({}, mapStyles.map);
-    return (
-      <div>
+    }
+    //Render
+    render() {
+      const style = Object.assign({}, mapStyles.map);
+      return (
+        <div>
         <div style={style} ref="map">
-          Loading map...
-         </div>
+        Loading map...
+        </div>
         {this.renderChildren()}
-      </div>
-    );
-  }
-}
-  export default CurrentLocation;
+        </div>
+        );
+      }
+    }
+    export default CurrentLocation;
 
-  CurrentLocation.defaultProps = {
-    zoom: 14,
-    initialCenter: {
-      lat: 43.7183937,
-      lng: -79.6589262
-    },
-    centerAroundCurrentLocation: false,
-    visible: true
-  };
+    CurrentLocation.defaultProps = {
+      zoom: 14,
+      initialCenter: {
+        lat: 43.7183937,
+        lng: -79.6589262
+      },
+      centerAroundCurrentLocation: false,
+      visible: true
+    };
