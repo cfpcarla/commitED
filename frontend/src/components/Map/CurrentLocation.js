@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 const mapStyles = {
   map: {
@@ -46,21 +47,22 @@ export class CurrentLocation extends React.Component {
     }
   }
 
-  //Coomponent DipMount
+  //axioos get foor take lat and lng from database
+  //fetch lat and lng base in id
   componentDidMount() {
-    if (this.props.centerAroundCurrentLocation) {
-      if (navigator && navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-          const coords = pos.coords;
-          this.setState({
-            currentLocation: {
-              lat: coords.latitude,
-              lng: coords.longitude
-            }
-          });
-        });
-      }
-    }
+    const user_id = 8; // get user id from cookie or whatever else
+    axios.get(`/api/user/${user_id}/get-lat-and-lng`)
+    .then(res => {
+      const { latitude, longitude } = res.data[0];
+
+      this.setState({
+        currentLocation: {
+          lat: latitude,
+          lng: longitude
+        }
+      });
+    });
+
     this.loadMap();
   }
 

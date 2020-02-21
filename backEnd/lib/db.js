@@ -56,9 +56,9 @@ const createUser = (name, address, phone,email, hashedPassword, type, lat, lng) 
         [name, address, phone,email, hashedPassword, type, lat, lng])
 }
 const getLatAndLng = (userId) => {
-  db.query(`SELECT latitude, longitude
-        FROM users
-        WHERE id = $1;`, [userId])
+  return db.query(`SELECT latitude, longitude
+                    FROM users
+                    WHERE id = $1;`, [userId])
 }
 
 module.exports = { dbParams, createRequest, showRequests, createPost, showPosts,login, getEmail, createUser, getLatAndLng };
