@@ -29,18 +29,18 @@ export default function LoginPage(props) {
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
-
-  function handleSubmit(e) {
+console.log("props --->",props)
+  function handleSubmit(e, props) {
     e.preventDefault();
 
       //Integration axios post with server
       // POST LOGIN
-    axios.post('http://localhost:8080/login', qs.stringify({
+    axios.post('/api/login', qs.stringify({
       email: e.target.email.value,
       password: e.target.pass.value
     }))
     .then(function (response) {
-      let userid = 1 //response.data.user.id cosoe.log respose data
+      let userid = props.user //response.data.user.id cosoe.log respose data
       localStorage.setItem({'user_id': userid})
       console.log("this is the response -->",response);
       if (response.status === 200) {
@@ -50,7 +50,8 @@ export default function LoginPage(props) {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('error', error);
+      props.setError(error)
       window.location = "/login"
     });
   }

@@ -47,6 +47,7 @@ app.post("/api/login", (request, response) => {
       const user = data.rows[0];
 
       if (!user) {
+        //error component
         return response.status(403).json({ message: "Email cannot be found"});
       }
 

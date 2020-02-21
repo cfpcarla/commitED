@@ -33,6 +33,7 @@ export default function App() {
       setPosts(res.data);
     });
   }, []); //make a function to get called after a new post
+  const [error, setError] = useState('') //pass down to error component
 
   const [show, popupState] = useState(false)
   const [user, setUser] = useState(false)
@@ -40,8 +41,10 @@ export default function App() {
   const [historyModal, setHistoryModal] = useState(false);
   const classes = useStyles();
 
-  return (
 
+
+  return (
+// user ? <Posts posts={posts}/> : <Error/>
     <div>
       <NavBar setClassicModal={setClassicModal} popupState={popupState} setHistoryModal={setHistoryModal}/>
 
@@ -50,7 +53,7 @@ export default function App() {
         </div>
 
         <div>
-          <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} show={show} />
+          <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} show={show} error = {error} setError= {setError} />
         </div>
 
         <div>
@@ -65,7 +68,7 @@ export default function App() {
           <Box>
           <Paper>
             {" "}
-            <PostsList posts={posts} />{" "}
+            <PostsList posts={posts}  />{" "}
           </Paper>          </Box>
 <br/>
 
