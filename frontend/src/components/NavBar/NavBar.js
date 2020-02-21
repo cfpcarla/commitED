@@ -7,6 +7,7 @@ import Button from "../CustomButtons/Button";
 
 export default function NavBar(props) {
   //defines the State of the button
+  //  props.setUserStatus(false) onclick logout
 
   const rightLinks = [
 //     // if cookie is present{
@@ -32,7 +33,7 @@ export default function NavBar(props) {
 //     >Logout</Button>
 // }
 
-    <div>
+    <div key={1} >
     <Button
     color="primary"
     block

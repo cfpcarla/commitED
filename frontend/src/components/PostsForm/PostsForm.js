@@ -25,24 +25,10 @@ export default function CreatePosts(props) {
     description:"",
     title:'',
     date_posted:Date.now(),
-    user_id: 1, //organization_id goes in here
+    user_id: props.user.id, //organization_id goes in here
     address:''
   })
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
 
-  //     type:'',
-  //     description:"",
-  //     title:'',
-  //     date_posted:Date.now(),
-  //     user_id: 1, //organization_id goes in here
-  //     address:''
-
-  //   };
-  //   this.newPost = this.newPost.bind(this)//refers to component not function itself
-  //   this.handleInputChange = this.handleInputChange.bind(this);
-  // }
   function newPost (event)  {
      event.preventDefault()
     axios.post(`/api/posts/new`, state).then(res => {
@@ -65,7 +51,7 @@ export default function CreatePosts(props) {
     setCardAnimation("");
   }, 700);
   const classes = useStyles();
-  const { ...rest } = props;
+  // const { ...rest } = props;
 
   return (
     <Card>
@@ -74,7 +60,7 @@ export default function CreatePosts(props) {
           <CustomInput
             labelText="Category"
             id="type"
-            value={state.type}
+            value={state.type} //setState(type:)
             onChange={handleInputChange}
             formControlProps={{
               fullWidth: true
@@ -121,7 +107,7 @@ export default function CreatePosts(props) {
               autoComplete: "off"
             }}
           />
-           <CustomInput
+           {/* <CustomInput
             labelText="Hours"
             id="hours"
             formControlProps={{
@@ -130,8 +116,8 @@ export default function CreatePosts(props) {
             inputProps={{
               type: "text",
             }}
-          />
-           <CustomInput
+          /> */}
+           {/* <CustomInput
             labelText="Number of opportunities"
             id="vacancies"
             formControlProps={{
@@ -141,7 +127,7 @@ export default function CreatePosts(props) {
               type: "text",
               autoComplete: "off"
             }}
-          />
+          /> */}
         </CardBody>
         <CardFooter className={classes.cardFooter}>
           <Button onClick={newPost} type="submit" simple color="primary" size="lg">
