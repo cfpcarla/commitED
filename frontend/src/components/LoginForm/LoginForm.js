@@ -29,42 +29,34 @@ export default function LoginPage(props) {
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
-
-  function handleSubmit(e) {
+console.log("props --->",props)
+  function handleSubmit(e, props) {
     e.preventDefault();
-    // const transport = axios.create({
-    //   withCredentials: true
-    // })
-
-    // transport
-    //   .get('/cookie-auth-protected-route')
-    //   .then(res => res.data)
-    //   .catch(err => { /* not hit since no 401 */ })
 
       //Integration axios post with server
-
       // POST LOGIN
-      axios.post('http://localhost:8080/login', qs.stringify({
-        email: e.target.email.value,
-        password: e.target.pass.value
-      })
-        )
+    axios.post('/api/login', qs.stringify({
+      email: e.target.email.value,
+      password: e.target.pass.value
+    }))
     .then(function (response) {
-      console.log(response);
+      let userid = props.user //response.data.user.id cosoe.log respose data
+      localStorage.setItem({'user_id': userid})
+      console.log("this is the response -->",response);
       if (response.status === 200) {
         window.location = "/index"
       } else {
-          window.location = "/login"
+        window.location = "/login"
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('error', error);
+      props.setError(error)
       window.location = "/login"
     });
   }
 
   //Return
-
   return (
     <Card>
     <form onSubmit={handleSubmit}>

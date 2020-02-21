@@ -31,24 +31,33 @@ export default function App() {
   const [ posts, setPosts ] = useState([]);
 
   useEffect( () => {
-    axios.get(`http://localhost:8080/posts`).then(res => {
-      console.log(res.data);
+
+    axios.get(`/api/posts`).then(res => {
       setPosts(res.data);
     });
   }, []); //make a function to get called after a new post
+  const [error, setError] = useState('') //pass down to error component
 
   const [show, popupState] = useState(false)
+  const [user, setUser] = useState(false)
   const [classicModal, setClassicModal] = useState(false);
   const [historyModal, setHistoryModal] = useState(false);
   const classes = useStyles();
 
-  return (
 
+
+  return (
+// user ? <Posts posts={posts}/> : <Error/>
     <div>
       <NavBar setClassicModal={setClassicModal} popupState={popupState} setHistoryModal={setHistoryModal}/>
 
         <div>
-          <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} show={show} />
+
+
+        </div>
+
+        <div>
+          <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} show={show} error = {error} setError= {setError} />
         </div>
 
         <div>
@@ -58,7 +67,6 @@ export default function App() {
 
         <Box>
 
-        </Box>
         <div>
 {/*if ORGANIZATION
     <Box>
@@ -72,6 +80,7 @@ export default function App() {
             {" "}
             <PostsList posts={posts} />
             {" "}
+          <CreatePosts user={user} setUser={setUser}/>
           </Box>
           <Box>
           <CreatePosts/>
@@ -83,6 +92,14 @@ export default function App() {
 if USER */}
         <Box>
         <Container className={classes.root}>
+          <Box>
+          <Paper>
+            {" "}
+            <PostsList posts={posts}  />{" "}
+          </Paper>          </Box>
+<br/>
+
+      <Container className={classes.root}>
         <Grid
           container
           direction="row"
@@ -93,8 +110,9 @@ if USER */}
             <PostsList posts={posts} />
             {" "}
           </Box>
-          <Box className={classes.paper}>
+          <Box className={classes.paper} user={user} >
             <Map />
+
           </Box>
         </Grid>
       </Container>
