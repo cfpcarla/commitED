@@ -44,11 +44,9 @@ app.listen(PORT, () => {
 //POST login
 app.post("/api/login", (request, response) => {
   // check if user exists in database
-
   db.login(request.body.email)
   .then(data => {
     const user = data.rows[0];
-
     if (!user) {
       return response.status(403).json({ message: "Email cannot be found"});
     }

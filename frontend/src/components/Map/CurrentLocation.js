@@ -50,7 +50,7 @@ export class CurrentLocation extends React.Component {
   //axioos get foor take lat and lng from database
   //fetch lat and lng base in id
   componentDidMount() {
-    const user_id = 8; // get user id from cookie or whatever else
+    const user_id = localStorage.getItem('user_id');
     axios.get(`/api/user/${user_id}/get-lat-and-lng`)
     .then(res => {
       const { latitude, longitude } = res.data[0];

@@ -32,21 +32,18 @@ export default function LoginPage(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-
       // POST LOGIN
-      axios.post('/api/login', qs.stringify({
-        email: e.target.email.value,
-        password: e.target.pass.value
-      })
-        )
+    axios.post('/api/login', qs.stringify({
+      email: e.target.email.value,
+      password: e.target.pass.value
+    }))
     .then(function (response) {
-      let userid = 1 //response.data.user.id cosoe.log respose data
-      localStorage.setItem({'user_id': userid})
+      localStorage.setItem('user_id', response.data.user.id)
       console.log("this is the response -->",response);
       if (response.status === 200) {
         window.location = "/index"
       } else {
-          window.location = "/login"
+        window.location = "/login"
       }
     })
     .catch(function (error) {
