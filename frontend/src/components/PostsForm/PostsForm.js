@@ -124,7 +124,7 @@ export default class CreatePosts extends React.Component {
       description:"",
       title:'',
       date_posted:Date.now(),
-      user_id: 1,
+      user_id: props.user,
       address:''
 
     };

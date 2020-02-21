@@ -29,8 +29,8 @@ export default function LoginPage(props) {
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
-
-  function handleSubmit(e) {
+console.log("props --->",props)
+  function handleSubmit(e, props) {
     e.preventDefault();
 
       //Integration axios post with server
@@ -40,7 +40,7 @@ export default function LoginPage(props) {
       password: e.target.pass.value
     }))
     .then(function (response) {
-      let userid = 1 //response.data.user.id cosoe.log respose data
+      let userid = props.user //response.data.user.id cosoe.log respose data
       localStorage.setItem({'user_id': userid})
       console.log("this is the response -->",response);
       if (response.status === 200) {
@@ -50,7 +50,8 @@ export default function LoginPage(props) {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('error', error);
+      props.setError(error)
       window.location = "/login"
     });
   }
