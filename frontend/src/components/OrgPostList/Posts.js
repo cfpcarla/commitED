@@ -6,6 +6,7 @@ export default function Posts(props) {
     <Button
     color="info"
     block >
+      onClick={() => props.setOrgPostsModal(true)}
     <div>
       <ul>{props.title}</ul>
       <ul> {props.description} </ul>

@@ -23,12 +23,10 @@ export default function PostsList(props) {
          date={post.date_posted}
         postsModal={postsModal}
         setPostsModal={setPostsModal}
-        /*show={show}*/ show={postsModal}/>
+        show={show}/>
       </ul>
     );
   });
-  console.log("_--______--->", props)
-  console.log("======>>", postlist)
 
   return <ul>{postlist}</ul>;
 }

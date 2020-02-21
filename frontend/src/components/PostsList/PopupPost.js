@@ -56,7 +56,7 @@ export default function PopUpLogin(props) {
           <Dialog
             classes={{
               root: classes.center,
-              paper: classes.modal
+              paper: classes.modal,
             }}
             open={props.postsModal}
             TransitionComponent={Transition}
@@ -84,14 +84,14 @@ export default function PopUpLogin(props) {
             <DialogContent
               id="classic-modal-slide-description"
               className={classes.modalBody}
+              justifyContent="left"
+
             >
               <div>
                 <div>
-                  <div>
                     <ul>Title: {props.title}</ul>
                     <ul> Description: {props.description} </ul>
                     <ul> Date:{props.date}</ul>
-                  </div>
                 </div>
                 <div>
                   <Button

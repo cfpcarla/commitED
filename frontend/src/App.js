@@ -10,6 +10,7 @@ import PopupLogin from "./components/PopupLogin/PopupLogin"
 import CreatePosts from "./components/PostsForm/PostsForm"
 import PopupHistory from "./components/PopupHistory/PopupHistory"
 import RegisterForm from "./components/RegisterForm/RegisterForm"
+import PopupPosts from "./components/PostsList/PopupPost"
 import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
@@ -18,7 +19,6 @@ const useStyles = makeStyles(theme => ({
 
   },
   paper: {
-    flex: 0,
     height: '50%',
     width:'50%',
     padding: '5%',
@@ -40,6 +40,8 @@ export default function App() {
   const [show, popupState] = useState(false)
   const [classicModal, setClassicModal] = useState(false);
   const [historyModal, setHistoryModal] = useState(false);
+  const [postsModal, setPostsModal] = useState(false);
+
   const classes = useStyles();
 
   return (
@@ -48,16 +50,18 @@ export default function App() {
       <NavBar setClassicModal={setClassicModal} popupState={popupState} setHistoryModal={setHistoryModal}/>
 
         <div>
-          <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} show={show} />
+          <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} /*show={show} error = {error} setError= {setError}*//>
         </div>
-
         <div>
-          <PopupHistory historyModal={historyModal} setHistoryModal={setHistoryModal} show={show} />
+          <PopupPosts postsModal={postsModal} setClassicModal={setPostsModal} /*show={show} error = {error} setError= {setError}*//>
+        </div>
+        <div>
+          <PopupHistory historyModal={historyModal} setHistoryModal={setHistoryModal} /*show={show} error = {error} setError= {setError}*//>
         </div>
 
 
         <Box>
-
+        <CreatePosts /*error = {error} setError= {setError}*//>
         </Box>
         <div>
 {/*if ORGANIZATION
@@ -90,10 +94,10 @@ if USER */}
           alignItems="stretch">
           <Box className={classes.paper} >
             {" "}
-            <PostsList posts={posts} />
+            <PostsList posts={posts} /*user={user}*//>
             {" "}
           </Box>
-          <Box className={classes.paper}>
+          <Box className={classes.paper} /*user={user}*/>
             <Map />
           </Box>
         </Grid>
