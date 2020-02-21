@@ -101,7 +101,33 @@ export default function App() {
           show={show} />
         </div>
         <Box>
-          <CreatePosts/>
+          {/*
+
+          if (userStatus && user  && user.type === "service_provider) {
+
+
+  }
+
+
+ {(userStatus && user  && (user.type === "service_provider)) ? (
+         <CreatePosts
+            user={user}
+            setUser={setUser}
+            userStatus={userStatus}
+            setUserStatus={setUserStatus}
+          />
+      ) : (
+null      )}
+           */}
+
+
+
+          <CreatePosts
+            user={user}
+            setUser={setUser}
+            userStatus={userStatus}
+            setUserStatus={setUserStatus}
+          />
           </Box>
           <Box>
             {/* <RegisterForm/> */}

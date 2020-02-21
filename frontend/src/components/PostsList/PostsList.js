@@ -8,22 +8,29 @@ export default function PostsList(props) {
   let posts = props.posts;
   //do user logic to map filtered for service_provider otherwise map postsLists
 
-  const serviceProviderPosts = posts.filter(post => {
-    post.type === props.user.type &&
-      props.user.type === "service_provider" &&
-      props.user.id === post.user_id;
-  });
-  const volunteerPosts = posts;
-  let postList;
-  if (props.userStatus && props.user.id && (props.user.type === "service_provider")) {
-    postList = serviceProviderPosts;
-  } else {
-    postList = volunteerPosts;
+  if (props.user) {
+    const serviceProviderPosts = posts.filter(post => {
+      post.type === props.user.type &&
+        props.user.type === "service_provider" &&
+        props.user.id === post.user_id;
+    });
+    const volunteerPosts = posts;
+    if (
+      props.userStatus &&
+      props.user.id &&
+      props.user.type === "service_provider"
+    ) {
+      posts = serviceProviderPosts;
+    } else {
+      posts = volunteerPosts;
+    }
+
   }
 
-  postList = posts.map(post => {
+
+  const postList = posts.map((post, index) => {
     return (
-      <ul>
+      <ul key={index}>
         <Posts
           key={post.id}
           title={post.title}

@@ -89,7 +89,8 @@ export default function PopUpLogin(props) {
                 error={props.error}
                 setError={props.setError}
                 userStatus={props.userStatus}
-                setUserStatus={props.setUserStatus} />
+                setUserStatus={props.setUserStatus}
+                 />
                 <RegisterForm
                 error={props.error}
                 setError={props.setError}
