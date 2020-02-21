@@ -9,6 +9,14 @@ export default function NavBar(props) {
   //defines the State of the button
 
   const rightLinks = [
+//if cookie is present {
+//   <Button
+//     color="primary"
+//     block
+//     onClick={() => ponha sua logica aqui}
+//     >Logout</Button>
+// }
+
     <div>
     <Button
     color="primary"

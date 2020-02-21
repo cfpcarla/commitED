@@ -37,18 +37,20 @@ export default function RegisterPage(props) {
   function handleSubmit(e) {
     e.preventDefault();
     //Register
-    axios.post('/api/register', qs.stringify({
-    name: e.target.first.value,
-    address: e.target.address.value,
-    phone: e.target.phone.value,
-    email: e.target.email.value,
-    password: e.target.pass.value,
-    type: checked.indexOf(21) === -1 ? 'volunteer' : 'service_provider'
+    axios.post('http://localhost:8080/register', qs.stringify({
+      name: e.target.first.value,
+      address: e.target.address.value,
+      phone: e.target.phone.value,
+      email: e.target.email.value,
+      password: e.target.pass.value,
+      // withCredentials: true,
+      type: checked.indexOf(21) === -1 ? 'volunteer' : 'service_provider'
   })
   )
   .then(function (response) {
     console.log(response);
     if (response.status === 200) {
+      // Update current location component with latitude and longitude from response.data.user.latitude and longitude.
       window.location = "/index"
     } else {
       window.location = "/register"

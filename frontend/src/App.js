@@ -35,6 +35,7 @@ export default function App() {
   }, []); //make a function to get called after a new post
 
   const [show, popupState] = useState(false)
+  const [user, setUser] = useState(false)
   const [classicModal, setClassicModal] = useState(false);
   const [historyModal, setHistoryModal] = useState(false);
   const classes = useStyles();
@@ -56,7 +57,7 @@ export default function App() {
           <PopupHistory historyModal={historyModal} setHistoryModal={setHistoryModal} show={show} />
         </div>
         <Box>
-          <CreatePosts/>
+          <CreatePosts user={user} setUser={setUser}/>
           </Box>
           <Box>
             {/* <RegisterForm/> */}
@@ -67,7 +68,6 @@ export default function App() {
             <PostsList posts={posts} />{" "}
           </Paper>          </Box>
 <br/>
-
 
       <Container className={classes.root}>
         <Grid
@@ -82,7 +82,7 @@ export default function App() {
 
 
           <Box>
-            <Map />
+            <Map user={user} />
           </Box>
         </Grid>
       </Container>
