@@ -39,6 +39,11 @@ export default function LoginPage(props) {
     }))
     .then(function (response) {
       localStorage.setItem('user_id', response.data.user.id)
+      props.setUser(response.data.user.id)
+      console.log('this is the user that is passed into login' ,props.user)
+
+
+
       if (response.status === 200) {
         window.location = "/index"
       } else {

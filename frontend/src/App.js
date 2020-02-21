@@ -23,7 +23,22 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'left',
   },
 }));
-
+// function List({ list }) {
+//   if (!list) {
+//     return null;
+//   }
+//   if (!list.length) {
+//     return <p>Sorry, the list is empty.</p>;
+//   } else {
+//     return (
+//       <div>
+//         {list.map(item => (
+//           <Item item={item} />
+//         ))}
+//       </div>
+//     );
+//   }
+// }
 export default function App() {
   const [posts, setPosts] = useState([]);
 
@@ -38,22 +53,52 @@ export default function App() {
   const [classicModal, setClassicModal] = useState(false);
   const [historyModal, setHistoryModal] = useState(false);
   const classes = useStyles();
-
+  //const [mode, setMode] = useState('view')
+  const [user, setUser] = useState('')
+  const [error, setError] = useState(false)
+  const [userStatus, setUserStatus] = useState(false)
   return (
 
     <div>
-      <NavBar setClassicModal={setClassicModal} popupState={popupState} setHistoryModal={setHistoryModal}/>
+      <NavBar
+      user={user}
+      setUser={setUser }
+      userStatus={userStatus}
+      setUserStatus={setUserStatus}
+      error={error}
+      setError={setError}
+      setClassicModal={setClassicModal}
+      popupState={popupState}
+      setHistoryModal={setHistoryModal}/>
 
         <div>
 
         </div>
 
         <div>
-          <PopupLogin classicModal={classicModal} setClassicModal={setClassicModal} show={show} />
+          <PopupLogin
+          user={user}
+          setUser={setUser }
+          userStatus={userStatus}
+          setUserStatus={setUserStatus}
+          error={error}
+          setError={setError}
+          classicModal={classicModal}
+          setClassicModal={setClassicModal}
+          show={show} />
         </div>
 
         <div>
-          <PopupHistory historyModal={historyModal} setHistoryModal={setHistoryModal} show={show} />
+          <PopupHistory
+          user={user}
+          setUser={setUser }
+          userStatus={userStatus}
+          setUserStatus={setUserStatus}
+          error={error}
+          setError={setError}
+          historyModal={historyModal}
+          setHistoryModal={setHistoryModal}
+          show={show} />
         </div>
         <Box>
           <CreatePosts/>
@@ -64,8 +109,15 @@ export default function App() {
           <Box>
           <Paper>
             {" "}
-            <PostsList posts={posts} />{" "}
-          </Paper>          </Box>
+            <PostsList
+            user={user}
+            setUser={setUser}
+            userStatus={userStatus}
+            setUserStatus={setUserStatus}
+            posts={posts} />
+            {" "}
+          </Paper>
+                    </Box>
 <br/>
 
 

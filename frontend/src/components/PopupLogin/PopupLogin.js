@@ -83,8 +83,20 @@ export default function PopUpLogin(props) {
                   // onClick={() => props.setClassicModal(true)}
                   >Register</Button>
                 </div>
-                <LoginForm  error={props.error} setError={props.setError}  />
-                <RegisterForm />
+                <LoginForm
+                error={props.error}
+                setError={props.setError}
+                error={props.error}
+                setError={props.setError}
+                userStatus={props.userStatus}
+                setUserStatus={props.setUserStatus} />
+                <RegisterForm
+                error={props.error}
+                setError={props.setError}
+                user={props.user}
+                setUser={props.setUser }
+                userStatus={props.userStatus}
+                setUserStatus={props.setUserStatus} />
               </div>
             </DialogContent>
             <DialogActions className={classes.modalFooter}>
