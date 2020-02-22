@@ -68,5 +68,34 @@ const getOpportunityLatAndLng = (userId) => {
                     FROM opportunities`)
 
 }
+const updateOpportunity = (type,description, title, address, longitude, latitude, user_id) =>{
+  return db.query(`
+    UPDATE
+      opportunities
+    SET
+      type = $1,
+      description = $2,
+      title = $3,
+      address = $4,
+      longitude = $5,
+      latitude = $6
+    WHERE
+      user_id =$7,
+    RETURNING *;`,
+    [type,description, title, address, longitude, latitude, user_id]
+    )
+  }
 
-module.exports = { dbParams, createRequest, showRequests, createPost, showPosts,login, getEmail, createUser, getUserLatAndLng, getOpportunityLatAndLng };
+const deleteOpportunities = (user_id, opportunity_id) =>{
+
+  return db.query(`
+    DELETE FROM
+      opportunities
+    WHERE
+      user_id = $1
+    AND
+      id = $2
+    `, [user_id, opportunity_id])
+}
+
+module.exports = { dbParams, createRequest, showRequests, createPost, showPosts,login, getEmail, createUser, getUserLatAndLng, getOpportunityLatAndLng, updateOpportunity, deleteOpportunities };
