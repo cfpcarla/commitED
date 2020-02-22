@@ -23,31 +23,8 @@ const useStyles = makeStyles(styles);
 export default function CreatePosts(props) {
   const [state, setState] = useState( {
 
-    // type: "",
-    // description:"",
-    // title:'',
-    // date_posted:Date.now(),
-    // user_id: 1, //organization_id goes in here
-    // address:''
   })
-  console.log(state)
-  console.log(useState)
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-
-  //     type:'',
-  //     description:"",
-  //     title:'',
-  //     date_posted:Date.now(),
-  //     user_id: 1, //organization_id goes in here
-  //     address:''
-
-  //   };
-  //   this.newPost = this.newPost.bind(this)//refers to component not function itself
-  //   this.handleInputChange = this.handleInputChange.bind(this);
-  // }
   function newPost (event)  {
     event.preventDefault()
     axios.post(`/api/posts/new`, qs.stringify({
@@ -77,70 +54,92 @@ export default function CreatePosts(props) {
     setCardAnimation("");
   }, 700);
   const classes = useStyles();
-  const { ...rest } = props;
+  // const { ...rest } = props;
 
   return (
     <Card>
-    <form onSubmit={newPost}>
-    <CardBody>
-    <CustomInput
-    labelText="Category"
-    id="type"
-    value={state.type}
-    onChange={handleInputChange}
-    formControlProps={{
-      fullWidth: true
-    }}
-    inputProps={{
-      type: "text"
-    }}
-    />
-    <CustomInput
-    labelText="Position Name"
-    id="title"
-    value={state.title}
-    onChange={handleInputChange}
-    formControlProps={{
-      fullWidth: true
-    }}
-    inputProps={{
-      type: "text"
 
-    }}
-    />
-    <CustomInput
-    labelText="Description"
-    id="description"
-    value={state.description}
-    onChange={handleInputChange}
-    formControlProps={{
-      fullWidth: true
-    }}
-    inputProps={{
-      type: "text"
-    }}
-    />
-    <CustomInput
-    labelText="Address"
-    id="address"
-    value={state.address}
-    onChange={handleInputChange}
-    formControlProps={{
-      fullWidth: true
-    }}
-    inputProps={{
-      type: "address",
-      autoComplete: "off"
-    }}
-    />
+      <form>
+        <CardBody>
+          <CustomInput
+            labelText="Category"
+            id="type"
+            value={state.type} //setState(type:)
+            onChange={handleInputChange}
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text"
+            }}
+          />
+          <CustomInput
+            labelText="Position Name"
+            id="title"
+            value={state.title}
+            onChange={handleInputChange}
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text"
 
-    </CardBody>
-    <CardFooter className={classes.cardFooter}>
-    <Button type="submit" simple color="primary" size="lg">
-    Submit
-    </Button>
-    </CardFooter>
-    </form>
+            }}
+          />
+          <CustomInput
+            labelText="Description"
+            id="description"
+            value={state.description}
+            onChange={handleInputChange}
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text"
+            }}
+          />
+          <CustomInput
+            labelText="Address"
+            id="address"
+              value={state.address}
+              onChange={handleInputChange}
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "address",
+              autoComplete: "off"
+            }}
+          />
+           {/* <CustomInput
+            labelText="Hours"
+            id="hours"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+            }}
+          /> */}
+           {/* <CustomInput
+            labelText="Number of opportunities"
+            id="vacancies"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              autoComplete: "off"
+            }}
+          /> */}
+        </CardBody>
+        <CardFooter className={classes.cardFooter}>
+          <Button onClick={newPost} type="submit" simple color="primary" size="lg">
+            Submit
+          </Button>
+        </CardFooter>
+      </form>
+
     </Card>
     );
   }
