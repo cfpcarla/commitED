@@ -30,16 +30,14 @@ export default function PostsList(props) {
 
   const postList = posts.map((post, index) => {
     return (
-      <ul key={index}>
+      <ul key={post.id}>
         <Posts
-          key={post.id}
           title={post.title}
           description={post.description}
           date={post.date_posted}
           setPostsModal={() => setPostsModal(v => !v)}
         />
         <PopupPost
-          key={post.id}
           title={post.title}
           description={post.description}
           date={post.date_posted}
@@ -50,8 +48,8 @@ export default function PostsList(props) {
       </ul>
     );
   });
-  console.log("_--______--->", props);
-  console.log("======>>", postList);
+  // console.log("_--______--->", props);
+  // console.log("======>>", postList);
 
   return <ul>{postList}</ul>;
 }

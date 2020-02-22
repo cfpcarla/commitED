@@ -95,7 +95,7 @@ export default function PopUpLogin(props) {
                 </div>
                 <div>
                   <Button
-                    color="sucess"
+                    color="success"
                     block
                     onClick={applyPost} type="submit"
                   >Apply</Button>

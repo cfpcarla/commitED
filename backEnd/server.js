@@ -53,6 +53,8 @@ app.post("/api/login", (request, response) => {
         return response.status(403).json({ message: "Wrong password" });
       }
 
+      request.session.user_id = user.id
+      console.log({ login: user })
       // if everything is good
       response.json({ user });
     })
@@ -109,7 +111,6 @@ app.post("/api/register", (request, response) => {
             const newUser = data.rows[0];
             // eslint-disable-next-line camelcase
             request.session.user_id = newUser.id;
-            response.statusCode = 200;
             response.json({ user: newUser });
             return true;
           });

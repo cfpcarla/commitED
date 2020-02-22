@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -12,97 +12,89 @@ import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardFooter from "../Card/CardFooter";
 import CustomInput from "../CustomInput/CustomInput";
-import FormControl from '@material-ui/core/FormControl';
-import axios from 'axios';
-import qs from 'qs';
-
+import FormControl from "@material-ui/core/FormControl";
+import axios from "axios";
+import qs from "qs";
 
 import styles from "../../assets/jss/material-kit-react/views/loginPage";
-
 
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = useState("cardHidden");
-  setTimeout(function () {
-    setCardAnimation("");
-  }, 700);
+  // setTimeout(function () {
+  //   setCardAnimation("");
+  // }, 700);
   const classes = useStyles();
   const { ...rest } = props;
 
   function handleSubmit(e) {
     e.preventDefault();
-      // POST LOGIN
-    axios.post('/api/login', qs.stringify({
-      email: e.target.email.value,
-      password: e.target.pass.value
-    }))
-    .then(function (response) {
-      localStorage.setItem('user_id', response.data.user.id)
-      props.setUser(response.data.user)
-      props.setUserStatus(true)
-      console.log('this is the user that is passed into login' ,props.user)
-
-
-
-      if (response.status === 200) {
-        window.location = "/index"
-      } else {
-        window.location = "/login"
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-      window.location = "/login"
-    });
+    // POST LOGIN
+    axios
+      .post(
+        "/api/login",
+        qs.stringify({
+          email: e.target.email.value,
+          password: e.target.pass.value
+        })
+      )
+      .then(response => {
+        props.setUser(response.data.user);
+        // todo: remove once you're all set up
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
   //Return
 
   return (
     <Card>
-    <form onSubmit={handleSubmit}>
-    <CardBody>
-      <CustomInput
-      labelText="Email..."
-      id="email"
-      formControlProps={{
-        fullWidth: true
-      }}
-      inputProps={{
-        type: "email",
-        endAdornment: (
-          <InputAdornment position="end">
-          <Email className={classes.inputIconsColor} />
-          </InputAdornment>
-          )
-      }}
-        />
-        <CustomInput
-        labelText="Password"
-        id="pass"
-        formControlProps={{
-          fullWidth: true
-        }}
-        inputProps={{
-          type: "password",
-          endAdornment: (
-            <InputAdornment position="end">
-            <Icon className={classes.inputIconsColor}>
-            {/* lock_outline */}
-            </Icon>
-            </InputAdornment>
-            ),
-            autoComplete: "off"
-        }}
+      <form onSubmit={handleSubmit}>
+        <CardBody>
+          <CustomInput
+            labelText="Email..."
+            id="email"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "email",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Email className={classes.inputIconsColor} />
+                </InputAdornment>
+              )
+            }}
           />
-          </CardBody>
-          <CardFooter className={classes.cardFooter}>
+          <CustomInput
+            labelText="Password"
+            id="pass"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "password",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Icon className={classes.inputIconsColor}>
+                    {/* lock_outline */}
+                  </Icon>
+                </InputAdornment>
+              ),
+              autoComplete: "off"
+            }}
+          />
+        </CardBody>
+        <CardFooter className={classes.cardFooter}>
           <Button type="submit" simple color="primary" size="lg">
             Submit
           </Button>
-          </CardFooter>
-          </form>
-          </Card>
-          );
-        }
+        </CardFooter>
+      </form>
+    </Card>
+  );
+}

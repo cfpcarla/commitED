@@ -42,7 +42,7 @@ const showPosts = () =>{
     `)
 }
 const login = (email) => {
- return db.query(`SELECT id, email, password
+ return db.query(`SELECT id, email, password, type
       FROM users
       WHERE email = $1;`, [email])
 }
@@ -64,7 +64,7 @@ const getUserLatAndLng = (userId) => {
 
 //service provider
 const getOpportunityLatAndLng = (userId) => {
-  return db.query(`SELECT latitude, longitude
+  return db.query(`SELECT id, latitude, longitude
                     FROM opportunities`)
 
 }

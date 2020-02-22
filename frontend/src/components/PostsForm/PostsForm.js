@@ -1,11 +1,11 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
+// import InputAdornment from "@material-ui/core/InputAdornment";
+// import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
-import Email from "@material-ui/icons/Email";
-import People from "@material-ui/icons/People";
+// import Email from "@material-ui/icons/Email";
+// import People from "@material-ui/icons/People";
 // core components
 import Button from "../CustomButtons/Button";
 import Card from "../Card/Card";
@@ -21,16 +21,18 @@ import styles from "../../assets/jss/material-kit-react/views/loginPage";
 const useStyles = makeStyles(styles);
 
 export default function CreatePosts(props) {
-  const [state, setState] = useState( {
+  const [state, setState] = useState({})
 
-  })
+  useEffect(() => {
+    console.log({ state });
+  }, [state])
 
   function newPost (event)  {
     event.preventDefault()
     axios.post(`/api/posts/new`, qs.stringify({
       type: event.target.type.value,
       date_posted:Date.now(),
-      user_id: 1,
+      user_id: props.user.id,
       address: event.target.address.value,
       title: event.target.title.value,
       description: event.target.description.value,
@@ -38,8 +40,9 @@ export default function CreatePosts(props) {
       setState(res.data);
     });
   }
-  console.log("sa merda", state)
-  function handleInputChange(event) {
+
+  const handleInputChange = (event) => {
+    console.log({ event });
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const id = target.id;
@@ -54,7 +57,6 @@ export default function CreatePosts(props) {
     setCardAnimation("");
   }, 700);
   const classes = useStyles();
-  // const { ...rest } = props;
 
   return (
     <Card>
@@ -65,25 +67,19 @@ export default function CreatePosts(props) {
             labelText="Category"
             id="type"
             value={state.type} //setState(type:)
-            onChange={handleInputChange}
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text"
-            }}
+            formControlProps={{fullWidth: true}}
+            inputProps={{type: "text", onChange: handleInputChange }}
           />
           <CustomInput
             labelText="Position Name"
             id="title"
             value={state.title}
-            onChange={handleInputChange}
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
-              type: "text"
-
+              type: "text",
+              onChange: handleInputChange,
             }}
           />
           <CustomInput
@@ -95,6 +91,7 @@ export default function CreatePosts(props) {
               fullWidth: true
             }}
             inputProps={{
+              onChange: handleInputChange,
               type: "text"
             }}
           />
@@ -107,31 +104,11 @@ export default function CreatePosts(props) {
               fullWidth: true
             }}
             inputProps={{
+              onChange: handleInputChange,
               type: "address",
               autoComplete: "off"
             }}
           />
-           {/* <CustomInput
-            labelText="Hours"
-            id="hours"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text",
-            }}
-          /> */}
-           {/* <CustomInput
-            labelText="Number of opportunities"
-            id="vacancies"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text",
-              autoComplete: "off"
-            }}
-          /> */}
         </CardBody>
         <CardFooter className={classes.cardFooter}>
           <Button onClick={newPost} type="submit" simple color="primary" size="lg">
