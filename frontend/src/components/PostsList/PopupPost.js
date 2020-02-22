@@ -103,12 +103,30 @@ export default function PopUpLogin(props) {
               </div>
             </DialogContent>
             <DialogActions className={classes.modalFooter}>
+
+
+            {props.user && props.user.type === "service_provider" && ( <div><Button
+                onClick={() => props.setPostsModal(false)}
+                color="danger"
+                simple>
+                EDIT
+            </Button>
+            <Button
+                onClick={() => props.setPostsModal(false)}
+                color="danger"
+                simple>
+                DELETE
+            </Button></div>)}
+
+
               <Button
                 onClick={() => props.setPostsModal(false)}
                 color="danger"
                 simple>
                 Close
             </Button>
+
+
             </DialogActions>
           </Dialog>
         </GridItem>

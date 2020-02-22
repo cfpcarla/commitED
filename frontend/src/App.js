@@ -55,8 +55,8 @@ export default function App() {
       setPosts(res.data);
     });
 
-    // todo: remove once you're all set up
-    const user = JSON.parse(localStorage.getItem('user'));
+    // todo: remove once you're all set up *** add in if you want to render serviceUSER
+    //const user = JSON.parse(localStorage.getItem('user'));
     setUser(user);
   }, []); //make a function to get called after a new post
 
@@ -99,11 +99,13 @@ export default function App() {
       </Box>
       <Box>
         <Paper>
-          <PostsList
+        {(!user || user.type === "volunteer" )&& (  <PostsList
             user={user}
             setUser={setUser}
             posts={posts}
-          />
+          />)}
+
+
         </Paper>
       </Box>
       <br />
@@ -115,7 +117,11 @@ export default function App() {
           justify="flex-start" //try justify
           alignItems="stretch">
           <Box className={classes.paper}>
-            <PostsList posts={posts} />{" "}
+          {user && user.type === "service_provider" && ( <PostsList
+            user={user}
+            setUser={setUser}
+            posts={posts}
+          />)}
           </Box>
 
           <Box>

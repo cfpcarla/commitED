@@ -142,7 +142,7 @@ app.post("/api/posts/new", (request, response) => {
     method: "get",
     url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
     responseType: "json"
-  }).then(function(locationResponse) {
+  }).then((locationResponse) => {
     console.log("gmap response", locationResponse.data);
 
     const { lat, lng } = locationResponse.data.results[0].geometry.location;

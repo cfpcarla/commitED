@@ -38,6 +38,7 @@ export default function PostsList(props) {
           setPostsModal={() => setPostsModal(v => !v)}
         />
         <PopupPost
+          user={props.user}
           title={post.title}
           description={post.description}
           date={post.date_posted}

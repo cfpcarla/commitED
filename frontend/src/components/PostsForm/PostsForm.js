@@ -21,23 +21,20 @@ import styles from "../../assets/jss/material-kit-react/views/loginPage";
 const useStyles = makeStyles(styles);
 
 export default function CreatePosts(props) {
-  const [state, setState] = useState({})
+  const [opportunity, setOpportunity] = useState({})
 
   useEffect(() => {
-    console.log({ state });
-  }, [state])
+    console.log({ opportunity });
+  }, [opportunity])
 
-  function newPost (event)  {
-    event.preventDefault()
+  const newPost = () => {
     axios.post(`/api/posts/new`, qs.stringify({
-      type: event.target.type.value,
-      date_posted:Date.now(),
+      ...opportunity,
+      date_posted: Date.now(),
       user_id: props.user.id,
-      address: event.target.address.value,
-      title: event.target.title.value,
-      description: event.target.description.value,
     })).then(res => {
-      setState(res.data);
+      setOpportunity(res.data);
+      //make opportunity component re render here!
     });
   }
 
@@ -47,10 +44,12 @@ export default function CreatePosts(props) {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const id = target.id;
 
-    setState({
+    setOpportunity({
+      ...opportunity,
       [id]: value
     });
   }
+
 
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function () {
@@ -61,52 +60,50 @@ export default function CreatePosts(props) {
   return (
     <Card>
 
-      <form>
+      <form onSubmit={(event) => event.preventDefault()}>
         <CardBody>
           <CustomInput
             labelText="Category"
             id="type"
-            value={state.type} //setState(type:)
             formControlProps={{fullWidth: true}}
-            inputProps={{type: "text", onChange: handleInputChange }}
+            inputProps={{
+              onChange: handleInputChange,
+              autoComplete: "on" }} // turn off on demo day
           />
           <CustomInput
             labelText="Position Name"
             id="title"
-            value={state.title}
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
-              type: "text",
+              type: "title",
               onChange: handleInputChange,
+              autoComplete: "on"
             }}
           />
           <CustomInput
             labelText="Description"
             id="description"
-            value={state.description}
-            onChange={handleInputChange}
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
               onChange: handleInputChange,
-              type: "text"
+              type: "description",
+              autoComplete: "on"
             }}
           />
           <CustomInput
             labelText="Address"
             id="address"
-              value={state.address}
-              onChange={handleInputChange}
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
               onChange: handleInputChange,
               type: "address",
-              autoComplete: "off"
+              autoComplete: "on"
             }}
           />
         </CardBody>
@@ -152,7 +149,7 @@ export default function CreatePosts(props) {
   //    newPost (event)  {
   //      event.preventDefault()
   //     axios.post(`http://localhost:8080/posts/new`, this.state).then(res => {
-  //       this.setState(res.data);
+  //       this.setOpportunity(res.data);
   //     });
   //   }
 
@@ -161,7 +158,7 @@ export default function CreatePosts(props) {
   //     const value = target.type === 'checkbox' ? target.checked : target.value;
   //     const name = target.name;
 
-  //     this.setState({
+  //     this.setOpportunity({
   //       [name]: value
   //     });
   //   }

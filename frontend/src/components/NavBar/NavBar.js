@@ -10,28 +10,13 @@ export default function NavBar(props) {
   //  props.setUserStatus(false) onclick logout
 
   const rightLinks = [
-//     // if cookie is present{
-// //<div>
-// {/* <Button
-// color="primary"
-// block
-// onClick={() => insert badass logic here}
-// >Logout</Button> */}
-// {/* <Button
-// color="primary"
-// block
-// onClick={() => props.setHistoryModal(true)}
-// >History</Button>
-// </div> */}
-// //} else {}
-// //
-//if cookie is present {
-//   <Button
-//     color="primary"
-//     block
-//     onClick={() => ponha sua logica aqui}
-//     >Logout</Button>
-// }
+
+
+  // <Button
+  //   color="danger"
+  //   block
+  //   onClick={}
+  //   >Logout</Button>
 
     <div key={1} >
     <Button
