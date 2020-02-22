@@ -13,6 +13,7 @@ import CardBody from "../Card/CardBody";
 import CardFooter from "../Card/CardFooter";
 import CustomInput from "../CustomInput/CustomInput";
 import axios from "axios";
+import qs from 'qs';
 
 import styles from "../../assets/jss/material-kit-react/views/loginPage";
 
@@ -21,21 +22,23 @@ const useStyles = makeStyles(styles);
 
 export default function CreatePosts(props) {
   const [state, setState] = useState( {
-    type:'',
-    description:"",
-    title:'',
-    date_posted:Date.now(),
-    user_id: props.user.id, //organization_id goes in here
-    address:''
+
   })
 
   function newPost (event)  {
-     event.preventDefault()
-    axios.post(`/api/posts/new`, state).then(res => {
+    event.preventDefault()
+    axios.post(`/api/posts/new`, qs.stringify({
+      type: event.target.type.value,
+      date_posted:Date.now(),
+      user_id: 1,
+      address: event.target.address.value,
+      title: event.target.title.value,
+      description: event.target.description.value,
+    })).then(res => {
       setState(res.data);
     });
   }
-
+  console.log("sa merda", state)
   function handleInputChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -55,6 +58,7 @@ export default function CreatePosts(props) {
 
   return (
     <Card>
+
       <form>
         <CardBody>
           <CustomInput
@@ -135,70 +139,71 @@ export default function CreatePosts(props) {
           </Button>
         </CardFooter>
       </form>
+
     </Card>
-  );
-}
+    );
+  }
 
-//async not needed - rodrigo
-// const [newPosts, setNewPosts] =  useState([]);
-// const newPost =  () => {
-//   axios.post(`http://localhost:8080/posts/new`, this.state).then(res => {
-//     setNewPosts(res.data);
-//   });
-// };
+  //async not needed - rodrigo
+  // const [newPosts, setNewPosts] =  useState([]);
+  // const newPost =  () => {
+  //   axios.post(`http://localhost:8080/posts/new`, this.state).then(res => {
+  //     setNewPosts(res.data);
+  //   });
+  // };
 
 
-//console.log("new posts in app.jds",newPosts)
+  //console.log("new posts in app.jds",newPosts)
 
-// export default class CreatePosts extends React.Component {
+  // export default class CreatePosts extends React.Component {
 
-//   constructor(props) {
-//     super(props);
-//     this.state = {
+  //   constructor(props) {
+  //     super(props);
+  //     this.state = {
 
-//       type:'',
-//       description:"",
-//       title:'',
-//       date_posted:Date.now(),
-//       user_id: 1,
-//       address:''
+  //       type:'',
+  //       description:"",
+  //       title:'',
+  //       date_posted:Date.now(),
+  //       user_id: 1,
+  //       address:''
 
-//     };
-//     this.newPost = this.newPost.bind(this)//refers to component not function itself
-//     this.handleInputChange = this.handleInputChange.bind(this);
-//   }
-//    newPost (event)  {
-//      event.preventDefault()
-//     axios.post(`http://localhost:8080/posts/new`, this.state).then(res => {
-//       this.setState(res.data);
-//     });
-//   }
+  //     };
+  //     this.newPost = this.newPost.bind(this)//refers to component not function itself
+  //     this.handleInputChange = this.handleInputChange.bind(this);
+  //   }
+  //    newPost (event)  {
+  //      event.preventDefault()
+  //     axios.post(`http://localhost:8080/posts/new`, this.state).then(res => {
+  //       this.setState(res.data);
+  //     });
+  //   }
 
-//   handleInputChange(event) {
-//     const target = event.target;
-//     const value = target.type === 'checkbox' ? target.checked : target.value;
-//     const name = target.name;
+  //   handleInputChange(event) {
+  //     const target = event.target;
+  //     const value = target.type === 'checkbox' ? target.checked : target.value;
+  //     const name = target.name;
 
-//     this.setState({
-//       [name]: value
-//     });
-//   }
+  //     this.setState({
+  //       [name]: value
+  //     });
+  //   }
 
-//   render() {
-//     console.log(this.state)
+  //   render() {
+  //     console.log(this.state)
 
-//     return (
-//       <form>
+  //     return (
+  //       <form>
 
-//         {/* <br />
-//         <label>
-//           Category:
-//           <input
-//             name="type"
-//             type="text"
-//             value={this.state.type}
-//             onChange={this.handleInputChange} />
-//         </label>
+  //         {/* <br />
+  //         <label>
+  //           Category:
+  //           <input
+  //             name="type"
+  //             type="text"
+  //             value={this.state.type}
+  //             onChange={this.handleInputChange} />
+  //         </label>
 
 //         <br /> */}
 //         {/* <label>
