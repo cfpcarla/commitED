@@ -33,6 +33,7 @@ Transition.displayName = "Transition";
 
 export default function PopUpLogin(props) {
   const classes = useStyles();
+  const [mode, setMode] = useState('LOGIN')
 
   return (
     <div width="25%" height='50%'>
@@ -75,42 +76,33 @@ export default function PopUpLogin(props) {
                   <Button
                     color="info"
                     block
-                  // onClick={() => props.setClassicModal(true)}
+                    onClick={() => setMode('LOGIN')}
                   >Login</Button>
                   <Button
                     color="success"
                     block
-                  // onClick={() => props.setClassicModal(true)}
+                    onClick={() => setMode('REGISTER')}
                   >Register</Button>
                 </div>
-                <LoginForm
-                error={props.error}
-                setError={props.setError}
-                error={props.error}
-                setError={props.setError}
-                userStatus={props.userStatus}
-                setUserStatus={props.setUserStatus}
-                 />
-                <RegisterForm
-                error={props.error}
-                setError={props.setError}
-                user={props.user}
-                setUser={props.setUser }
-                userStatus={props.userStatus}
-                setUserStatus={props.setUserStatus} />
+                {
+                  mode === 'LOGIN' &&
+                  <LoginForm
+                    error={props.error}
+                    setError={props.setError}
+                    user={props.user}
+                    setUser={props.setUser} />
+                }
+
+                {
+                 mode === 'REGISTER' &&
+                 <RegisterForm
+                  error={props.error}
+                  setError={props.setError}
+                  user={props.user}
+                  setUser={props.setUser }/>
+                }
               </div>
             </DialogContent>
-            <DialogActions className={classes.modalFooter}>
-              <Button color="transparent" simple>
-                Nice Button
-            </Button>
-              <Button
-                onClick={() => props.setClassicModal(false)}
-                color="danger"
-                simple>
-                Close
-            </Button>
-            </DialogActions>
           </Dialog>
         </GridItem>
       </GridContainer>

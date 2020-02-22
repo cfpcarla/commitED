@@ -1,11 +1,11 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
+// import InputAdornment from "@material-ui/core/InputAdornment";
+// import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
-import Email from "@material-ui/icons/Email";
-import People from "@material-ui/icons/People";
+// import Email from "@material-ui/icons/Email";
+// import People from "@material-ui/icons/People";
 // core components
 import Button from "../CustomButtons/Button";
 import Card from "../Card/Card";
@@ -21,117 +21,91 @@ import styles from "../../assets/jss/material-kit-react/views/loginPage";
 const useStyles = makeStyles(styles);
 
 export default function CreatePosts(props) {
-  const [state, setState] = useState( {
+  const [opportunity, setOpportunity] = useState({})
 
-  })
+  useEffect(() => {
+    console.log({ opportunity });
+  }, [opportunity])
 
-  function newPost (event)  {
-    event.preventDefault()
+  const newPost = () => {
     axios.post(`/api/posts/new`, qs.stringify({
-      type: event.target.type.value,
-      date_posted:Date.now(),
-      user_id: 1,
-      address: event.target.address.value,
-      title: event.target.title.value,
-      description: event.target.description.value,
+      ...opportunity,
+      date_posted: Date.now(),
+      user_id: props.user.id,
     })).then(res => {
-      setState(res.data);
+      setOpportunity(res.data);
+      //make opportunity component re render here!
     });
   }
-  console.log("sa merda", state)
-  function handleInputChange(event) {
+
+  const handleInputChange = (event) => {
+    console.log({ event });
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const id = target.id;
 
-    setState({
+    setOpportunity({
+      ...opportunity,
       [id]: value
     });
   }
+
 
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
   const classes = useStyles();
-  // const { ...rest } = props;
 
   return (
     <Card>
 
-      <form>
+      <form onSubmit={(event) => event.preventDefault()}>
         <CardBody>
           <CustomInput
             labelText="Category"
             id="type"
-            value={state.type} //setState(type:)
-            onChange={handleInputChange}
-            formControlProps={{
-              fullWidth: true
-            }}
+            formControlProps={{fullWidth: true}}
             inputProps={{
-              type: "text"
-            }}
+              onChange: handleInputChange,
+              autoComplete: "on" }} // turn off on demo day
           />
           <CustomInput
             labelText="Position Name"
             id="title"
-            value={state.title}
-            onChange={handleInputChange}
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
-              type: "text"
-
+              type: "title",
+              onChange: handleInputChange,
+              autoComplete: "on"
             }}
           />
           <CustomInput
             labelText="Description"
             id="description"
-            value={state.description}
-            onChange={handleInputChange}
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
-              type: "text"
+              onChange: handleInputChange,
+              type: "description",
+              autoComplete: "on"
             }}
           />
           <CustomInput
             labelText="Address"
             id="address"
-              value={state.address}
-              onChange={handleInputChange}
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
+              onChange: handleInputChange,
               type: "address",
-              autoComplete: "off"
+              autoComplete: "on"
             }}
           />
-           {/* <CustomInput
-            labelText="Hours"
-            id="hours"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text",
-            }}
-          /> */}
-           {/* <CustomInput
-            labelText="Number of opportunities"
-            id="vacancies"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text",
-              autoComplete: "off"
-            }}
-          /> */}
         </CardBody>
         <CardFooter className={classes.cardFooter}>
           <Button onClick={newPost} type="submit" simple color="primary" size="lg">
@@ -175,7 +149,7 @@ export default function CreatePosts(props) {
   //    newPost (event)  {
   //      event.preventDefault()
   //     axios.post(`http://localhost:8080/posts/new`, this.state).then(res => {
-  //       this.setState(res.data);
+  //       this.setOpportunity(res.data);
   //     });
   //   }
 
@@ -184,7 +158,7 @@ export default function CreatePosts(props) {
   //     const value = target.type === 'checkbox' ? target.checked : target.value;
   //     const name = target.name;
 
-  //     this.setState({
+  //     this.setOpportunity({
   //       [name]: value
   //     });
   //   }

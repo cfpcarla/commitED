@@ -53,6 +53,8 @@ app.post("/api/login", (request, response) => {
         return response.status(403).json({ message: "Wrong password" });
       }
 
+      request.session.user_id = user.id
+      console.log({ login: user })
       // if everything is good
       response.json({ user });
     })
@@ -109,7 +111,6 @@ app.post("/api/register", (request, response) => {
             const newUser = data.rows[0];
             // eslint-disable-next-line camelcase
             request.session.user_id = newUser.id;
-            response.statusCode = 200;
             response.json({ user: newUser });
             return true;
           });
@@ -141,7 +142,7 @@ app.post("/api/posts/new", (request, response) => {
     method: "get",
     url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
     responseType: "json"
-  }).then(function(locationResponse) {
+  }).then((locationResponse) => {
     console.log("gmap response", locationResponse.data);
 
     const { lat, lng } = locationResponse.data.results[0].geometry.location;

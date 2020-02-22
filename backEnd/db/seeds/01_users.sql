@@ -12,8 +12,8 @@ INSERT INTO users (name, address, password,type, phone_number,email ) VALUES
 
 
 INSERT INTO opportunities (type, description, title, date_posted,user_id, address, latitude, longitude) VALUES
-( 'science', 'volunteer1', 'title1', 'Mar, 01 2020',5,'fake address 1','43.6441789', '-79.4043927'),
-( 'science', 'volunteer2', 'title1', 'Mar, 01 2020',4,'fake address 2','43.6441789', '-79.4043927'),
-('science', 'volunteer3', 'title1', 'Mar, 01 2020',3,'fake address 3','43.6441789', '-79.4043927'),
-('science', 'volunteer4', 'title1', 'Mar, 01 2020',2,'fake address 4','43.6441789', '-79.4043927'),
-( 'science', 'volunteer5', 'title1', 'Mar, 01 2020',1,'fake address 5','43.6441789', '-79.4043927');
+( 'science', 'volunteer1', 'title1', 'Mar, 01 2020',5,'fake address 1','43.6471789', '-79.4043927'),
+( 'science', 'volunteer2', 'title1', 'Mar, 01 2020',4,'fake address 2','43.6481789', '-79.4043927'),
+('science', 'volunteer3', 'title1', 'Mar, 01 2020',3,'fake address 3','43.6449789', '-79.4043927'),
+('science', 'volunteer4', 'title1', 'Mar, 01 2020',2,'fake address 4','43.6440789', '-79.4043927'),
+( 'science', 'volunteer5', 'title1', 'Mar, 01 2020',1,'fake address 5','43.6431789', '-79.4043927');
