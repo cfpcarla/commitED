@@ -2,18 +2,24 @@ DELETE FROM opportunities;
 
 DELETE FROM users;
 
+
+
 INSERT INTO users (name, address, password,type, phone_number,email ) VALUES
-( 'Kira1','fake address one', 'password1','volunteer', 416232332,'a@a.com'),
-( 'Kira2','fake address 2' ,'password5', 'service provider', 32332332,'b@a.com'),
-( 'Kira3', 'fake address 3','password3','volunteer',75567700,'c@a.com'),
-( 'Kira4', 'fake address, 4','password4', 'service provider',667885432,'d@a.com'),
-( 'Kira5', 'fake address 5','password5','volunteer', 1222121212,'e@a.com');
+( 'Kiran Doola','1 king street west', 'password1','volunteer', 416232332,'a@a.com'),
+( 'Etobicoke YMCA Employment and Immigrant Services','1530 Albion Rd' ,'password5', 'service_provider', 32332332,'b@a.com'),
+( 'Beyonce', '220 Yonge St','password3','volunteer',75567700,'c@a.com'),
+( 'Anisa Mohamed', '104 Portland St','password4', 'volunteer',667885432,'d@a.com'),
+( 'Canadian Childrens Literacy Foundation', '620 King St W','password5','service_provider', 1222121212,'e@a.com');
 
 
 
-INSERT INTO opportunities (type, description, title, date_posted,user_id, address, latitude, longitude) VALUES
-( 'science', 'volunteer1', 'title1', 'Mar, 01 2020',5,'fake address 1','43.6471789', '-79.4043927'),
-( 'science', 'volunteer2', 'title1', 'Mar, 01 2020',4,'fake address 2','43.6481789', '-79.4043927'),
-('science', 'volunteer3', 'title1', 'Mar, 01 2020',3,'fake address 3','43.6449789', '-79.4043927'),
-('science', 'volunteer4', 'title1', 'Mar, 01 2020',2,'fake address 4','43.6440789', '-79.4043927'),
-( 'science', 'volunteer5', 'title1', 'Mar, 01 2020',1,'fake address 5','43.6431789', '-79.4043927');
+INSERT INTO opportunities (type, title, description, date_posted,user_id, address, latitude, longitude) VALUES
+( 'Education', 'Arabic Translator', 'Help Newcomers with day to phrases', '2020-02-01',2,'1530 Albion Rd','43.6471789', '-79.4043927'),
+( 'Education', 'Childrens Book Narrarator', 'Reading Childrens Books to Children with Special needs', '2019-05-13',5,'620 King St W','43.6481789', '-79.4043927'),
+('Education', 'Mandarin Translator', 'Help Newcomers with day to phrases', '2018-06-22',2,'1530 Albion Rd','43.6449789', '-79.4043927'),
+('Education', 'Adults Book Narrarator', 'Reading Books to Adults with Special needs', '2019-02-01',5,'620 King St W','43.6440789', '-79.4043927'),
+
+
+
+
+( 'Education', 'French Translator', 'Help Newcomers with day to phrases', '2020-01-01', 2 ,'1530 Albion Rd','43.6431789', '-79.4043927');
