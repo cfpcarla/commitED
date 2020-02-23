@@ -64,6 +64,7 @@ export default function App() {
     <div>
       <NavBar
         user={user}
+        setUser={setUser}
         setClassicModal={setClassicModal}
         popupState={popupState}
         setHistoryModal={setHistoryModal}
