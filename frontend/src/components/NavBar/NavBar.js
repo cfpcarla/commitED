@@ -12,11 +12,12 @@ export default function NavBar(props) {
   const rightLinks = [
 
 
-  // <Button
-  //   color="danger"
-  //   block
-  //   onClick={}
-  //   >Logout</Button>
+  <Button
+    color="danger"
+    block
+    onClick={() => props.setUser(null)}
+
+    >Logout</Button>,
 
     <div key={1} >
     <Button
@@ -28,10 +29,15 @@ export default function NavBar(props) {
 
   ];
 
+ let linkToUse;
+ props.user? ( linkToUse = rightLinks[0]): ( linkToUse = rightLinks[1])
   return (
     <div>
       <div>
-        <Header brand='CommittED' color="primary" rightLinks={rightLinks} />
+
+
+
+       <Header brand='CommittED' color="primary" rightLinks={linkToUse} />
       </div>
     </div>
   );
