@@ -34,6 +34,7 @@ export default function CreatePosts(props) {
       user_id: props.user.id,
     })).then(res => {
       setOpportunity(res.data);
+      window.location = "/index";
       //make opportunity component re render here!
     });
   }
