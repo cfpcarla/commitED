@@ -18,31 +18,30 @@ export class MapContainer extends Component {
     };
   }
 
+  setUserAndOpportunitiesLocations(user, opportunities) {
+    axios.get(`/api/user/${user.id}/get-lat-and-lng`).then(userResponse => {
+      const { latitude, longitude } = userResponse.data[0];
+      this.setState({
+        currentLocation: {
+          lat: latitude,
+          lng: longitude
+        },
+        opportunities: opportunities
+      });
+    })
+  }
+
   //axios get lat and lng from database
   componentDidMount() {
     axios.get(`/api/opportunities/get-lat-and-lng`).then(opportunitiesResponse => {
-      const user = JSON.parse(localStorage.getItem('user')); //volunteer
+      const opportunities = [...opportunitiesResponse.data.rows]
+      const user = JSON.parse(localStorage.getItem('user'));
       if (user) {
-        axios.get(`/api/user/${user.id}/get-lat-and-lng`).then(userResponse => {
-          const { latitude, longitude } = userResponse.data[0];
-            this.setState({
-              currentLocation: {
-                lat: latitude,
-                lng: longitude
-              },
-              opportunities: [
-                ...opportunitiesResponse.data.rows
-              ]
-            });
-          })
-        } else {
-          this.setState({
-            opportunities: [
-              ...opportunitiesResponse.data.rows
-            ]
-          })
-        }
-      });
+        this.setUserAndOpportunitiesLocations(user, opportunities)
+      } else {
+        this.setState({ opportunities: opportunities })
+      }
+    });
   }
   //add event handlers for when the map and the marker are clicked.
   //The onMarkerClick method is used to show the InfoWindow which is a component in the google-maps-react library which gives us the ability for a pop-up window showing details of the clicked place/marker.
