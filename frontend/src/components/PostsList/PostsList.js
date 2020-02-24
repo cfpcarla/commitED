@@ -36,6 +36,7 @@ export default function PostsList(props) {
           title={post.title}
           description={post.description}
           date={post.date_posted}
+          id={post.id}
           postsModal={postsModal}
           setPostsModal={setPostsModal}
           /*show={show}*/ show={postsModal}

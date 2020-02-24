@@ -31,23 +31,44 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 Transition.displayName = "Transition";
 
-export default function PopUpLogin(props) {
+export default function PopUpPost(props) {
   const classes = useStyles();
   const [state, setState] = useState( {
     type:'',
     description:"",
     title:'',
     date_posted:Date.now(),
+    id:'',
     user_id: 1, //organization_id goes in here
     address:''
   })
 
   function applyPost (event)  {
-  event.preventDefault()
-   axios.post(`http://localhost:8080/`, state).then(res => { //new route goes in here
-     setState(res.data);
-   });
- }
+    event.preventDefault()
+    axios.post(`http://localhost:8080/`, state).then(res => { //new route goes in here
+      setState(res.data);
+    });
+  }
+
+ // DELETE POST
+ function deletePost(e) {
+  e.preventDefault();
+
+  axios
+    .delete(
+      `/api/posts/${props.id}/delete`,
+      {
+        data: { userId: props.user.id }
+      }
+    )
+    .then(_response => {
+      window.location = '/index'
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
+
 
   return (
     <div width="25%" height='50%'>
@@ -112,7 +133,7 @@ export default function PopUpLogin(props) {
                 EDIT
             </Button>
             <Button
-                onClick={() => props.setPostsModal(false)}
+                onClick={(e) => deletePost(e)}
                 color="danger"
                 simple>
                 DELETE

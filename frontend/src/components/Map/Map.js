@@ -56,7 +56,8 @@ export class MapContainer extends Component {
       activeMarker: marker,
       showingInfoWindow: true
     });
-//The onClose method is for closing the InfoWindow once a user clicks on the close button on the infoWindow.
+
+  //The onClose method is for closing the InfoWindow once a user clicks on the close button on the infoWindow.
   onClose = props => {
     if (this.state.showingInfoWindow) {
       this.setState({

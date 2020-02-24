@@ -50,7 +50,6 @@ export default function CreatePosts(props) {
     });
   }
 
-
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function () {
     setCardAnimation("");
