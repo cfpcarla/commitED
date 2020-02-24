@@ -49,7 +49,7 @@ export default function RegisterPage(props) {
   .then(function (response) {
     console.log(response);
     if (response.status === 200) {
-      localStorage.setItem('user_id', response.data.user.id)
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       props.setUser(response.data.user)
       window.location = "/index"
     } else {
