@@ -41,27 +41,27 @@ app.listen(PORT, () => {
 app.post("/api/login", (request, response) => {
   // check if user exists in database
   db.login(request.body.email)
-    .then(data => {
-      const user = data.rows[0];
-      if (!user) {
-        //error component
-        return response.status(403).json({ message: "Email cannot be found" });
-      }
+  .then(data => {
+    const user = data.rows[0];
+    if (!user) {
+      //error component
+      return response.status(403).json({ message: "Email cannot be found" });
+    }
 
-      // if password doesn't match
-      if (!bcrypt.compareSync(request.body.password, user.password)) {
-        return response.status(403).json({ message: "Wrong password" });
-      }
+    // if password doesn't match
+    if (!bcrypt.compareSync(request.body.password, user.password)) {
+      return response.status(403).json({ message: "Wrong password" });
+    }
 
-      request.session.user_id = user.id
-      console.log({ login: user })
-      // if everything is good
-      response.json({ user });
-    })
-    .catch(err => {
-      // render login with error
-      response.status(500).json({ error: err.message });
-    });
+    request.session.user_id = user.id
+    console.log({ login: user })
+    // if everything is good
+    response.json({ user });
+  })
+  .catch(err => {
+    // render login with error
+    response.status(500).json({ error: err.message });
+  });
 });
 
 //POST LOGOUT
@@ -93,20 +93,20 @@ app.post("/api/register", (request, response) => {
         url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
         responseType: "json"
       })
-        .then(function(locationResponse) {
-          const {
-            lat,
-            lng
-          } = locationResponse.data.results[0].geometry.location;
-          db.createUser(
-            request.body.name,
-            request.body.address,
-            request.body.phone,
-            request.body.email,
-            hashedPassword,
-            request.body.type,
-            lat,
-            lng
+      .then(function(locationResponse) {
+        const {
+          lat,
+          lng
+        } = locationResponse.data.results[0].geometry.location;
+        db.createUser(
+          request.body.name,
+          request.body.address,
+          request.body.phone,
+          request.body.email,
+          hashedPassword,
+          request.body.type,
+          lat,
+          lng
           ).then(data => {
             const newUser = data.rows[0];
             // eslint-disable-next-line camelcase
