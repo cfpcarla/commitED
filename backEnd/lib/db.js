@@ -37,9 +37,7 @@ const createPost = (type,description, title, date_posted, user_id, address, long
 
 const showPosts = () =>{
   return db.query(
-    `SELECT * FROM  opportunities;
-
-    `)
+    `SELECT * FROM opportunities;`)
 }
 const login = (email) => {
  return db.query(`SELECT id, email, password, type
@@ -55,18 +53,16 @@ const createUser = (name, address, phone,email, hashedPassword, type, lat, lng) 
  return  db.query(`INSERT INTO users(name, address, phone_number, email, password, type,latitude, longitude) VALUES($1,$2,$3,$4,$5,$6,$7, $8) RETURNING *;`,
         [name, address, phone,email, hashedPassword, type, lat, lng])
 }
-//vol/user
+
 const getUserLatAndLng = (userId) => {
   return db.query(`SELECT latitude, longitude
                     FROM users
                     WHERE id = $1;`, [userId])
 }
 
-//service provider
-const getOpportunityLatAndLng = (userId) => {
+const getOpportunityLatAndLng = () => {
   return db.query(`SELECT id, latitude, longitude
                     FROM opportunities`)
-
 }
 const updateOpportunity = (type,description, title, address, longitude, latitude, user_id) =>{
   return db.query(`

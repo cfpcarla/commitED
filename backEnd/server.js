@@ -64,12 +64,6 @@ app.post("/api/login", (request, response) => {
   });
 });
 
-//POST LOGOUT
-app.post("/api/logout", (request, response) => {
-  request.session.user_id = null;
-  response.redirect("/");
-});
-
 //POST Register
 app.post("/api/register", (request, response) => {
   const email = request.body.email;
@@ -129,7 +123,9 @@ app.post("/api/register", (request, response) => {
     .then(({ rows: posts }) => {
       response.json(posts);
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      console.log(error)
+    });
   });
 
   //APP POST
@@ -207,10 +203,8 @@ app.post("/api/register", (request, response) => {
         });
       });
 
-      // get latitude and longitude of an opportunity from the database
-      // Still not using this endpoint, but it works. Check: http://localhost:8080/api/opportunity/8/get-lat-and-lng in the browser
-      app.get("/api/opportunity/:userId/get-lat-and-lng", (request, response) => {
-        db.getOpportunityLatAndLng(request.params.userId)
+      app.get("/api/opportunities/get-lat-and-lng", (request, response) => {
+        db.getOpportunityLatAndLng()
         .then(({ rows }) => {
           response.json({rows: rows});
         })

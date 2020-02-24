@@ -20,32 +20,29 @@ export class MapContainer extends Component {
 
   //axios get lat and lng from database
   componentDidMount() {
-    const user_id = localStorage.getItem('user_id'); //volunteer
-    axios.get(`/api/user/${user_id}/get-lat-and-lng`)
-    .then(res1 => {
-      const { latitude, longitude } = res1.data[0];
-      console.log(res1.data)
-      //OPPORTUNITIES
-      axios.get(`/api/opportunity/${user_id}/get-lat-and-lng`).then(res2 => {
-        console.log("RES--->", res2.data.rows)
-
-        // YOu have an array of opportunities with [{latitute, longitude}....]
-        // FIgure out how to display ALL of the array on the map!!!
-
-        this.setState({
-          currentLocation: {
-            lat: latitude,
-            lng: longitude
-          },
-          opportunities: [
-            ...res2.data.rows
-          ]
-
-        });
-
-      })
-    });
-
+    axios.get(`/api/opportunities/get-lat-and-lng`).then(opportunitiesResponse => {
+      const user = JSON.parse(localStorage.getItem('user')); //volunteer
+      if (user) {
+        axios.get(`/api/user/${user.id}/get-lat-and-lng`).then(userResponse => {
+          const { latitude, longitude } = userResponse.data[0];
+            this.setState({
+              currentLocation: {
+                lat: latitude,
+                lng: longitude
+              },
+              opportunities: [
+                ...opportunitiesResponse.data.rows
+              ]
+            });
+          })
+        } else {
+          this.setState({
+            opportunities: [
+              ...opportunitiesResponse.data.rows
+            ]
+          })
+        }
+      });
   }
   //add event handlers for when the map and the marker are clicked.
   //The onMarkerClick method is used to show the InfoWindow which is a component in the google-maps-react library which gives us the ability for a pop-up window showing details of the clicked place/marker.

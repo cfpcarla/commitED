@@ -49,9 +49,7 @@ export class CurrentLocation extends React.Component {
     }
   }
 
-  //axios get lat and lng from database
   componentDidMount() {
-
     this.loadMap();
   }
 

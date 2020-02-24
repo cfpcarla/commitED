@@ -56,7 +56,7 @@ export default function App() {
     });
 
     // todo: remove once you're all set up *** add in if you want to render serviceUSER
-    //const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
     setUser(user);
   }, []); //make a function to get called after a new post
 

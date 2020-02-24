@@ -9,13 +9,17 @@ export default function NavBar(props) {
   //defines the State of the button
   //  props.setUserStatus(false) onclick logout
 
+  function handleLogout() {
+    props.setUser(null);
+    localStorage.removeItem('user');
+    window.location = '/';
+  }
+
   const rightLinks = [
-
-
   <Button
     color="danger"
     block
-    onClick={() => props.setUser(null)}
+    onClick={() => handleLogout()}
 
     >Logout</Button>,
 
@@ -34,9 +38,6 @@ export default function NavBar(props) {
   return (
     <div>
       <div>
-
-
-
        <Header brand='CommittED' color="primary" rightLinks={linkToUse} />
       </div>
     </div>
