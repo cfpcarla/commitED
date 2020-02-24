@@ -112,8 +112,8 @@ export class CurrentLocation extends React.Component {
     CurrentLocation.defaultProps = {
       zoom: 14,
       initialCenter: {
-        lat: 43.7183937,
-        lng: -79.6589262
+        lat: 43.6566259, // Dundas Square Toronto
+        lng: -79.3808178
       },
       centerAroundCurrentLocation: false,
       visible: true
