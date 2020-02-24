@@ -54,8 +54,7 @@ export default function PopUpPost(props) {
  function deletePost(e) {
   e.preventDefault();
 
-  axios
-    .delete(
+  axios.delete(
       `/api/posts/${props.id}/delete`,
       {
         data: { userId: props.user.id }

@@ -64,7 +64,7 @@ const getOpportunityLatAndLng = () => {
   return db.query(`SELECT id, latitude, longitude
                     FROM opportunities`)
 }
-const updateOpportunity = (type,description, title, address, longitude, latitude, user_id) =>{
+const updateOpportunity = (id, type, description, title, address, longitude, latitude, user_id) =>{
   return db.query(`
     UPDATE
       opportunities
@@ -76,9 +76,10 @@ const updateOpportunity = (type,description, title, address, longitude, latitude
       longitude = $5,
       latitude = $6
     WHERE
-      user_id =$7,
+      user_id = $7 AND
+      id = $8
     RETURNING *;`,
-    [type,description, title, address, longitude, latitude, user_id]
+    [type,description, title, address, longitude, latitude, user_id, id]
     )
   }
 
