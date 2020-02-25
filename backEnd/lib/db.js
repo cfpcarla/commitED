@@ -50,7 +50,7 @@ const getEmail = (email) =>{
   WHERE email = $1;`, [email])
 }
 const createUser = (name, address, phone,email, hashedPassword, type, lat, lng) => {
- return  db.query(`INSERT INTO users(name, address, phone_number, email, password, type,latitude, longitude) VALUES($1,$2,$3,$4,$5,$6,$7, $8) RETURNING *;`,
+ return  db.query(`INSERT INTO users(name, address, phone_number, email, password, type,latitude, longitude) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *;`,
         [name, address, phone,email, hashedPassword, type, lat, lng])
 }
 
@@ -64,7 +64,7 @@ const getOpportunityLatAndLng = () => {
   return db.query(`SELECT id, latitude, longitude
                     FROM opportunities`)
 }
-const updateOpportunity = (id, type, description, title, address, longitude, latitude, user_id) =>{
+const updateOpportunity = ({id, type, description, title, address, longitude, latitude, user_id}) =>{
   return db.query(`
     UPDATE
       opportunities
@@ -79,12 +79,11 @@ const updateOpportunity = (id, type, description, title, address, longitude, lat
       user_id = $7 AND
       id = $8
     RETURNING *;`,
-    [type,description, title, address, longitude, latitude, user_id, id]
+    [type, description, title, address, longitude, latitude, user_id, id]
     )
   }
 
 const deleteOpportunities = (user_id, opportunity_id) =>{
-
   return db.query(`
     DELETE FROM
       opportunities

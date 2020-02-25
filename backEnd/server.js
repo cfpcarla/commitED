@@ -215,12 +215,7 @@ app.get("/api/opportunities/get-lat-and-lng", (request, response) => {
 app.delete('/api/posts/:postId/delete', (request, response) => {
   const postId = request.params.postId;
   const userId = request.body.userId;
-  request.body.type,
-  request.body.description,
-  request.body.title,
-  request.body.date_posted,
-  request.body.user_id,
-  request.body.address
+
   db.deleteOpportunities(userId, postId)
   .then (({ rows }) => {
     response.json({rows: rows});
@@ -233,22 +228,25 @@ app.delete('/api/posts/:postId/delete', (request, response) => {
 // Edit
 app.put('/api/posts/:postId/update', (request, response) => {
   const apiKey = process.env.GOOGLEAPIKEY;
+  console.log('body', request.body)
+
   axios({
     method: "get",
     url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
     responseType: "json"
   }).then((locationResponse) => {
     const { lat, lng } = locationResponse.data.results[0].geometry.location;
-    db.updateOpportunity (
-      request.params.postId,
-      request.body.type,
-      request.body.description,
-      request.body.title,
-      request.body.address,
-      lng,
-      lat,
-      request.body.user_id
-    ).then(({ rows: newPosts }) => {
+
+    db.updateOpportunity ({
+      address: request.body.data.address,
+      id: request.params.postId,
+      description: request.body.data.description,
+      title: request.body.data.title,
+      type: request.body.data.type,
+      longitude: lng,
+      latitude: lat,
+      user_id: request.body.data.user_id
+    }).then(({ rows: newPosts }) => {
       response.json(newPosts);
     })
     .catch(error => console.log(error));

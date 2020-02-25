@@ -1,51 +1,49 @@
 import React, { useState } from "react";
 import PopupPost from "./PopupPost";
-import Posts from "./Posts";
+import Post from "./Post";
 
-export default function PostsList(props) {
-  const [show, popupState] = useState(false);
-  const [postsModal, setPostsModal] = useState(false);
-  let posts = props.posts;
+export default function PostsList({
+  getPosts,
+  posts,
+  user,
+}) {
+  const [postToShow, setPostToShow] = useState();
 
-  if (props.user) {
+  if (user) {
     const serviceProviderPosts = posts.filter(post => {
       return (
-        props.user.type === "service_provider" && post.user_id === props.user.id
+        user.type === "service_provider" && post.user_id === user.id
       );
     });
 
     const volunteerPosts = posts;
-    if (props.user && props.user.type === "service_provider") {
+    if (user && user.type === "service_provider") {
       posts = serviceProviderPosts;
     } else {
       posts = volunteerPosts;
     }
   }
 
-  const postList = posts.map((post, index) => {
-    return (
-      <ul key={post.id}>
-        <Posts
-          title={post.title}
-          description={post.description}
-          date={post.date_posted}
-          setPostsModal={() => setPostsModal(v => !v)}
-        />
-        <PopupPost
-          user={props.user}
-          title={post.title}
-          description={post.description}
-          date={post.date_posted}
-          id={post.id}
-          postsModal={postsModal}
-          setPostsModal={setPostsModal}
-          /*show={show}*/ show={postsModal}
-        />
+  return (
+    <React.Fragment>
+      <ul>
+        {posts.map(post => (
+          <li key={post.id}>
+            <Post
+              post={post}
+              showPostModal={() => setPostToShow(post)}
+            />
+          </li>
+        ))}
       </ul>
-    );
-  });
-  // console.log("_--______--->", props);
-  // console.log("======>>", postList);
-
-  return <ul>{postList}</ul>;
+      {postToShow && (
+        <PopupPost
+          user={user}
+          post={postToShow}
+          onClose={() => setPostToShow(null)}
+          getPosts={getPosts}
+        />
+      )}
+    </React.Fragment>
+  )
 }

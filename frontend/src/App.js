@@ -41,7 +41,6 @@ const useStyles = makeStyles(theme => ({
 // }
 export default function App() {
   const classes = useStyles();
-
   const [posts, setPosts] = useState([]);
   const [show, popupState] = useState(false);
   const [classicModal, setClassicModal] = useState(false);
@@ -50,14 +49,16 @@ export default function App() {
   const [user, setUser] = useState("");
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    axios.get(`/api/posts`).then(res => {
-      setPosts(res.data);
-    });
+  const getPosts = () => {
+    axios.get(`/api/posts`)
+      .then(res => {
+        setPosts(res.data);
+      });
+  }
 
-    // todo: remove once you're all set up *** add in if you want to render serviceUSER
-    const user = JSON.parse(localStorage.getItem('user'));
-    setUser(user);
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem('user')));
+    getPosts();
   }, []); //make a function to get called after a new post
 
   return (
@@ -100,16 +101,16 @@ export default function App() {
       </Box>
       <Box>
         <Paper>
-        {(!user || user.type === "volunteer" )&& (  <PostsList
+        {(!user || user.type === "volunteer" ) && (
+          <PostsList
             user={user}
             setUser={setUser}
             posts={posts}
-          />)}
-
-
+            />
+        )}
         </Paper>
       </Box>
-      <br />
+      <br/>
 
       <Container className={classes.root}>
         <Grid
@@ -118,11 +119,14 @@ export default function App() {
           justify="flex-start" //try justify
           alignItems="stretch">
           <Box className={classes.paper}>
-          {user && user.type === "service_provider" && ( <PostsList
-            user={user}
-            setUser={setUser}
-            posts={posts}
-          />)}
+          {user && user.type === "service_provider" && (
+            <PostsList
+              user={user}
+              setUser={setUser}
+              posts={posts}
+              getPosts={getPosts}
+            />
+          )}
           </Box>
 
           <Box>

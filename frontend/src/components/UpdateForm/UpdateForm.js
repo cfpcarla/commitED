@@ -6,30 +6,39 @@ import CardBody from "../Card/CardBody";
 import CardFooter from "../Card/CardFooter";
 import CustomInput from "../CustomInput/CustomInput";
 import axios from "axios";
-import qs from 'qs';
 
 import styles from "../../assets/jss/material-kit-react/views/loginPage";
 
 
 const useStyles = makeStyles(styles);
 
-export default function CreatePosts(props) {
-  const [opportunity, setOpportunity] = useState({})
+export default function UpdateForm(props) {
+  const [opportunity, setOpportunity] = useState(props.post)
 
   useEffect(() => {
     console.log({ opportunity });
   }, [opportunity])
 
-  const newPost = () => {
-    axios.post(`/api/posts/new`, qs.stringify({
-      ...opportunity,
-      date_posted: Date.now(),
-      user_id: props.user.id,
-    })).then(res => {
-      setOpportunity(res.data);
-      window.location = "/index";
-      //make opportunity component re render here!
-    });
+  // Update
+  function updateForm(e) {
+    e.preventDefault();
+    axios.put(
+        `/api/posts/${props.post.id}/update`,
+        {
+          data: {
+            ...opportunity,
+            userId: props.user.id
+          }
+        }
+    )
+      .then(_response => {
+        props.getPosts();
+        props.onClose();
+        props.hideUpdateForm();
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
   const handleInputChange = (event) => {
@@ -45,10 +54,14 @@ export default function CreatePosts(props) {
   }
 
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
+
   const classes = useStyles();
+
+  console.log(props,"<-- theese are the posts in update form")
 
   return (
     <Card>
@@ -60,6 +73,7 @@ export default function CreatePosts(props) {
             formControlProps={{fullWidth: true}}
             inputProps={{
               onChange: handleInputChange,
+              defaultValue:props.post.type,
               autoComplete: "on" }} // turn off on demo day
           />
           <CustomInput
@@ -69,6 +83,7 @@ export default function CreatePosts(props) {
               fullWidth: true
             }}
             inputProps={{
+              defaultValue:props.post.title,
               type: "title",
               onChange: handleInputChange,
               autoComplete: "on"
@@ -81,6 +96,7 @@ export default function CreatePosts(props) {
               fullWidth: true
             }}
             inputProps={{
+              defaultValue:props.post.description,
               onChange: handleInputChange,
               type: "description",
               autoComplete: "on"
@@ -93,6 +109,7 @@ export default function CreatePosts(props) {
               fullWidth: true
             }}
             inputProps={{
+              defaultValue:props.post.address,
               onChange: handleInputChange,
               type: "address",
               autoComplete: "on"
@@ -100,8 +117,15 @@ export default function CreatePosts(props) {
           />
         </CardBody>
         <CardFooter className={classes.cardFooter}>
-          <Button onClick={newPost} type="submit" simple color="primary" size="lg">
+          <Button onClick={updateForm} type="submit" simple color="primary" size="lg">
             Submit
+          </Button>
+          <Button
+            onClick={props.hideUpdateForm}
+            color="danger"
+            simple
+            >
+            Cancel
           </Button>
         </CardFooter>
       </form>
