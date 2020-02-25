@@ -35,12 +35,13 @@ export default function PopUpPost(props) {
   const [updateForm, setUpdateForm] = useState(false)
   const [user, setUser] = useState("");
 
-  // function applyPost (event)  {
-  //   event.preventDefault()
-  //   axios.post(`http://localhost:8080/`, state).then(res => { //new route goes in here
-  //     setState(res.data);
-  //   });
-  // }
+  function applyPost (event)  {
+    event.preventDefault()
+    console.log(props.post)
+    axios.post(`/api/message/${props.post.user_id}`, {from: props.user.id}).then(res => { //new route goes in here
+      console.log("send message")
+    });
+  }
 
   // Delete
   function deletePost(e) {
@@ -144,7 +145,7 @@ export default function PopUpPost(props) {
                           <Button
                             color="success"
                             block
-                            // onClick={applyPost}
+                            onClick={applyPost}
                             type="submit"
                             >
                             Apply

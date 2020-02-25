@@ -94,4 +94,10 @@ const deleteOpportunities = (user_id, opportunity_id) =>{
     `, [user_id, opportunity_id])
 }
 
-module.exports = { dbParams, createRequest, showRequests, createPost, showPosts,login, getEmail, createUser, getUserLatAndLng, getOpportunityLatAndLng, updateOpportunity, deleteOpportunities };
+const getEmailOfOpportunityOwner = (user_id) => {
+  return db.query(`
+  SELECT * FROM opportunities
+  JOIN users ON users.id = opportunities.user_id WHERE opportunities.user_id = $1`,[user_id])
+}
+
+module.exports = { dbParams, createRequest, showRequests, createPost, showPosts,login, getEmail, createUser, getUserLatAndLng, getOpportunityLatAndLng, updateOpportunity, deleteOpportunities, getEmailOfOpportunityOwner };

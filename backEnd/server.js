@@ -12,6 +12,7 @@ const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
 const axios = require("axios");
 const db = require("./lib/db.js");
+const nodemailer = require("nodemailer");
 
 app.use(morgan("dev"));
 
@@ -200,7 +201,7 @@ app.get("/api/user/:userId/get-lat-and-lng", (request, response) => {
   });
 });
 
-//
+
 app.get("/api/opportunities/get-lat-and-lng", (request, response) => {
   db.getOpportunityLatAndLng()
   .then(({ rows }) => {
@@ -251,17 +252,36 @@ app.put('/api/posts/:postId/update', (request, response) => {
   });
 });
 
+//Mailer code
+const transport = nodemailer.createTransport({
+  host: 'smtp.mailtrap.io',
+  port: 2525,
+  auth: {
+    user: '64a8a2cb2a86f1',
+    pass: 'ba3d08d50f5b68'
+  }
+});
 
-
-          // const user = users[request.session.user_id];
-          // if (!user) {
-          //   response.statusCode = 403;
-          //   response.end("403 Forbidden. Please Login");
-          // } else if (URL.userID !== user.id) {
-          //   response.statusCode = 403;
-          //   response.end("403 Forbidden. URL belongs to another user");
-          // } else {
-          //   delete urlDatabase[shortURL];
-          //   response.json({message: "ok"});
-          // }
-          // });
+app.post("/api/message/:id", (req, res) => {
+  console.log("HELO ", req.body.from)
+  db.getEmailOfOpportunityOwner(req.params.id).then(data => {
+    console.log(data.rows[0].email)
+    const message = {
+      from: data.rows[0].email,
+      to: data.rows[0].email,
+      subject: 'test',
+      text: `${req.body.from} is applying for this position. Please contact {props.user.name} by {props.user.phone} or by {props.user.email}`
+    };
+    transport.sendMail(message, function (err, info) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(info);
+        res.send("ok");
+      }
+    });
+  }).catch(error => {
+    console.log(error);
+    res.status(400).send(JSON.stringify(error));
+  });
+});
