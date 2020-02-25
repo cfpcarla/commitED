@@ -228,11 +228,9 @@ app.delete('/api/posts/:postId/delete', (request, response) => {
 // Edit
 app.put('/api/posts/:postId/update', (request, response) => {
   const apiKey = process.env.GOOGLEAPIKEY;
-  console.log('body', request.body)
-
   axios({
     method: "get",
-    url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.address}&key=${apiKey}`,
+    url: `https://maps.googleapis.com/maps/api/geocode/json?address=${request.body.data.address}&key=${apiKey}`,
     responseType: "json"
   }).then((locationResponse) => {
     const { lat, lng } = locationResponse.data.results[0].geometry.location;
