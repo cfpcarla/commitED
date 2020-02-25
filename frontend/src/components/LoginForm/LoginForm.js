@@ -40,9 +40,10 @@ export default function LoginPage(props) {
         })
       )
       .then(response => {
-        props.setUser(response.data.user);
         // todo: remove once you're all set up *** add in if you want to render serviceUSER
-       // localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        props.setUser(response.data.user);
+        window.location = "/index";
       })
       .catch(function(error) {
         console.log(error);

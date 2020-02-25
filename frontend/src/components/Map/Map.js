@@ -18,34 +18,30 @@ export class MapContainer extends Component {
     };
   }
 
+  setUserAndOpportunitiesLocations(user, opportunities) {
+    axios.get(`/api/user/${user.id}/get-lat-and-lng`).then(userResponse => {
+      const { latitude, longitude } = userResponse.data[0];
+      this.setState({
+        currentLocation: {
+          lat: latitude,
+          lng: longitude
+        },
+        opportunities: opportunities
+      });
+    })
+  }
+
   //axios get lat and lng from database
   componentDidMount() {
-    const user_id = localStorage.getItem('user_id'); //volunteer
-    axios.get(`/api/user/${user_id}/get-lat-and-lng`)
-    .then(res1 => {
-      const { latitude, longitude } = res1.data[0];
-      console.log(res1.data)
-      //OPPORTUNITIES
-      axios.get(`/api/opportunity/${user_id}/get-lat-and-lng`).then(res2 => {
-        console.log("RES--->", res2.data.rows)
-
-        // YOu have an array of opportunities with [{latitute, longitude}....]
-        // FIgure out how to display ALL of the array on the map!!!
-
-        this.setState({
-          currentLocation: {
-            lat: latitude,
-            lng: longitude
-          },
-          opportunities: [
-            ...res2.data.rows
-          ]
-
-        });
-
-      })
+    axios.get(`/api/opportunities/get-lat-and-lng`).then(opportunitiesResponse => {
+      const opportunities = [...opportunitiesResponse.data.rows]
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user) {
+        this.setUserAndOpportunitiesLocations(user, opportunities)
+      } else {
+        this.setState({ opportunities: opportunities })
+      }
     });
-
   }
   //add event handlers for when the map and the marker are clicked.
   //The onMarkerClick method is used to show the InfoWindow which is a component in the google-maps-react library which gives us the ability for a pop-up window showing details of the clicked place/marker.
@@ -56,7 +52,8 @@ export class MapContainer extends Component {
       activeMarker: marker,
       showingInfoWindow: true
     });
-//The onClose method is for closing the InfoWindow once a user clicks on the close button on the infoWindow.
+
+  //The onClose method is for closing the InfoWindow once a user clicks on the close button on the infoWindow.
   onClose = props => {
     if (this.state.showingInfoWindow) {
       this.setState({
