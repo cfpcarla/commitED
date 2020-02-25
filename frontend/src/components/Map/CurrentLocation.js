@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import axios from 'axios';
 
 const mapStyles = {
   map: {
     position: 'absolute',
-    width: '50%',
-    height: '50%'
+    width: '45%',
+    height: '45%'
   }
 };
 

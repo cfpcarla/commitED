@@ -37,7 +37,7 @@ export default function PopUpPost(props) {
 
   // function applyPost (event)  {
   //   event.preventDefault()
-  //   axios.post(`http://localhost:8080/`, state).then(res => { //new route goes in here
+  //   axios.post(`http://localhost:8080/api/message/`, state).then(res => { //new route goes in here
   //     setState(res.data);
   //   });
   // }

@@ -26,7 +26,8 @@ export default function PostsList({
 
   return (
     <React.Fragment>
-      <ul>
+      <div>
+      <ul style={{listStyleType: 'none', padding: 0, margin: 0}}>
         {posts.map(post => (
           <li key={post.id}>
             <Post
@@ -44,6 +45,7 @@ export default function PostsList({
           getPosts={getPosts}
         />
       )}
+      </div>
     </React.Fragment>
   )
 }
