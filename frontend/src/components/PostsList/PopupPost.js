@@ -36,12 +36,12 @@ export default function PopUpPost(props) {
   const [updateForm, setUpdateForm] = useState(false)
   const [user, setUser] = useState("");
 
-  // function applyPost (event)  {
-  //   event.preventDefault()
-  //   axios.post(`http://localhost:8080/api/message/`, state).then(res => { //new route goes in here
-  //     setState(res.data);
-  //   });
-  // }
+  function applyPost (event)  {
+    event.preventDefault()
+    axios.post(`/api/message/${props.post.user_id}`, {from: props.user}).then(res => { //new route goes in here
+
+    });
+  }
 
   // Delete
   function deletePost(e) {
@@ -98,7 +98,6 @@ export default function PopUpPost(props) {
                   >
                   <Close className={classes.modalClose} />
                 </IconButton>
-                <h4 className={classes.modalTitle}>Post</h4>
               </DialogTitle>
 
               {updateForm ? (
@@ -135,17 +134,19 @@ export default function PopUpPost(props) {
                     <div>
                       <div>
                         <div style={{fontFamily: Roboto, fontSize: 19, noWrap: false, wordWrap: false}}>
-                          <ul style={{fontSize: 21, fontWeight:900, }}> {props.post.title}</ul>
-                          <ul style={{noWrap: false, fontSize: 21}}> {props.post.description} </ul>
-                          <ul> {props.post.date_posted}</ul>
+
+                          <p style={{fontSize: 21, fontWeight:900}}> {props.post.title}</p>
+                          <p style={{noWrap: false, fontSize: 21}}> {props.post.description} </p>
+
                         </div>
                       </div>
                       <div>
-                        {(!props.user || props.user.type === "volunteer" ) && (
+                        {(props.user && props.user.type === "volunteer" ) && (
                           <Button
                             color="success"
                             block
-                            // onClick={applyPost}
+                            style={{fontFamily: Roboto, fontSize: 19 }}
+                            onClick={applyPost}
                             type="submit"
                             >
                             Apply

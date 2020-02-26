@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     // padding: theme.spacing(2),
     textAlign: "left",
-
   }
 }));
 
@@ -68,7 +67,6 @@ export default function App() {
           </div>
         </Grid>
         )}
-
       </React.Fragment>
     )
   }
@@ -80,8 +78,7 @@ export default function App() {
         user={user}
         setUser={setUser}
         setClassicModal={setClassicModal}
-        popupState={popupState}
-      />
+        popupState={popupState}/>
       </header>
 {/*=======================================================*/}
       <div>
@@ -92,8 +89,7 @@ export default function App() {
           setError={setError}
           classicModal={classicModal}
           setClassicModal={setClassicModal}
-          show={show}
-        />
+          show={show}/>
       </div>
 {/*=======================================================*/}
 

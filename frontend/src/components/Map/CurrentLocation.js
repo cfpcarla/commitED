@@ -7,7 +7,8 @@ const mapStyles = {
     position: 'absolute',
     width: '33%',
     height: '45%'
-  }
+  },
+
 };
 
 export class CurrentLocation extends React.Component {

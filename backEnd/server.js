@@ -236,22 +236,24 @@ const transport = nodemailer.createTransport({
   }
 });
 app.post("/api/message/:id", (req, res) => {
-  console.log("HELO ", req.body.from)
+
   db.getEmailOfOpportunityOwner(req.params.id).then(data => {
-    console.log(data.rows[0].email)
-    const message = {
-      from: data.rows[0].email,
-      to: data.rows[0].email,
-      subject: 'test',
-      text: `${req.body.from} is applying for this position. Please contact {props.user.name} by {props.user.phone} or by {props.user.email}`
-    };
-    transport.sendMail(message, function (err, info) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(info);
-        res.send("ok");
-      }
+    db.getUserInfoFromId(req.body.from.id).then((userData) => {
+      const message = {
+        from: userData.rows[0].email,
+        to: data.rows[0].email,
+        subject: 'test',
+        text: `${userData.rows[0].name} is applying for this position. Please contact ${userData.rows[0].name} by ${userData.rows[0].phone_number} or by ${userData.rows[0].email}`
+      };
+
+      transport.sendMail(message, function(err, info) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(info);
+          res.send("ok");
+        }
+      });
     });
   }).catch(error => {
     console.log(error);
