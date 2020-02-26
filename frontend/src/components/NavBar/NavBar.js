@@ -18,13 +18,17 @@ export default function NavBar(props) {
 
 
   const rightLinks = [
-  <Button
+    <div key={0}>
+    <Button
     color="danger"
     block
     onClick={() => handleLogout()}
-    >Logout</Button>,
+    >Logout</Button>
+    </div>,
 
     <div key={1} >
+
+
     <Button
     color="success"
     block

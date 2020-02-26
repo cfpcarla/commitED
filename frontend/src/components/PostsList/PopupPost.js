@@ -20,6 +20,7 @@ import GridItem from "../Grid/GridItem.js";
 import styles from "../../assets/jss/material-kit-react/views/componentsSections/javascriptStyles"
 import axios from 'axios'
 import UpdateForm from '../UpdateForm/UpdateForm.js'
+import Roboto from '../../assets/jss/material-kit-react/components/typographyStyle'
 
 const useStyles = makeStyles(styles);
 
@@ -133,10 +134,10 @@ export default function PopUpPost(props) {
                     >
                     <div>
                       <div>
-                        <div>
-                          <ul>Title: {props.post.title}</ul>
-                          <ul> Description: {props.post.description} </ul>
-                          <ul> Date:{props.post.date_posted}</ul>
+                        <div style={{fontFamily: Roboto, fontSize: 19, noWrap: false, wordWrap: false}}>
+                          <ul style={{fontSize: 21, fontWeight:900, }}> {props.post.title}</ul>
+                          <ul style={{noWrap: false, fontSize: 21}}> {props.post.description} </ul>
+                          <ul> {props.post.date_posted}</ul>
                         </div>
                       </div>
                       <div>

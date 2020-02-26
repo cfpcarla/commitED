@@ -10,7 +10,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 // core components
 import styles from "../../assets/jss/material-kit-react/components/headerStyle.js";
-import logo from '../../logo.png'
+import logo from '../../../src/logo.png'
 
 const useStyles = makeStyles(styles);
 

@@ -5,7 +5,8 @@ export default function Post({showPostModal, post}) {
 
   return (
     <Button
-      style={{borderRadius: "50px"}}
+      style={{borderRadius: "50px" }}
+      height='40px'
       justify-content='left'
       block
       color="info"
@@ -13,8 +14,7 @@ export default function Post({showPostModal, post}) {
       >
       <div key={post.id} >
         <ul style={{listStyleType: 'none', padding: 0, margin: 0}}>
-        <li>{post.title}</li>
-        <li>{post.description}</li>
+        <li style={{fontSize: 19}}>{post.title}</li>
         </ul>
       </div>
     </Button>

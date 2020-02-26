@@ -8,10 +8,13 @@ import Map from "./components/Map/Map";
 import PopupLogin from "./components/PopupLogin/PopupLogin";
 import CreatePosts from "./components/PostsForm/PostsForm";
 import axios from "axios";
+import About from "../src/components/About/About.js"
+
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    alignItems: "center"
   },
   paper: {
     height: "100%",
@@ -46,20 +49,26 @@ export default function App() {
   function SideColumn(){
     return (
       <React.Fragment>
-        <Grid item xs={6}>
-
+        <Grid item xs={12}>
           <div className={classes.paper}>
-            {user && user.type === "service_provider" && (<CreatePosts user={user} setUser={setUser} />)}
+            <About/>
           </div>
-
         </Grid>
-        <Grid item xs={6}>
-
+        {user && user.type === "service_provider" && (
+        <Grid item xs={12}>
           <div className={classes.paper}>
-          {(!user || user.type === "volunteer")  && (<Map />)}
+          <CreatePosts user={user} setUser={setUser} />
           </div>
+        </Grid>
+        )}
+        {(!user || user.type === "volunteer")  && (
+        <Grid item xs={12}>
+          <div className={classes.paper}>
+          <Map />
+          </div>
+        </Grid>
+        )}
 
-          </Grid>
       </React.Fragment>
     )
   }
@@ -97,25 +106,23 @@ export default function App() {
           alignItems="stretch">
 
         <Container item maxWidth="sm" padding="0">
-          <div className={classes.paper}>
           {(!user || user.type === "volunteer" ) && (
             <PostsList
+              className={classes.paper}
               user={user}
               setUser={setUser}
               posts={posts}/>
           )}
-          </div>
 
-          <div className={classes.paper}>
           {user && user.type === "service_provider" && (
             <PostsList
+            className={classes.paper}
               user={user}
               setUser={setUser}
               posts={posts}
               getPosts={getPosts}
             />
           )}
-          </div>
         </Container>
         <Container item xs={6} maxWidth="sm">
           <SideColumn/>

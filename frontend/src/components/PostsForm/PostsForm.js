@@ -52,7 +52,7 @@ export default function CreatePosts(props) {
 
   return (
     <Card>
-      <form onSubmit={(event) => event.preventDefault()}>
+      <form onSubmit={(event) => event.preventDefault()} >
         <CardBody>
           <CustomInput
             labelText="Category"

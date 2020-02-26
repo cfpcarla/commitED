@@ -9,7 +9,7 @@ import People from "@material-ui/icons/People";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Check from "@material-ui/icons/Check";
-
+import LockIcon from '@material-ui/icons/Lock';
 // core components
 import Button from "../CustomButtons/Button";
 import Card from "../Card/Card";
@@ -137,7 +137,6 @@ export default function RegisterPage(props) {
             endAdornment: (
               <InputAdornment position="end">
               <Icon className={classes.inputIconsColor}>
-              lock_outline
               </Icon>
               </InputAdornment>
               ),
@@ -155,7 +154,7 @@ export default function RegisterPage(props) {
               endAdornment: (
                 <InputAdornment position="end">
                 <Icon className={classes.inputIconsColor}>
-                lock_outline
+
                 </Icon>
                 </InputAdornment>
                 ),
@@ -173,7 +172,7 @@ export default function RegisterPage(props) {
                 endAdornment: (
                   <InputAdornment position="end">
                   <Icon className={classes.inputIconsColor}>
-                  lock_outline
+
                   </Icon>
                   </InputAdornment>
                   ),
