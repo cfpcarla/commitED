@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PopupPost from "./PopupPost";
 import Post from "./Post";
+import Roboto from '../../assets/jss/material-kit-react/components/typographyStyle'
+
 
 export default function PostsList({
   getPosts,
@@ -26,7 +28,9 @@ export default function PostsList({
 
   return (
     <React.Fragment>
-      <ul>
+      <div style={{fontFamily: Roboto, fontSize: 18, textAlign: "center", color:"#4D4D4D"}}>
+        <h1>OPPORTUNITIES</h1>
+      <ul style={{listStyleType: 'none', padding: 0, margin: 0}}>
         {posts.map(post => (
           <li key={post.id}>
             <Post
@@ -44,6 +48,7 @@ export default function PostsList({
           getPosts={getPosts}
         />
       )}
+      </div>
     </React.Fragment>
   )
 }

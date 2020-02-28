@@ -52,7 +52,7 @@ export default function CreatePosts(props) {
 
   return (
     <Card>
-      <form onSubmit={(event) => event.preventDefault()}>
+      <form onSubmit={(event) => event.preventDefault()} >
         <CardBody>
           <CustomInput
             labelText="Category"
@@ -60,7 +60,7 @@ export default function CreatePosts(props) {
             formControlProps={{fullWidth: true}}
             inputProps={{
               onChange: handleInputChange,
-              autoComplete: "on" }} // turn off on demo day
+              autoComplete: "off" }}
           />
           <CustomInput
             labelText="Position Name"
@@ -71,7 +71,7 @@ export default function CreatePosts(props) {
             inputProps={{
               type: "title",
               onChange: handleInputChange,
-              autoComplete: "on"
+              autoComplete: "off"
             }}
           />
           <CustomInput
@@ -83,7 +83,7 @@ export default function CreatePosts(props) {
             inputProps={{
               onChange: handleInputChange,
               type: "description",
-              autoComplete: "on"
+              autoComplete: "off"
             }}
           />
           <CustomInput
@@ -95,7 +95,7 @@ export default function CreatePosts(props) {
             inputProps={{
               onChange: handleInputChange,
               type: "address",
-              autoComplete: "on"
+              autoComplete: "off"
             }}
           />
         </CardBody>

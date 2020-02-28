@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import axios from 'axios';
 
 const mapStyles = {
   map: {
     position: 'absolute',
-    width: '50%',
-    height: '50%'
-  }
+    width: '33%',
+    height: '45%'
+  },
+
 };
 
 export class CurrentLocation extends React.Component {

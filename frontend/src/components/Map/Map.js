@@ -71,7 +71,7 @@ export class MapContainer extends Component {
         centerAroundCurrentLocation
         google={this.props.google}
       >
-        <Marker onClick={this.onMarkerClick} name={'current location'} />
+        <Marker onClick={this.onMarkerClick} name={'You are here'} />
         {this.state.opportunities.map((op, i) => (
         <Marker key={i}
         position={{lat: parseFloat(op.latitude), lng: parseFloat(op.longitude)}}
