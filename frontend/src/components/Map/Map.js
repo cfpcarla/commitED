@@ -43,8 +43,6 @@ export class MapContainer extends Component {
       }
     });
   }
-  //add event handlers for when the map and the marker are clicked.
-  //The onMarkerClick method is used to show the InfoWindow which is a component in the google-maps-react library which gives us the ability for a pop-up window showing details of the clicked place/marker.
 
   onMarkerClick = (props, marker, e) =>
     this.setState({

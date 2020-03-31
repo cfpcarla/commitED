@@ -1,20 +1,15 @@
 import React from "react";
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
 import Email from "@material-ui/icons/Email";
 import People from "@material-ui/icons/People";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Check from "@material-ui/icons/Check";
-import LockIcon from '@material-ui/icons/Lock';
-// core components
 import Button from "../CustomButtons/Button";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
-import FormControl from '@material-ui/core/FormControl';
 import CardFooter from "../Card/CardFooter";
 import CustomInput from "../CustomInput/CustomInput";
 import axios from 'axios';
@@ -74,7 +69,6 @@ export default function RegisterPage(props) {
     setChecked(newChecked);
   };
 
-  //RETURN
   return (
     <Card>
     <form onSubmit={handleSubmit}>
@@ -89,7 +83,6 @@ export default function RegisterPage(props) {
       type: "text",
       endAdornment: (
         <InputAdornment position="end">
-        <People className={classes.inputIconsColor} />
         </InputAdornment>
         )
       }}
@@ -104,7 +97,6 @@ export default function RegisterPage(props) {
         type: "email",
         endAdornment: (
           <InputAdornment position="end">
-          <Email className={classes.inputIconsColor} />
           </InputAdornment>
           )
         }}
@@ -119,8 +111,6 @@ export default function RegisterPage(props) {
           type: "address",
           endAdornment: (
             <InputAdornment position="end">
-            <Icon className={classes.inputIconsColor}>
-            </Icon>
             </InputAdornment>
             ),
             autoComplete: "off"
@@ -161,24 +151,6 @@ export default function RegisterPage(props) {
                 autoComplete: "off"
               }}
               />
-              <CustomInput
-              labelText="Confirmation"
-              id="confirmation"
-              formControlProps={{
-                fullWidth: true
-              }}
-              inputProps={{
-                type: "confirmation",
-                endAdornment: (
-                  <InputAdornment position="end">
-                  <Icon className={classes.inputIconsColor}>
-
-                  </Icon>
-                  </InputAdornment>
-                  ),
-                  autoComplete: "off"
-                }}
-                />
                 <div
                 className={
                   classes.checkboxAndRadio +

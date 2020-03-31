@@ -2,20 +2,13 @@ import React, {setState} from 'react';
 import Header from "../Header/Header";
 import Button from "../CustomButtons/Button";
 
-
-
 export default function NavBar(props) {
-  //defines the State of the button
-  //  props.setUserStatus(false) onclick logout
-
 
   function handleLogout() {
     props.setUser(null);
     localStorage.removeItem('user');
     window.location = '/';
   }
-
-
 
   const rightLinks = [
     <div key={0}>
@@ -25,9 +18,7 @@ export default function NavBar(props) {
     onClick={() => handleLogout()}
     >Logout</Button>
     </div>,
-
     <div key={1} >
-
 
     <Button
     color="success"
@@ -35,7 +26,6 @@ export default function NavBar(props) {
     onClick={() => props.setClassicModal(true)}
     >Login/Register</Button>
     </div>
-
   ];
 
  let linkToUse;
